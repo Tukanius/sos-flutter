@@ -15,7 +15,6 @@ class _ViewContentState extends State<ViewContent> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 20),
         Container(
           padding: EdgeInsets.all(10),
           child: Row(
