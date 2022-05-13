@@ -89,6 +89,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                           name: 'type',
                           decoration: InputDecoration(
                             filled: true,
+                            fillColor: Color(0x4ffEBEDF1),
                             contentPadding: const EdgeInsets.all(15),
                             border: OutlineInputBorder(
                               borderSide:
@@ -112,7 +113,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                                       height: 30,
                                     ),
                                   ),
-                                  SizedBox(height: 6),
+                                  const SizedBox(height: 1),
                                 ]),
                           ),
                           items: ["Цахилгаан түгээх"]
