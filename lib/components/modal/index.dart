@@ -39,6 +39,11 @@ class _GeneralModalState extends State<GeneralModal> {
       body: Column(
         children: [
           Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Color(0x4ffd9d9d9), width: 1),
+              ),
+            ),
             width: MediaQuery.of(context).size.width,
             height: 25,
             child: Row(
@@ -50,7 +55,7 @@ class _GeneralModalState extends State<GeneralModal> {
                   width: 47,
                   margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
-                    color: Color(0x4ffD9D9D9),
+                    color: Color(0x4ffd9d9d9),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
