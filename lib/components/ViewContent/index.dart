@@ -29,7 +29,7 @@ class _ViewContentState extends State<ViewContent> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width - 100,
+                    width: MediaQuery.of(context).size.width * 0.82,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
@@ -37,7 +37,11 @@ class _ViewContentState extends State<ViewContent> {
                           "Хот тохижилт",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text("2022.04.29"),
+                        Text(
+                          "2022.04.29",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 14),
+                        ),
                       ],
                     ),
                   ),
