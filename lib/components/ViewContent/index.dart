@@ -41,7 +41,10 @@ class _ViewContentState extends State<ViewContent> {
                       ],
                     ),
                   ),
-                  const Text("Шийдвэрлэгдсэн."),
+                  const Text(
+                    "Шийдвэрлэгдсэн.",
+                    style: TextStyle(color: Color(0x4ff34A853)),
+                  ),
                 ],
               ),
             ],
@@ -59,9 +62,9 @@ class _ViewContentState extends State<ViewContent> {
                 imageCornerRadius: 20,
                 imageHeight: MediaQuery.of(context).size.height * 0.27,
                 imageWidth: MediaQuery.of(context).size.width,
-                beforeImage: NetworkImage(
+                beforeImage: const NetworkImage(
                     "https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg"),
-                afterImage: NetworkImage(
+                afterImage: const NetworkImage(
                     "https://love-shayari.co/wp-content/uploads/2021/10/sun-rise.jpg"),
               ),
             ),
