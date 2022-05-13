@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sos/components/modal/index.dart';
+import 'package:sos/provider/general_provider.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/splash/index.dart';
@@ -47,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => GeneralProvider()),
       ],
       child: Stack(
         children: [
@@ -63,9 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
             // ),
             builder: (context, widget) => Navigator(
               onGenerateRoute: (settings) => MaterialPageRoute(
-                builder: (context) => DialogManager(
-                  child: Scaffold(body: widget),
-                ),
+                builder: (context) =>
+                    DialogManager(child: loading(context, widget)),
               ),
             ),
             navigatorKey: locator<NavigationService>().navigatorKey,
@@ -94,6 +96,45 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget loading(BuildContext context, widget) {
+    bool shouldPop = false;
+
+    return WillPopScope(
+      child: Scaffold(
+        backgroundColor: Colors.black.withOpacity(0.3),
+        body: Container(
+          color: Colors.blue,
+          child: SafeArea(
+            bottom: false,
+            top: false,
+            child: Stack(
+              children: [
+                Opacity(
+                  opacity: 1,
+                  child: Container(
+                    color: Colors.black,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Stack(
+                      children: [
+                        widget,
+                        GeneralModal(),
+                      ],
+                    ),
+                  ),
+                ),
+                // const LoadingPage(),
+              ],
+            ),
+          ),
+        ),
+      ),
+      onWillPop: () async {
+        return shouldPop;
+      },
     );
   }
 }

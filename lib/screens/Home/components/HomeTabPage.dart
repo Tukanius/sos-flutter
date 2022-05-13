@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sos/provider/general_provider.dart';
 import 'package:sos/widgets/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class HomeTabPage extends StatefulWidget {
@@ -11,6 +15,7 @@ class HomeTabPage extends StatefulWidget {
 
 class _HomeTabPageState extends State<HomeTabPage> {
   final PageController controller = PageController();
+  BottomDrawerController bottomDrawerController = BottomDrawerController();
   int currentIndex = 0;
 
   changePage(index) {
@@ -31,6 +36,9 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
   @override
   Widget build(BuildContext context) {
+    bottomDrawerController =
+        Provider.of<GeneralProvider>(context, listen: false)
+            .bottomDrawerController;
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
@@ -153,8 +161,121 @@ class _HomeTabPageState extends State<HomeTabPage> {
                 ],
               ),
             ),
+            InkWell(
+              onTap: () {
+                bottomDrawerController.open();
+              },
+              child: card(),
+            ),
+            InkWell(
+              onTap: () {
+                bottomDrawerController.open();
+              },
+              child: card(),
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  card() {
+    return Container(
+      margin: const EdgeInsets.only(top: 12),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  "assets/tab/1.svg",
+                  width: 37,
+                  height: 37,
+                ),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width - 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Шинэ",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text("2 цагын өмнө"),
+                        ],
+                      ),
+                    ),
+                    const Text("Хүлээгдэж байна."),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Image.asset("assets/post.png"),
+          ),
+          const SizedBox(height: 4),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: const Text(
+              "3-9-р байр 3-24-р байр хоёрын хоорондох явган хүний замын эвдрэл",
+              style: TextStyle(fontSize: 13),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: white,
+              border:
+                  Border(top: BorderSide(color: Color(0x4ffEBEDF1), width: 1)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/heart.svg",
+                          // color: Color(0x4ffA7A7A7),
+                        ),
+                        const SizedBox(width: 7),
+                        const Text("27"),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/location.svg",
+                          color: Color(0x4ffA7A7A7),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 5),
+        ],
       ),
     );
   }

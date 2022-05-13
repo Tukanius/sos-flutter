@@ -72,117 +72,115 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-            padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        changePage(0);
-                      },
-                      child: Container(
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      changePage(0);
+                    },
+                    child: Container(
+                      width: 37,
+                      height: 37,
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        color: checkPage(0)
+                            ? Color(0x4ff3f4448)
+                            : primaryBorderColor,
+                        border: Border.all(color: primaryBorderColor, width: 1),
+                        borderRadius: BorderRadius.circular(80),
+                      ),
+                      child: SvgPicture.asset(
+                        "assets/tab/1.svg",
                         width: 37,
                         height: 37,
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          color: checkPage(0)
-                              ? Color(0x4ff3f4448)
-                              : primaryBorderColor,
-                          border:
-                              Border.all(color: primaryBorderColor, width: 1),
-                          borderRadius: BorderRadius.circular(80),
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/tab/1.svg",
-                          width: 37,
-                          height: 37,
-                        ),
                       ),
                     ),
-                    const SizedBox(width: 18),
-                    InkWell(
-                      onTap: () {
-                        changePage(1);
-                      },
-                      child: Container(
+                  ),
+                  const SizedBox(width: 18),
+                  InkWell(
+                    onTap: () {
+                      changePage(1);
+                    },
+                    child: Container(
+                      width: 37,
+                      height: 37,
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        color: checkPage(1)
+                            ? Color(0x4ff3f4448)
+                            : primaryBorderColor,
+                        border: Border.all(color: primaryBorderColor, width: 1),
+                        borderRadius: BorderRadius.circular(80),
+                      ),
+                      child: SvgPicture.asset(
+                        "assets/tab/2.svg",
                         width: 37,
                         height: 37,
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          color: checkPage(1)
-                              ? Color(0x4ff3f4448)
-                              : primaryBorderColor,
-                          border:
-                              Border.all(color: primaryBorderColor, width: 1),
-                          borderRadius: BorderRadius.circular(80),
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/tab/2.svg",
-                          width: 37,
-                          height: 37,
-                        ),
                       ),
                     ),
-                    const SizedBox(width: 18),
-                    InkWell(
-                      onTap: () {
-                        changePage(2);
-                      },
-                      child: Container(
+                  ),
+                  const SizedBox(width: 18),
+                  InkWell(
+                    onTap: () {
+                      changePage(2);
+                    },
+                    child: Container(
+                      width: 37,
+                      height: 37,
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        color: checkPage(2)
+                            ? Color(0x4ff3f4448)
+                            : primaryBorderColor,
+                        border: Border.all(color: primaryBorderColor, width: 1),
+                        borderRadius: BorderRadius.circular(80),
+                      ),
+                      child: SvgPicture.asset(
+                        "assets/tab/3.svg",
                         width: 37,
                         height: 37,
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          color: checkPage(2)
-                              ? Color(0x4ff3f4448)
-                              : primaryBorderColor,
-                          border:
-                              Border.all(color: primaryBorderColor, width: 1),
-                          borderRadius: BorderRadius.circular(80),
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/tab/3.svg",
-                          width: 37,
-                          height: 37,
-                        ),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(width: 18),
-                Container(
-                  width: 37,
-                  height: 37,
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    // color: Color(0x4ff3f4448),
-                    // border: Border.all(color: primaryBorderColor, width: 1),
-                    borderRadius: BorderRadius.circular(80),
                   ),
-                  child: SvgPicture.asset(
-                    "assets/tab/4.svg",
-                    width: 37,
-                    height: 37,
+                ],
+              ),
+              const SizedBox(width: 18),
+              Container(
+                width: 32,
+                height: 32,
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  // color: Color(0x4ff3f4448),
+                  // border: Border.all(color: primaryBorderColor, width: 1),
+                  borderRadius: BorderRadius.circular(80),
+                ),
+                child: SvgPicture.asset(
+                  "assets/tab/4.svg",
+                  width: 32,
+                  height: 32,
+                ),
+              ),
+              const SizedBox(width: 18),
+              Container(
+                width: 37,
+                height: 37,
+                decoration: BoxDecoration(
+                  border: Border.all(color: primaryBorderColor, width: 1),
+                  borderRadius: BorderRadius.circular(80),
+                  image: const DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage("https://picsum.photos/id/1/200/200"),
                   ),
                 ),
-                const SizedBox(width: 18),
-                Container(
-                  width: 37,
-                  height: 37,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: primaryBorderColor, width: 1),
-                    borderRadius: BorderRadius.circular(80),
-                    image: const DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage("https://picsum.photos/id/1/200/200"),
-                    ),
-                  ),
-                ),
-              ],
-            )),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
