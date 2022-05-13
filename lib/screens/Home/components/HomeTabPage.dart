@@ -62,7 +62,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
             ),
             const SizedBox(height: 15),
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: white,
                 borderRadius: BorderRadius.circular(20),
@@ -133,6 +133,11 @@ class _HomeTabPageState extends State<HomeTabPage> {
                     height: 130,
                     child: PageView(
                       controller: controller,
+                      onPageChanged: (index) {
+                        setState(() {
+                          currentIndex = index;
+                        });
+                      },
                       children: [
                         switchTabBody(),
                         Container(
@@ -160,8 +165,8 @@ class _HomeTabPageState extends State<HomeTabPage> {
         Column(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width / 3.5 - 20,
-              height: MediaQuery.of(context).size.height / 7.5 - 20,
+              width: 90,
+              height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(17),
                 color: Color(0x4ffEA4335),
@@ -184,8 +189,8 @@ class _HomeTabPageState extends State<HomeTabPage> {
         Column(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width / 3.5 - 20,
-              height: MediaQuery.of(context).size.height / 7.5 - 20,
+              width: 90,
+              height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(17),
                 color: Color(0x4ffFBBC05),
@@ -208,8 +213,8 @@ class _HomeTabPageState extends State<HomeTabPage> {
         Column(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width / 3.5 - 20,
-              height: MediaQuery.of(context).size.height / 7.5 - 20,
+              width: 90,
+              height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(17),
                 color: Color(0x4ff34A853),

@@ -72,7 +72,8 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
