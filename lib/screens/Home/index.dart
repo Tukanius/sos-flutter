@@ -28,7 +28,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   changePage(index) {
-    controller.jumpToPage(index);
+    controller.animateToPage(index,
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   checkPage(int index) {
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0x4fff9fafb),
       appBar: CustomAppBar(),
       body: PageView(
         controller: controller,
