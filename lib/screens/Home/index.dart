@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sos/components/Header/index.dart';
+import 'package:sos/provider/general_provider.dart';
 import 'package:sos/screens/Home/components/HomeTabPage.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:bottom_drawer/bottom_drawer.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = "/HomePage";
@@ -14,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final PageController controller = PageController();
+  BottomDrawerController bottomDrawerController = BottomDrawerController();
   int currentIndex = 0;
 
   @override
@@ -42,6 +46,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bottomDrawerController = Provider.of<GeneralProvider>(context, listen: true)
+        .bottomDrawerController;
     return Scaffold(
       backgroundColor: Color(0x4fff9fafb),
       appBar: CustomAppBar(),
@@ -64,7 +70,11 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryYellow,
-        onPressed: () {},
+        onPressed: () async {
+          await Provider.of<GeneralProvider>(context, listen: false)
+              .setBottomDrawerSetType("ADD");
+          bottomDrawerController.open();
+        },
         child: const Icon(
           Icons.add,
           size: 30,

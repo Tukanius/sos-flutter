@@ -139,7 +139,7 @@ class _ViewContentState extends State<ViewContent> {
   card() {
     return Container(
       margin: const EdgeInsets.all(10),
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Color(0x4ffF1F1F1), width: 2),
@@ -156,7 +156,7 @@ class _ViewContentState extends State<ViewContent> {
               color: Color(0x4ffEA4335),
             ),
           ),
-          SizedBox(width: 7),
+          const SizedBox(width: 7),
           Expanded(
             child: Column(
               children: [

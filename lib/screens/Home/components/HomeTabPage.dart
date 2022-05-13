@@ -36,9 +36,8 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    bottomDrawerController =
-        Provider.of<GeneralProvider>(context, listen: false)
-            .bottomDrawerController;
+    bottomDrawerController = Provider.of<GeneralProvider>(context, listen: true)
+        .bottomDrawerController;
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 15),
@@ -162,13 +161,17 @@ class _HomeTabPageState extends State<HomeTabPage> {
               ),
             ),
             InkWell(
-              onTap: () {
+              onTap: () async {
+                await Provider.of<GeneralProvider>(context, listen: false)
+                    .setBottomDrawerSetType("VIEW");
                 bottomDrawerController.open();
               },
               child: card(),
             ),
             InkWell(
-              onTap: () {
+              onTap: () async {
+                await Provider.of<GeneralProvider>(context, listen: false)
+                    .setBottomDrawerSetType("VIEW");
                 bottomDrawerController.open();
               },
               child: card(),

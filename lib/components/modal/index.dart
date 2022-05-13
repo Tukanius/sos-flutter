@@ -14,12 +14,14 @@ class GeneralModal extends StatefulWidget {
 
 class _GeneralModalState extends State<GeneralModal> {
   BottomDrawerController bottomDrawerController = BottomDrawerController();
+  String type = "";
 
   @override
   Widget build(BuildContext context) {
-    bottomDrawerController =
-        Provider.of<GeneralProvider>(context, listen: false)
-            .bottomDrawerController;
+    bottomDrawerController = Provider.of<GeneralProvider>(context, listen: true)
+        .bottomDrawerController;
+    type = Provider.of<GeneralProvider>(context, listen: true).bottomDrawerType;
+
     return Stack(
       children: [
         buildBottomDrawer(context, bottomDrawerController),
@@ -64,7 +66,7 @@ class _GeneralModalState extends State<GeneralModal> {
           ),
           Expanded(
               child: SingleChildScrollView(
-            child: ViewContent(),
+            child: view(),
           ))
         ],
       ),
@@ -72,6 +74,15 @@ class _GeneralModalState extends State<GeneralModal> {
       drawerHeight: MediaQuery.of(context).size.height * 0.76,
       color: Colors.white,
       controller: bottomDrawerController,
+    );
+  }
+
+  view() {
+    if (type == "VIEW") {
+      return ViewContent();
+    }
+    return Container(
+      child: Text("CREATE"),
     );
   }
 }
