@@ -38,19 +38,24 @@ class _GeneralModalState extends State<GeneralModal> {
       /// your customized drawer body.
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 6,
-                width: 37,
-                margin: const EdgeInsets.only(top: 10),
-                decoration: BoxDecoration(
-                  color: Color(0x4ff707070),
-                  borderRadius: BorderRadius.circular(20),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 25,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 6,
+                  width: 47,
+                  margin: const EdgeInsets.only(top: 10),
+                  decoration: BoxDecoration(
+                    color: Color(0x4ffD9D9D9),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Expanded(
               child: SingleChildScrollView(
