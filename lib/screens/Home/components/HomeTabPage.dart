@@ -211,7 +211,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
                           Text(
-                            "Шинэ",
+                            "Huuuuchinnnnnnn",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text("2 цагын өмнө"),
