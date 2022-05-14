@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:provider/provider.dart';
+import 'package:sos/components/AddContent/index.dart';
 import 'package:sos/components/ViewContent/index.dart';
 
 import '../../provider/general_provider.dart';
@@ -81,8 +82,6 @@ class _GeneralModalState extends State<GeneralModal> {
     if (type == "VIEW") {
       return ViewContent();
     }
-    return Container(
-      child: Text("CREATE"),
-    );
+    return AddContent();
   }
 }
