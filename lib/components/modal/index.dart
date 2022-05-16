@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:provider/provider.dart';
-import 'package:sos/components/AddContent/index.dart';
-import 'package:sos/components/ViewContent/index.dart';
+import 'package:sos/components/add_content/index.dart';
+import 'package:sos/components/view_content/index.dart';
 
 import '../../provider/general_provider.dart';
 

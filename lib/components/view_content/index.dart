@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../BeforeAfter/index.dart';
+import '../before_after/index.dart';
 
 class ViewContent extends StatefulWidget {
   ViewContent({Key? key}) : super(key: key);

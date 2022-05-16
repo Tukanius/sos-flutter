@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sos/components/Header/index.dart';
+import 'package:sos/components/header/index.dart';
 import 'package:sos/provider/general_provider.dart';
-import 'package:sos/screens/Home/components/HomeTabPage.dart';
+import 'package:sos/screens/home/components/home_tab_page.dart';
+import 'package:sos/screens/login/login_page.dart';
+import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
+
+import '../../models/user.dart';
+import '../../provider/user_provider.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = "/HomePage";
@@ -19,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   final PageController controller = PageController();
   BottomDrawerController bottomDrawerController = BottomDrawerController();
   int currentIndex = 0;
+  User user = User();
 
   @override
   void initState() {
@@ -46,6 +52,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<UserProvider>(context, listen: false).user;
     bottomDrawerController = Provider.of<GeneralProvider>(context, listen: true)
         .bottomDrawerController;
     return Scaffold(
@@ -175,16 +182,22 @@ class _HomePageState extends State<HomePage> {
                   height: 32,
                 ),
               ),
-              const SizedBox(width: 18),
-              Container(
-                width: 37,
-                height: 37,
-                decoration: BoxDecoration(
-                  border: Border.all(color: primaryBorderColor, width: 1),
-                  borderRadius: BorderRadius.circular(80),
-                  image: const DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage("https://picsum.photos/id/1/200/200"),
+              InkWell(
+                onTap: () {
+                  user.username == null
+                      ? Navigator.of(context).pushNamed(LoginPage.routeName)
+                      : Navigator.of(context).pushNamed(ProfilePage.routeName);
+                },
+                child: Container(
+                  width: 37,
+                  height: 37,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: primaryBorderColor, width: 1),
+                    borderRadius: BorderRadius.circular(80),
+                    image: const DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage("https://picsum.photos/id/1/200/200"),
+                    ),
                   ),
                 ),
               ),

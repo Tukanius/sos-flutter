@@ -4,6 +4,10 @@ import 'package:sos/components/modal/index.dart';
 import 'package:sos/provider/general_provider.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Home/index.dart';
+import 'package:sos/screens/Login/Login_page.dart';
+import 'package:sos/screens/forgot/forgot_page.dart';
+import 'package:sos/screens/profile/profile_page.dart';
+import 'package:sos/screens/register/register_page.dart';
 import 'package:sos/screens/splash/index.dart';
 import 'package:sos/services/dialog.dart';
 import 'package:sos/services/navigation.dart';
@@ -26,6 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -55,15 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           MaterialApp(
             title: 'Sos',
-            // theme: ThemeData.from(
-            //   colorScheme:  ColorScheme.light(primary: primaryGreen),
-            // ).copyWith(
-            //   pageTransitionsTheme: const PageTransitionsTheme(
-            //     builders: <TargetPlatform, PageTransitionsBuilder>{
-            //       TargetPlatform.android: ZoomPageTransitionsBuilder(),
-            //     },
-            //   ),
-            // ),
             builder: (context, widget) => Navigator(
               onGenerateRoute: (settings) => MaterialPageRoute(
                 builder: (context) =>
@@ -72,7 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             navigatorKey: locator<NavigationService>().navigatorKey,
             initialRoute: SplashPage.routeName,
-            // home: const TabPage(),
             debugShowCheckedModeBanner: false,
             onGenerateRoute: (RouteSettings settings) {
               switch (settings.name) {
@@ -80,9 +75,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   return MaterialPageRoute(builder: (context) {
                     return const SplashPage();
                   });
+                case RegisterPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const RegisterPage();
+                  });
                 case HomePage.routeName:
                   return MaterialPageRoute(builder: (context) {
                     return const HomePage();
+                  });
+                case ProfilePage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const ProfilePage();
+                  });
+                case ForgotPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const ForgotPage();
+                  });
+                case LoginPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const LoginPage();
                   });
                 default:
                   return MaterialPageRoute(
@@ -126,7 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-                // const LoadingPage(),
               ],
             ),
           ),

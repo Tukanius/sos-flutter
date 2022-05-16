@@ -10,12 +10,13 @@ import 'http_handler.dart';
 import '../main.dart';
 
 class HttpRequest {
-  // static const host = 'http://127.0.0.1:30963';
-  static const host = 'https://dev.chewme.pet';
-  // static const host = 'http://192.168.1.13:30527';
+  // static const host = 'https://dev.chewme.pet';
+  static const host = 'http://192.168.1.17:6002';
 
-  static const s3host = 'https://chew.s3.amazonaws.com/';
-  // static const s3host = 'http://dev-dc-s3.goodtech.mn';
+  // static const s3host = 'https://chew.s3.amazonaws.com/';
+  static const s3host = 'http://192.168.1.17:6002/s3';
+  static const version = '/web';
+
   static const uri = host;
 
   Dio dio = Dio();
@@ -24,7 +25,7 @@ class HttpRequest {
       {bool handler = true, bool approve = false}) async {
     Response? response;
     //final String uri = '$host:$port/$version$api';
-    final String uri = '$host$api';
+    final String uri = '$host$version$api';
 
     debugPrint(uri);
 

@@ -79,7 +79,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width / 1.7 - 20,
                         child: FormBuilderDropdown(
                           allowClear: false,
@@ -111,7 +111,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                             prefixIcon: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     width: 30,
                                     height: 30,
                                     child: Image.asset(
@@ -137,7 +137,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  Container(
+                  SizedBox(
                     height: 130,
                     child: PageView(
                       controller: controller,
@@ -148,12 +148,8 @@ class _HomeTabPageState extends State<HomeTabPage> {
                       },
                       children: [
                         switchTabBody(),
-                        Container(
-                          child: Text("PIE CHART"),
-                        ),
-                        Container(
-                          child: Text("LINE CHART"),
-                        ),
+                        const Text("PIE CHART"),
+                        const Text("LINE CHART"),
                       ],
                     ),
                   ),
@@ -201,11 +197,11 @@ class _HomeTabPageState extends State<HomeTabPage> {
                   width: 37,
                   height: 37,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width - 100,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -412,7 +408,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
               changePage(2);
             },
             child: Container(
-              padding: EdgeInsets.all(6),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 border: checkPage(2) == true
                     ? Border.all(color: Color(0x4ff3F4448), width: 2)
