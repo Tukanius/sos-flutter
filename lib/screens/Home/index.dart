@@ -77,8 +77,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryYellow,
         onPressed: () async {
-          await Provider.of<GeneralProvider>(context, listen: false)
-              .setBottomDrawerSetType("ADD", "");
           bottomDrawerController.open();
         },
         child: const Icon(

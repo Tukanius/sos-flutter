@@ -9,14 +9,18 @@ class GeneralProvider extends ChangeNotifier {
   String bottomDrawerType = '';
   String id = '';
   General? general;
+  bool? drawerIsOpen = false;
 
-  setBottomDrawerSetType(String type, String id) {
+  setBottomDrawerSetType(String type, String id) async {
+    drawerIsOpen = true;
     bottomDrawerType = type;
     this.id = id;
+    bottomDrawerController.open();
     notifyListeners();
   }
 
-  clearBottomDrawer() {
+  closeBottomDrawer(bool action) {
+    drawerIsOpen = false;
     bottomDrawerType = '';
     id = '';
     notifyListeners();

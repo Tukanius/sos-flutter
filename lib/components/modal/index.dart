@@ -34,7 +34,10 @@ class _GeneralModalState extends State<GeneralModal> {
       headerHeight: 0.0,
       drawerHeight: MediaQuery.of(context).size.height * 0.76,
       color: Colors.white,
-      callback: (opened) => {true},
+      callback: (opened) async => {
+        await Provider.of<GeneralProvider>(context, listen: false)
+            .closeBottomDrawer(opened)
+      },
       controller: bottomDrawerController,
       body: Column(
         children: [

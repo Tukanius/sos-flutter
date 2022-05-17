@@ -16,139 +16,146 @@ class ViewContent extends StatefulWidget {
 }
 
 class _ViewContentState extends State<ViewContent> with AfterLayoutMixin {
+  bool? isLoading = true;
   Post data = Post();
   BottomDrawerController bottomDrawerController = BottomDrawerController();
 
   @override
   void afterFirstLayout(BuildContext context) async {
+    setState(() {
+      isLoading = true;
+    });
     Post res = await PostApi().getPost(widget.id);
     setState(() {
       data = res;
+      isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          child: Row(
+    return isLoading == true
+        ? const SizedBox()
+        : Column(
             children: [
-              SvgPicture.asset(
-                "assets/tab/3.svg",
-                width: 37,
-                height: 37,
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.82,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      "assets/tab/3.svg",
+                      width: 37,
+                      height: 37,
+                    ),
+                    const SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "${data.user!.firstName} ${data.user!.lastName}",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.82,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${data.user!.firstName} ${data.user!.lastName}",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "2022.04.29",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 14),
+                              ),
+                            ],
+                          ),
                         ),
                         Text(
-                          "2022.04.29",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 14),
+                          "${data.postStatus}",
+                          style: TextStyle(color: Color(0x4ff34A853)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(),
+                    child: BeforeAfter(
+                      imageCornerRadius: 20,
+                      imageHeight: MediaQuery.of(context).size.height * 0.27,
+                      imageWidth: MediaQuery.of(context).size.width,
+                      beforeImage: NetworkImage("${data.getImage()}"),
+                      afterImage: const NetworkImage(
+                          "https://love-shayari.co/wp-content/uploads/2021/10/sun-rise.jpg"),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
+                            decoration: BoxDecoration(
+                              color: Color(0x4ffEBEDF1),
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/heart.svg",
+                                  color: Color(0x4ffA7A7A7),
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  "${data.likeCount}",
+                                  style: TextStyle(
+                                    color: Color(0x4ffA7A7A7),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
+                            decoration: BoxDecoration(
+                              color: Color(0x4ffEBEDF1),
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/location.svg",
+                                  color: Color(0x4ffA7A7A7),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Text(
-                    "${data.postStatus}",
-                    style: TextStyle(color: Color(0x4ff34A853)),
-                  ),
                 ],
               ),
+              card(),
+              card(),
+              card(),
+              card(),
+              card(),
             ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(),
-              child: BeforeAfter(
-                imageCornerRadius: 20,
-                imageHeight: MediaQuery.of(context).size.height * 0.27,
-                imageWidth: MediaQuery.of(context).size.width,
-                beforeImage: NetworkImage("${data.getImage()}"),
-                afterImage: const NetworkImage(
-                    "https://love-shayari.co/wp-content/uploads/2021/10/sun-rise.jpg"),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: Color(0x4ffEBEDF1),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/heart.svg",
-                            color: Color(0x4ffA7A7A7),
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            "${data.likeCount}",
-                            style: TextStyle(
-                              color: Color(0x4ffA7A7A7),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: Color(0x4ffEBEDF1),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/location.svg",
-                            color: Color(0x4ffA7A7A7),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        card(),
-        card(),
-        card(),
-        card(),
-        card(),
-      ],
-    );
+          );
   }
 
   card() {

@@ -254,7 +254,6 @@ class _HomeTabPageState extends State<HomeTabPage> with AfterLayoutMixin {
         onTap: () async {
           await Provider.of<GeneralProvider>(context, listen: false)
               .setBottomDrawerSetType("VIEW", "${data.id}");
-          bottomDrawerController.open();
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
