@@ -34,14 +34,9 @@ Map<String, dynamic> _$ResultArgumentToJson(ResultArguments instance) {
   if (instance != null) {
     params['offset'] = {};
     params['filter'] = {};
-    params['filter']['order_name'] = instance.filter!.orderName;
-    params['filter']['order_by'] = instance.filter!.orderBy;
+    params['filter']['status'] = instance.filter!.status;
+    params['filter']['user'] = instance.filter!.user;
     params['filter']['query'] = instance.filter!.query;
-    params['filter']['start_date'] = instance.filter!.startDate;
-    params['filter']['end_date'] = instance.filter!.endDate;
-    params['filter']['type'] = instance.filter!.type;
-    params['filter']['account_type'] = instance.filter!.accountType;
-    params['filter']['invite_status'] = instance.filter!.inviteStatus;
 
     if (instance.offset!.page! > 0) {
       params['offset']['page'] = instance.offset!.page;

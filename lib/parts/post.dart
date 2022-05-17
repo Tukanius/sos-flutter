@@ -47,7 +47,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   if (json['updatedAt'] != null) updatedAt = json['updatedAt'];
   if (json['createdBy'] != null) createdBy = json['createdBy'];
   if (json['updatedBy'] != null) updatedBy = json['updatedBy'];
-  if (json['sector'] != null) sector = json['sector'];
+  // if (json['sector'] != null) sector = json['sector'];
   if (json['liked'] != null) liked = json['liked'];
 
   return Post(

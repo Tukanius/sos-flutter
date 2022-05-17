@@ -12,4 +12,8 @@ class PostApi extends HttpRequest {
     var res = await get('/post/$id', handler: false);
     return Post.fromJson(res as Map<String, dynamic>);
   }
+
+  createPost(Post data) async {
+    await post('/post', data: data, handler: true);
+  }
 }

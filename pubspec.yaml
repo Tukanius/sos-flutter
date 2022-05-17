@@ -59,7 +59,7 @@ dev_dependencies:
   image_picker: ^0.8.5+3
   pin_code_text_field: ^1.8.0
   simple_moment: ^1.1.1
-
+  auto_size_text: ^3.0.0
   
 
   # The "flutter_lints" package below contains a set of recommended lints to

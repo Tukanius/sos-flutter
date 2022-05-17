@@ -44,7 +44,7 @@ class _HomeTabPageState extends State<HomeTabPage> with AfterLayoutMixin {
   }
 
   Future<List<dynamic>?> post(int page, int limit) async {
-    Filter filter = Filter();
+    Filter filter = Filter(status: "PENDING");
 
     Offset offset = Offset(limit: limit, page: page);
 

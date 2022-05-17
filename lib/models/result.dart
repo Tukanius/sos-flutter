@@ -1,24 +1,15 @@
 part '../parts/result.dart';
 
 class Filter {
-  String? orderName;
-  String? orderBy;
   String? query;
-  DateTime? startDate;
-  DateTime? endDate;
-  String? type;
-  String? accountType;
-  String? inviteStatus;
+  String? status;
+  String? user;
 
-  Filter(
-      {this.orderName,
-      this.orderBy,
-      this.query,
-      this.startDate,
-      this.endDate,
-      this.accountType,
-      this.inviteStatus,
-      this.type});
+  Filter({
+    this.query,
+    this.status,
+    this.user,
+  });
 }
 
 class Offset {
@@ -29,7 +20,7 @@ class Offset {
 }
 
 class ResultArguments {
-  Filter? filter = Filter(query: "");
+  Filter? filter = Filter();
   Offset? offset = Offset(page: 1, limit: 10);
 
   ResultArguments({this.filter, this.offset});
