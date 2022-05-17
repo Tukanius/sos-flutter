@@ -1,22 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:sos/api/post_api.dart';
+import 'package:sos/models/post.dart';
+import 'package:sos/models/sector.dart';
 import 'package:sos/provider/general_provider.dart';
+import 'package:sos/screens/home/components/chart_number.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:after_layout/after_layout.dart';
+
+import '../../../api/dashboard_api.dart';
+import '../../../models/result.dart';
 
 class HomeTabPage extends StatefulWidget {
-  HomeTabPage({Key? key}) : super(key: key);
+  const HomeTabPage({Key? key}) : super(key: key);
 
   @override
   State<HomeTabPage> createState() => _HomeTabPageState();
 }
 
-class _HomeTabPageState extends State<HomeTabPage> {
+class _HomeTabPageState extends State<HomeTabPage> with AfterLayoutMixin {
   final PageController controller = PageController();
   BottomDrawerController bottomDrawerController = BottomDrawerController();
   int currentIndex = 0;
+  int page = 1;
+  int limit = 1000;
+  Sector? sectorData;
+  List<Sector> response = [];
+  Result? warningPost = Result(count: 0, rows: []);
+
+  @override
+  void afterFirstLayout(BuildContext context) async {
+    Sector data = await DashboardApi().sector();
+    await post(page, limit);
+    setState(() {
+      sectorData = data;
+      for (var element in sectorData!.response!) {
+        response.add(element);
+      }
+    });
+  }
+
+  Future<List<dynamic>?> post(int page, int limit) async {
+    Filter filter = Filter();
+
+    Offset offset = Offset(limit: limit, page: page);
+
+    Result res =
+        await PostApi().list(ResultArguments(filter: filter, offset: offset));
+
+    setState(() {
+      warningPost = res;
+    });
+
+    return res.rows;
+  }
 
   changePage(index) {
     controller.animateToPage(index,
@@ -147,7 +187,14 @@ class _HomeTabPageState extends State<HomeTabPage> {
                         });
                       },
                       children: [
-                        switchTabBody(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: response
+                              .map((Sector e) => ChartNumberCard(
+                                    dashboard: e,
+                                  ))
+                              .toList(),
+                        ),
                         const Text("PIE CHART"),
                         const Text("LINE CHART"),
                       ],
@@ -156,21 +203,15 @@ class _HomeTabPageState extends State<HomeTabPage> {
                 ],
               ),
             ),
-            InkWell(
-              onTap: () async {
-                await Provider.of<GeneralProvider>(context, listen: false)
-                    .setBottomDrawerSetType("VIEW");
-                bottomDrawerController.open();
-              },
-              child: card(),
+            const SizedBox(
+              height: 10,
             ),
-            InkWell(
-              onTap: () async {
-                await Provider.of<GeneralProvider>(context, listen: false)
-                    .setBottomDrawerSetType("VIEW");
-                bottomDrawerController.open();
-              },
-              child: card(),
+            Column(
+              children: warningPost!.rows!
+                  .map((e) => Container(
+                        child: card(e),
+                      ))
+                  .toList(),
             ),
           ],
         ),
@@ -178,184 +219,161 @@ class _HomeTabPageState extends State<HomeTabPage> {
     );
   }
 
-  card() {
+  type(Post data) {
+    switch (data.postStatus) {
+      case "PENDING":
+        return "Хүлээгдэж байгаа";
+      case "NEW":
+        return "ШИНЭ";
+      case "SOLVED":
+        return "Шийдвэрлэгдсэн";
+      case "FAILED":
+        return "Шийдвэрлэгдээгүй";
+      default:
+    }
+  }
+
+  icon(Post data) {
+    switch (data.postStatus) {
+      case "PENDING":
+        return "assets/tab/1.svg";
+      case "NEW":
+        return "assets/tab/2.svg";
+      case "SOLVED":
+        return "assets/tab/3.svg";
+      case "FAILED":
+        return "assets/tab/4.svg";
+      default:
+    }
+  }
+
+  card(Post data) {
     return Container(
-      margin: const EdgeInsets.only(top: 12),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  "assets/tab/1.svg",
-                  width: 37,
-                  height: 37,
-                ),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: InkWell(
+        onTap: () async {
+          await Provider.of<GeneralProvider>(context, listen: false)
+              .setBottomDrawerSetType("VIEW", "${data.id}");
+          bottomDrawerController.open();
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: white,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Row(
                   children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 100,
+                    SvgPicture.asset(
+                      "${icon(data)}",
+                      width: 37,
+                      height: 37,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Huuuuchinnnnnnn",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${data.user!.firstName} ${data.user!.lastName}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                type(data),
+                              ),
+                            ],
                           ),
-                          Text("2 цагын өмнө"),
+                          const Text(
+                            "date",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ],
                       ),
                     ),
-                    const Text("Хүлээгдэж байна."),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: Image.asset("assets/post.png"),
-          ),
-          const SizedBox(height: 4),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: const Text(
-              "3-9-р байр 3-24-р байр хоёрын хоорондох явган хүний замын эвдрэл",
-              style: TextStyle(fontSize: 13),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              color: white,
-              border:
-                  Border(top: BorderSide(color: Color(0x4ffEBEDF1), width: 1)),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/heart.svg",
-                          // color: Color(0x4ffA7A7A7),
-                        ),
-                        const SizedBox(width: 7),
-                        const Text("27"),
-                      ],
-                    ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: 200,
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.network(
+                    data.getImage(),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Expanded(
-                  child: InkWell(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/location.svg",
-                          color: Color(0x4ffA7A7A7),
-                        ),
-                      ],
+              ),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        data.text.toString(),
+                        textAlign: TextAlign.start,
+                        style: const TextStyle(fontSize: 12),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  color: white,
+                  border: Border(
+                      top: BorderSide(color: Color(0x4ffEBEDF1), width: 1)),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/heart.svg",
+                            ),
+                            const SizedBox(width: 7),
+                            Text(data.likeCount.toString()),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/location.svg",
+                              color: Color(0x4ffA7A7A7),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5),
+            ],
           ),
-          const SizedBox(height: 5),
-        ],
+        ),
       ),
-    );
-  }
-
-  switchTabBody() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          children: [
-            Container(
-              width: 90,
-              height: 90,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(17),
-                color: Color(0x4ffEA4335),
-              ),
-              child: const Center(
-                child: Text(
-                  "5",
-                  style: TextStyle(
-                      color: white, fontSize: 25, fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              "Хүлээгдэж байна",
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-            )
-          ],
-        ),
-        Column(
-          children: [
-            Container(
-              width: 90,
-              height: 90,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(17),
-                color: Color(0x4ffFBBC05),
-              ),
-              child: const Center(
-                child: Text(
-                  "12",
-                  style: TextStyle(
-                      color: white, fontSize: 25, fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              "Хянагдаж байна",
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-            )
-          ],
-        ),
-        Column(
-          children: [
-            Container(
-              width: 90,
-              height: 90,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(17),
-                color: Color(0x4ff34A853),
-              ),
-              child: const Center(
-                child: Text(
-                  "1500",
-                  style: TextStyle(
-                      color: white, fontSize: 25, fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              "Шийдвэрлэгдсэн",
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-            )
-          ],
-        ),
-      ],
     );
   }
 

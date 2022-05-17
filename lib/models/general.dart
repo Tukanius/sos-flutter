@@ -4,10 +4,20 @@ part '../parts/general.dart';
 
 class General {
   final GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
-
   String? s3host;
+  List<General>? userStatus;
+  List<General>? postStatus;
+  List<General>? userRoles;
+  String? code;
+  String? name;
+
   General({
     this.s3host,
+    this.userStatus,
+    this.postStatus,
+    this.userRoles,
+    this.code,
+    this.name,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$GeneralFromJson(json);

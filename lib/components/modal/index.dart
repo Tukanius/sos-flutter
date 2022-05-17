@@ -7,7 +7,7 @@ import 'package:sos/components/view_content/index.dart';
 import '../../provider/general_provider.dart';
 
 class GeneralModal extends StatefulWidget {
-  GeneralModal({Key? key}) : super(key: key);
+  const GeneralModal({Key? key}) : super(key: key);
 
   @override
   State<GeneralModal> createState() => _GeneralModalState();
@@ -16,29 +16,26 @@ class GeneralModal extends StatefulWidget {
 class _GeneralModalState extends State<GeneralModal> {
   BottomDrawerController bottomDrawerController = BottomDrawerController();
   String type = "";
+  String id = "";
+  bool drawerIsOpen = true;
 
   @override
   Widget build(BuildContext context) {
     bottomDrawerController = Provider.of<GeneralProvider>(context, listen: true)
         .bottomDrawerController;
     type = Provider.of<GeneralProvider>(context, listen: true).bottomDrawerType;
-
-    return Stack(
-      children: [
-        buildBottomDrawer(context, bottomDrawerController),
-      ],
-    );
+    id = Provider.of<GeneralProvider>(context, listen: true).id;
+    return buildBottomDrawer(context, bottomDrawerController);
   }
 
   Widget buildBottomDrawer(BuildContext context, bottomDrawerController) {
-    // BottomDrawerController bottomDrawerController =
-    // Provider.of<GeneralProvider>(context, listen: true)
-    //     .bottomDrawerController;
     return BottomDrawer(
-      /// your customized drawer header.
       header: Container(),
-
-      /// your customized drawer body.
+      headerHeight: 0.0,
+      drawerHeight: MediaQuery.of(context).size.height * 0.76,
+      color: Colors.white,
+      callback: (opened) => {true},
+      controller: bottomDrawerController,
       body: Column(
         children: [
           Container(
@@ -71,16 +68,12 @@ class _GeneralModalState extends State<GeneralModal> {
           ))
         ],
       ),
-      headerHeight: 0.0,
-      drawerHeight: MediaQuery.of(context).size.height * 0.76,
-      color: Colors.white,
-      controller: bottomDrawerController,
     );
   }
 
   view() {
     if (type == "VIEW") {
-      return ViewContent();
+      return ViewContent(id: id);
     }
     return AddContent();
   }

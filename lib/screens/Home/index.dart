@@ -8,7 +8,6 @@ import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
-
 import '../../models/user.dart';
 import '../../provider/user_provider.dart';
 
@@ -65,12 +64,12 @@ class _HomePageState extends State<HomePage> {
             currentIndex = index;
           });
         },
-        children: <Widget>[
+        children: const <Widget>[
           HomeTabPage(),
-          const Center(
+          Center(
             child: Text('2'),
           ),
-          const Center(
+          Center(
             child: Text('3'),
           ),
         ],
@@ -79,7 +78,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: primaryYellow,
         onPressed: () async {
           await Provider.of<GeneralProvider>(context, listen: false)
-              .setBottomDrawerSetType("ADD");
+              .setBottomDrawerSetType("ADD", "");
           bottomDrawerController.open();
         },
         child: const Icon(

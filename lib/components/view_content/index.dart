@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sos/api/post_api.dart';
+import 'package:sos/models/post.dart';
 
+import 'package:bottom_drawer/bottom_drawer.dart';
 import '../before_after/index.dart';
 
 class ViewContent extends StatefulWidget {
-  ViewContent({Key? key}) : super(key: key);
+  final String id;
+  const ViewContent({Key? key, required this.id}) : super(key: key);
 
   @override
   State<ViewContent> createState() => _ViewContentState();
 }
 
-class _ViewContentState extends State<ViewContent> {
+class _ViewContentState extends State<ViewContent> with AfterLayoutMixin {
+  Post data = Post();
+  BottomDrawerController bottomDrawerController = BottomDrawerController();
+
+  @override
+  void afterFirstLayout(BuildContext context) async {
+    Post res = await PostApi().getPost(widget.id);
+    setState(() {
+      data = res;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Row(
             children: [
               SvgPicture.asset(
@@ -32,9 +48,9 @@ class _ViewContentState extends State<ViewContent> {
                     width: MediaQuery.of(context).size.width * 0.82,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
-                          "Хот тохижилт",
+                          "${data.user!.firstName} ${data.user!.lastName}",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
@@ -45,8 +61,8 @@ class _ViewContentState extends State<ViewContent> {
                       ],
                     ),
                   ),
-                  const Text(
-                    "Шийдвэрлэгдсэн.",
+                  Text(
+                    "${data.postStatus}",
                     style: TextStyle(color: Color(0x4ff34A853)),
                   ),
                 ],
@@ -66,8 +82,7 @@ class _ViewContentState extends State<ViewContent> {
                 imageCornerRadius: 20,
                 imageHeight: MediaQuery.of(context).size.height * 0.27,
                 imageWidth: MediaQuery.of(context).size.width,
-                beforeImage: const NetworkImage(
-                    "https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg"),
+                beforeImage: NetworkImage("${data.getImage()}"),
                 afterImage: const NetworkImage(
                     "https://love-shayari.co/wp-content/uploads/2021/10/sun-rise.jpg"),
               ),
@@ -92,8 +107,8 @@ class _ViewContentState extends State<ViewContent> {
                             color: Color(0x4ffA7A7A7),
                           ),
                           const SizedBox(width: 5),
-                          const Text(
-                            "25",
+                          Text(
+                            "${data.likeCount}",
                             style: TextStyle(
                               color: Color(0x4ffA7A7A7),
                             ),
