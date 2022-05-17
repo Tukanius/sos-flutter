@@ -2,7 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../api/auth.dart';
+import '../api/auth_api.dart';
+import '../api/user_api.dart';
 import '../models/user.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -23,7 +24,7 @@ class UserProvider extends ChangeNotifier {
 
   register(User data) async {
     User res = await AuthApi().register(data);
-    await setAccessToken(res.accessToken);
+    return res;
   }
 
   logout() async {
@@ -52,5 +53,19 @@ class UserProvider extends ChangeNotifier {
     String? token = prefs.getString("ACCESS_TOKEN");
 
     return token;
+  }
+
+  update(User user) async {
+    await AuthApi().update(user);
+  }
+
+  changePassword(User user) async {
+    User res = await UserApi().changePassword(user);
+    await setAccessToken(res.accessToken);
+  }
+
+  verifyOtp(User data) async {
+    User res = await AuthApi().verify(data);
+    await setAccessToken(res.accessToken);
   }
 }

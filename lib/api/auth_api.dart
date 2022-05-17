@@ -21,4 +21,13 @@ class AuthApi extends HttpRequest {
     var res = await post('/auth/forgot', data: user);
     return User.fromJson(res);
   }
+
+  update(User user) async {
+    await put('/user', data: user.toJson());
+  }
+
+  Future<User> verify(User user) async {
+    var res = await post('/otp/verify', data: user.toJson(), handler: true);
+    return User.fromJson(res as Map<String, dynamic>);
+  }
 }

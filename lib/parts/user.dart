@@ -23,6 +23,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
   String? lastName;
   String? avatar;
   String? deviceToken;
+  String? email;
+  String? code;
+  String? oldPassowrd;
+  String? message;
 
   if (json['username'] != null) username = json['username'];
   if (json['password'] != null) password = json['password'];
@@ -46,6 +50,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
   if (json['lastName'] != null) lastName = json['lastName'];
   if (json['avatar'] != null) avatar = json['avatar'];
   if (json['deviceToken'] != null) deviceToken = json['deviceToken'];
+  if (json['email'] != null) email = json['email'];
+  if (json['code'] != null) code = json['code'];
+  if (json['oldPassowrd'] != null) oldPassowrd = json['oldPassowrd'];
+  if (json['message'] != null) message = json['message'];
 
   return User(
     username: username,
@@ -69,6 +77,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
     lastName: lastName,
     avatar: avatar,
     deviceToken: deviceToken,
+    email: email,
+    code: code,
+    oldPassword: oldPassowrd,
+    message: message,
   );
 }
 
@@ -100,6 +112,10 @@ Map<String, dynamic> _$UserToJson(User instance) {
   if (instance.lastName != null) json['lastName'] = instance.lastName;
   if (instance.avatar != null) json['avatar'] = instance.avatar;
   if (instance.deviceToken != null) json['deviceToken'] = instance.deviceToken;
+  if (instance.email != null) json['email'] = instance.email;
+  if (instance.code != null) json['code'] = instance.code;
+  if (instance.oldPassword != null) json['oldPassword'] = instance.oldPassword;
+  if (instance.message != null) json['message'] = instance.message;
 
   return json;
 }

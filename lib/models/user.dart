@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+import '../utils/http_request.dart';
 part '../parts/user.dart';
 
 class User {
@@ -25,7 +27,11 @@ class User {
   String? firstName;
   String? lastName;
   String? avatar;
+  String? email;
   String? deviceToken;
+
+  String? oldPassword;
+  String? code;
 
   final passwordController = TextEditingController();
   final passwordFocusNode = FocusNode();
@@ -33,7 +39,6 @@ class User {
   final passwordVerifyController = TextEditingController();
   final passwordVerifyFocusNode = FocusNode();
 
-  String? oldPassword;
   final oldPasswordController = TextEditingController();
   final oldPasswordFocusNode = FocusNode();
 
@@ -76,6 +81,10 @@ class User {
   final codeController = TextEditingController();
   final pinFocusNode = FocusNode();
 
+  getAvatar() {
+    return HttpRequest.s3host + avatar.toString();
+  }
+
   User({
     this.username,
     this.password,
@@ -98,6 +107,10 @@ class User {
     this.lastName,
     this.avatar,
     this.deviceToken,
+    this.email,
+    this.code,
+    this.oldPassword,
+    this.message,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

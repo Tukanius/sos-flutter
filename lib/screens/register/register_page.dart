@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:sos/screens/Splash/index.dart';
+import 'package:sos/screens/otp/otp_page.dart';
 import 'package:sos/screens/register/components/register_form.dart';
 import 'package:sos/utils/http_handler.dart';
 import 'package:sos/widgets/colors.dart';
@@ -32,8 +31,11 @@ class _RegisterPageState extends State<RegisterPage> {
       });
       try {
         User data = User.fromJson(form!.value);
-        await Provider.of<UserProvider>(context, listen: false).register(data);
-        Navigator.of(context).pushNamed(SplashPage.routeName);
+        User code = await Provider.of<UserProvider>(context, listen: false)
+            .register(data);
+        Navigator.of(context).pushNamed(OtpVerifyPage.routeName,
+            arguments: OtpVerifyPageArguments(
+                type: "REGISTER", data: code, phone: data.phone));
         setState(
           () {
             isLoading = false;
@@ -80,6 +82,11 @@ class _RegisterPageState extends State<RegisterPage> {
               const Text(
                 "Бүртгүүлэх",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                isLoading.toString(),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 30,

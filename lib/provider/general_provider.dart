@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:sos/models/general.dart';
 
-import '../api/general.dart';
+import '../api/general_api.dart';
 
 class GeneralProvider extends ChangeNotifier {
   BottomDrawerController bottomDrawerController = BottomDrawerController();

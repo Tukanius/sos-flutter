@@ -6,7 +6,10 @@ import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/Login/Login_page.dart';
 import 'package:sos/screens/forgot/forgot_page.dart';
+import 'package:sos/screens/otp/otp_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
+import 'package:sos/screens/profile/screens/change_password.dart';
+import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:sos/screens/register/register_page.dart';
 import 'package:sos/screens/splash/index.dart';
 import 'package:sos/services/dialog.dart';
@@ -95,6 +98,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   return MaterialPageRoute(builder: (context) {
                     return const LoginPage();
                   });
+                case UserDetailPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const UserDetailPage();
+                  });
+                case ChangePasswordPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const ChangePasswordPage();
+                  });
+                case OtpVerifyPage.routeName:
+                  OtpVerifyPageArguments? arguments =
+                      settings.arguments as OtpVerifyPageArguments?;
+
+                  return MaterialPageRoute(
+                      builder: (context) {
+                        return OtpVerifyPage(
+                          data: arguments!.data,
+                          type: arguments.type,
+                          phone: arguments.phone,
+                        );
+                      },
+                      fullscreenDialog: true);
                 default:
                   return MaterialPageRoute(
                     builder: (_) => Scaffold(

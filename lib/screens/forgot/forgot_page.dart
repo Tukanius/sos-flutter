@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/screens/Splash/index.dart';
-import '../../api/auth.dart';
 import '../../provider/user_provider.dart';
 import '../../widgets/colors.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
