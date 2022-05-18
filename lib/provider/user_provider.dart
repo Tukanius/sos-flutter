@@ -24,6 +24,7 @@ class UserProvider extends ChangeNotifier {
 
   register(User data) async {
     User res = await AuthApi().register(data);
+    await setAccessToken(res.accessToken);
     return res;
   }
 

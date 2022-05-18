@@ -6,6 +6,7 @@ import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sos/widgets/colors.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:sos/widgets/custom_button.dart';
 
@@ -18,8 +19,12 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
   User user = User();
+  @override
+  void afterFirstLayout(BuildContext context) async {
+    await Provider.of<UserProvider>(context, listen: false).me(false);
+  }
 
   logout() async {
     await Provider.of<UserProvider>(context, listen: false).logout();

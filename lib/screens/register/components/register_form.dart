@@ -45,7 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     User user = widget.user!;
     return FormBuilder(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.always,
       key: user.fbKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -168,7 +168,9 @@ class _RegisterFormState extends State<RegisterForm> {
               fillColor: white,
             ),
             validators: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Заавал оруулна"),
+              (value) {
+                return validatePassword(value.toString(), context);
+              }
             ]),
           ),
           const SizedBox(

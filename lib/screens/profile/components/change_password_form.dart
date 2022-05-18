@@ -6,6 +6,7 @@ import 'package:sos/widgets/colors.dart';
 
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/form_textfield.dart';
+import '../../register/components/register_form.dart';
 
 class ChangePasswordForm extends StatefulWidget {
   final User user;
@@ -108,7 +109,9 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               fillColor: white,
             ),
             validators: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Заавал оруулна"),
+              (value) {
+                return validatePassword(value.toString(), context);
+              }
             ]),
           ),
           const SizedBox(

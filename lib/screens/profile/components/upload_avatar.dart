@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sos/api/user_api.dart';
 import '../../../models/user.dart';
+import '../../../provider/user_provider.dart';
+import 'package:provider/provider.dart';
 import '../../../widgets/colors.dart';
 
 class UploadAvatar extends StatefulWidget {
@@ -41,6 +43,7 @@ class _UploadAvatarState extends State<UploadAvatar> {
       });
       var image = await UserApi().uploadAvatar(file);
       widget.onChange!(image);
+      await Provider.of<UserProvider>(context, listen: false).me(false);
       setState(() {
         loading = false;
       });
