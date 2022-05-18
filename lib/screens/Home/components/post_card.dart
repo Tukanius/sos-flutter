@@ -1,10 +1,8 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/models/post.dart';
+import 'package:sos/screens/home/screen/post_detail.dart';
 import 'package:sos/widgets/colors.dart';
-
-import '../../../provider/general_provider.dart';
-import 'package:provider/provider.dart';
 
 class PostCard extends StatefulWidget {
   final Post? data;
@@ -67,8 +65,8 @@ class _PostCardState extends State<PostCard> {
           ),
           InkWell(
             onTap: () async {
-              await Provider.of<GeneralProvider>(context, listen: false)
-                  .setBottomDrawerSetType("VIEW", "${widget.data!.id}");
+              Navigator.of(context).pushNamed(PostDetailPage.routeName,
+                  arguments: PostDetailPageArguments(id: widget.data!.id!));
             },
             child: Image.network(widget.data!.getImage()),
           ),

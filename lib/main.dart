@@ -6,6 +6,7 @@ import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/Login/Login_page.dart';
 import 'package:sos/screens/forgot/forgot_page.dart';
+import 'package:sos/screens/home/screen/post_detail.dart';
 import 'package:sos/screens/otp/otp_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
@@ -106,6 +107,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   return MaterialPageRoute(builder: (context) {
                     return const ChangePasswordPage();
                   });
+
+                case PostDetailPage.routeName:
+                  PostDetailPageArguments arguments =
+                      settings.arguments as PostDetailPageArguments;
+                  return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        PostDetailPage(
+                      id: arguments.id,
+                    ),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  );
+
                 case OtpVerifyPage.routeName:
                   OtpVerifyPageArguments? arguments =
                       settings.arguments as OtpVerifyPageArguments?;

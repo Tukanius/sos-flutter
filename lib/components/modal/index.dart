@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:sos/components/add_content/index.dart';
-import 'package:sos/components/view_content/index.dart';
+// import 'package:sos/components/view_content/index.dart';
 
 import '../../provider/general_provider.dart';
 
@@ -76,7 +76,7 @@ class _GeneralModalState extends State<GeneralModal> {
 
   view() {
     if (type == "VIEW") {
-      return ViewContent(id: id);
+      // return ViewContent(id: id);
     }
     return AddContent();
   }

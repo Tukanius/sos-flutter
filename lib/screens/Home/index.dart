@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> with AfterLayoutMixin {
     user = Provider.of<UserProvider>(context, listen: false).user;
 
     return Scaffold(
-      backgroundColor: dark,
+      backgroundColor: primaryColor,
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Container(
