@@ -32,13 +32,13 @@ type(Post? data) {
 icon(Post? data) {
   switch (data!.postStatus) {
     case "PENDING":
-      return "assets/tab/1.svg";
-    case "NEW":
       return "assets/tab/2.svg";
+    case "NEW":
+      return "assets/tab/1.svg";
     case "SOLVED":
       return "assets/tab/3.svg";
     case "FAILED":
-      return "assets/tab/4.svg";
+      return "assets/tab/5.svg";
     default:
   }
 }
@@ -52,7 +52,7 @@ class _PostCardState extends State<PostCard> {
       ),
       clipBehavior: Clip.antiAlias,
       child: SizedBox(
-        height: 350,
+        height: 500,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -70,7 +70,7 @@ class _PostCardState extends State<PostCard> {
               ),
               trailing: IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.more_vert),
+                icon: const Icon(Icons.more_vert),
               ),
             ),
             Expanded(
@@ -88,12 +88,15 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              width: double.infinity,
               child: Text(
                 '${widget.data!.text}',
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.6), fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             Row(

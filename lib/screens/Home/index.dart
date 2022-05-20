@@ -9,7 +9,6 @@ import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:bottom_drawer/bottom_drawer.dart';
 import '../../api/dashboard_api.dart';
 import '../../models/result.dart';
 import '../../models/sector.dart';
@@ -444,6 +443,7 @@ class _HomePageState extends State<HomePage>
               Row(
                 children: [
                   InkWell(
+                    borderRadius: BorderRadius.circular(80),
                     onTap: () {
                       tabController.index = 0;
                       onChangeTap(tabController.index);
@@ -472,6 +472,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   const SizedBox(width: 18),
                   InkWell(
+                    borderRadius: BorderRadius.circular(80),
                     onTap: () {
                       tabController.index = 1;
                       onChangeTap(tabController.index);
@@ -500,6 +501,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   const SizedBox(width: 18),
                   InkWell(
+                    borderRadius: BorderRadius.circular(80),
                     onTap: () {
                       tabController.index = 2;
                       onChangeTap(tabController.index);
@@ -528,6 +530,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   const SizedBox(width: 18),
                   InkWell(
+                    borderRadius: BorderRadius.circular(80),
                     onTap: () {
                       tabController.index = 3;
                       onChangeTap(tabController.index);
@@ -548,7 +551,7 @@ class _HomePageState extends State<HomePage>
                         borderRadius: BorderRadius.circular(80),
                       ),
                       child: SvgPicture.asset(
-                        "assets/tab/4.svg",
+                        "assets/tab/5.svg",
                         width: 37,
                         height: 37,
                       ),
@@ -557,21 +560,26 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
               const SizedBox(width: 18),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed(NotificationPage.routeName);
-                },
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(80),
-                  ),
-                  child: SvgPicture.asset(
-                    "assets/tab/4.svg",
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(80),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(NotificationPage.routeName);
+                  },
+                  child: Container(
                     width: 32,
                     height: 32,
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(80),
+                    ),
+                    child: SvgPicture.asset(
+                      "assets/tab/4.svg",
+                      width: 32,
+                      height: 32,
+                    ),
                   ),
                 ),
               ),

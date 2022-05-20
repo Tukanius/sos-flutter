@@ -46,7 +46,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
               const SizedBox(
