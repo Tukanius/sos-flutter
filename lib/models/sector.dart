@@ -20,6 +20,13 @@ class Sector {
   String? updatedAt;
   String? role;
   bool? isActive;
+  Sector? all;
+  int? countPending;
+  int? countSolved;
+  Sector? posted;
+  Sector? stats;
+  int? pending;
+  int? solved;
 
   Sector({
     this.count,
@@ -41,6 +48,13 @@ class Sector {
     this.updatedAt,
     this.role,
     this.isActive,
+    this.all,
+    this.countPending,
+    this.countSolved,
+    this.posted,
+    this.stats,
+    this.pending,
+    this.solved,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$SectorFromJson(json);

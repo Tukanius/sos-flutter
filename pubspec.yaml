@@ -60,6 +60,11 @@ dev_dependencies:
   pin_code_text_field: ^1.8.0
   simple_moment: ^1.1.1
   auto_size_text: ^3.0.0
+  skeletons: ^0.0.3
+  shimmer: ^2.0.0
+  like_button: ^2.0.4
+  pull_to_refresh: ^2.0.0
+  
   
 
   # The "flutter_lints" package below contains a set of recommended lints to

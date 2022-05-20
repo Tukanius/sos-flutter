@@ -13,6 +13,11 @@ class PostApi extends HttpRequest {
     return Post.fromJson(res as Map<String, dynamic>);
   }
 
+  Future<Post> like(String id) async {
+    var res = await get('/post/$id/like', handler: true);
+    return Post.fromJson(res as Map<String, dynamic>);
+  }
+
   createPost(Post data) async {
     await post('/post', data: data, handler: true);
   }

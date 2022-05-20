@@ -2,12 +2,12 @@ part '../parts/result.dart';
 
 class Filter {
   String? query;
-  String? status;
+  String? postStatus;
   String? user;
 
   Filter({
     this.query,
-    this.status,
+    this.postStatus,
     this.user,
   });
 }

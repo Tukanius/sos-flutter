@@ -5,11 +5,17 @@ import 'package:sos/provider/general_provider.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/Login/Login_page.dart';
+import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/forgot/forgot_page.dart';
+import 'package:sos/screens/home/screen/new_post.dart';
+import 'package:sos/screens/home/screen/notification_page.dart';
+import 'package:sos/screens/home/screen/pending_post.dart';
 import 'package:sos/screens/home/screen/post_detail.dart';
+import 'package:sos/screens/home/screen/successful_post.dart';
 import 'package:sos/screens/otp/otp_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
+import 'package:sos/screens/profile/screens/my_create_post_page.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:sos/screens/register/register_page.dart';
 import 'package:sos/screens/splash/index.dart';
@@ -107,6 +113,106 @@ class _MyHomePageState extends State<MyHomePage> {
                   return MaterialPageRoute(builder: (context) {
                     return const ChangePasswordPage();
                   });
+                case MyCreatePostPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const MyCreatePostPage();
+                  });
+                case PendingPostPage.routeName:
+                  return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const PendingPostPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  );
+                case NewPostPage.routeName:
+                  return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const NewPostPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  );
+                case SuccessfulPostPage.routeName:
+                  return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const SuccessfulPostPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  );
+
+                case CreatePostPage.routeName:
+                  return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const CreatePostPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  );
+                case NotificationPage.routeName:
+                  return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const NotificationPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  );
 
                 case PostDetailPage.routeName:
                   PostDetailPageArguments arguments =

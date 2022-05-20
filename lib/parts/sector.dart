@@ -20,7 +20,24 @@ Sector _$SectorFromJson(Map<String, dynamic> json) {
   String? updatedAt;
   String? role;
   bool? isActive;
+  Sector? all;
+  int? countPending;
+  int? countSolved;
+  Sector? posted;
+  Sector? stats;
+  int? pending;
+  int? solved;
 
+  if (json['posted'] != null) posted = json['posted'];
+  if (json['stats'] != null) stats = json['stats'];
+  if (json["countPending"] != null) {
+    countPending = int.parse('${json["countPending"]}');
+  }
+  if (json["countSolved"] != null) {
+    countSolved = int.parse('${json["countSolved"]}');
+  }
+  if (json["pending"] != null) pending = int.parse('${json["pending"]}');
+  if (json["solved"] != null) solved = int.parse('${json["solved"]}');
   if (json['count'] != null) count = json['count'];
   if (json['new'] != null) newCount = json['new'];
   if (json['pending'] != null) pendingCount = json['pending'];
@@ -73,6 +90,13 @@ Sector _$SectorFromJson(Map<String, dynamic> json) {
     updatedAt: updatedAt,
     role: role,
     isActive: isActive,
+    all: all,
+    countPending: countPending,
+    countSolved: countSolved,
+    posted: posted,
+    stats: stats,
+    pending: pending,
+    solved: solved,
   );
 }
 
@@ -97,6 +121,15 @@ Map<String, dynamic> _$SectorToJson(Sector instance) {
   if (instance.updatedAt != null) json['updatedAt'] = instance.updatedAt;
   if (instance.role != null) json['role'] = instance.role;
   if (instance.isActive != null) json['isActive'] = instance.isActive;
+  if (instance.all != null) json['all'] = instance.all;
+  if (instance.countPending != null) {
+    json['countPending'] = instance.countPending;
+  }
+  if (instance.countSolved != null) json['countSolved'] = instance.countSolved;
+  if (instance.posted != null) json['posted'] = instance.posted;
+  if (instance.stats != null) json['stats'] = instance.stats;
+  if (instance.pending != null) json['pending'] = instance.pending;
+  if (instance.solved != null) json['solved'] = instance.solved;
 
   return json;
 }
