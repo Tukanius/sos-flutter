@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sos/components/upload_image/upload_image.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/widgets/colors.dart';
@@ -260,7 +259,8 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
               child: FormTextField(
                 name: "result",
                 inputType: TextInputType.text,
-                inputAction: TextInputAction.next,
+                maxLines: null,
+                inputAction: TextInputAction.done,
                 textCapitalization: TextCapitalization.none,
                 autoFocus: true,
                 decoration: InputDecoration(

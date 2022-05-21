@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:provider/provider.dart';
 import '../../provider/general_provider.dart';
@@ -20,6 +21,7 @@ class _SplashPageState extends State<SplashPage>
     try {
       await Provider.of<GeneralProvider>(context, listen: false).init(false);
       await Provider.of<UserProvider>(context, listen: false).me(false);
+      await Provider.of<SectorProvider>(context, listen: false).sector();
       Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     } catch (e) {
       Navigator.of(context).pushReplacementNamed(HomePage.routeName);

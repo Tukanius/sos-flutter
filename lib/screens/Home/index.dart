@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/components/header/index.dart';
+import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/home/screen/notification_page.dart';
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage>
   bool? isLoading = true;
   Filter filter = Filter(postStatus: "NEW");
   Result? warningPost = Result(count: 0, rows: []);
-
+  Sector data = Sector();
   @override
   void initState() {
     tabController = TabController(length: 4, vsync: this);
@@ -59,13 +60,12 @@ class _HomePageState extends State<HomePage>
 
   @override
   void afterFirstLayout(BuildContext context) async {
-    Sector data = await DashboardApi().sector();
-    setState(() {
-      sectorData = data;
-      for (var element in sectorData!.response!) {
-        response.add(element);
-      }
-    });
+    // setState(() {
+    //   sectorData = data;
+    //   for (var element in sectorData!.response!) {
+    //     response.add(element);
+    //   }
+    // });
   }
 
   onChangeTap(index) async {
@@ -198,7 +198,9 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserProvider>(context, listen: false).user;
+    user = Provider.of<UserProvider>(context, listen: true).user;
+    sectorData = Provider.of<SectorProvider>(context, listen: true).sectorData;
+    response = Provider.of<SectorProvider>(context, listen: true).response;
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -252,6 +254,12 @@ class _HomePageState extends State<HomePage>
                                             ),
                                           ),
                                           name: 'type',
+                                          onChanged: (value) async {
+                                            await Provider.of<SectorProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .sectorGet(value);
+                                          },
                                           decoration: InputDecoration(
                                             filled: true,
                                             fillColor: Color(0x4ffEBEDF1),
@@ -290,7 +298,7 @@ class _HomePageState extends State<HomePage>
                                           items: sectorData!.rows!
                                               .map(
                                                 (item) => DropdownMenuItem(
-                                                  value: item,
+                                                  value: item.id,
                                                   child: Text(
                                                     '${item.fullName}',
                                                     style: const TextStyle(

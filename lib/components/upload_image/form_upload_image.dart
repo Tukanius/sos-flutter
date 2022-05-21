@@ -1,12 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sos/api/general_api.dart';
-import 'package:sos/api/user_api.dart';
 import 'package:sos/widgets/form_textfield.dart';
 import '../../../models/user.dart';
-import '../../../provider/user_provider.dart';
-import 'package:provider/provider.dart';
 import '../../../widgets/colors.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -54,12 +50,9 @@ class _FormUploadImageState extends State<FormUploadImage> {
         loading = true;
       });
       var image = await GeneralApi().upload(file);
-      print("===========================IMAGE==========================");
-      print(image);
-      print("===========================IMAGE==========================");
 
       if (widget.setFieldValue != null) {
-        widget.setFieldValue("${image}");
+        widget.setFieldValue("$image");
       }
       widget.onChange!(image);
       // await Provider.of<UserProvider>(context, listen: false).me(false);
@@ -170,36 +163,6 @@ class _FormUploadImageState extends State<FormUploadImage> {
           width: MediaQuery.of(context).size.width,
           height: 172,
           child: Stack(children: [
-            Container(
-              alignment: Alignment.center,
-              child: () {
-                if (user!.avatar != null) {
-                  return CachedNetworkImage(
-                    imageUrl: user.getAvatar(),
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: 120.0,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
-                      ),
-                    ),
-                    placeholder: (context, url) => Container(
-                      height: 150,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error, size: 150, color: white),
-                  );
-                } else {
-                  return const Icon(
-                    Icons.account_circle,
-                    size: 120.0,
-                    color: Colors.white,
-                  );
-                }
-              }(),
-            ),
             InkWell(
               onTap: () {
                 changeImage();
@@ -237,19 +200,6 @@ class _FormUploadImageState extends State<FormUploadImage> {
                 ),
               ),
             ),
-            // Center(
-            //   child: ElevatedButton(
-            //     style: ButtonStyle(),
-            //     child: const Icon(
-            //       Icons.add_a_photo,
-            //       color: dark,
-            //       size: 22.0,
-            //     ),
-            //     onPressed: () {
-            //       changeImage();
-            //     },
-            //   ),
-            // ),
             ((() {
               if (loading == true) {
                 return Container(

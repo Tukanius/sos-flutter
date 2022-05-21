@@ -30,6 +30,7 @@ class FormTextField extends StatefulWidget {
   final int? maxLenght;
   final bool showCounter;
   final Function(dynamic)? onChanged;
+  final int? maxLines;
 
   // ignore: use_key_in_widget_constructors
   const FormTextField(
@@ -60,6 +61,7 @@ class FormTextField extends StatefulWidget {
       this.focus,
       this.nextFocus,
       this.prefixIcon,
+      this.maxLines = 1,
       this.labelText});
 
   @override
@@ -86,7 +88,7 @@ class _FormTextFieldState extends State<FormTextField> {
       controller: widget.controller,
       autofocus: widget.autoFocus,
       focusNode: widget.focusNode,
-      maxLines: 1,
+      maxLines: widget.maxLines,
       keyboardType: widget.inputType,
       textInputAction: widget.inputAction,
       initialValue: widget.initialValue,
