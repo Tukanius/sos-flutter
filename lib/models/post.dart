@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:sos/models/sector.dart';
 import 'package:sos/models/user.dart';
-import 'package:simple_moment/simple_moment.dart';
 
 import '../utils/http_request.dart';
 part '../parts/post.dart';
@@ -32,11 +31,18 @@ class Post {
   String? updatedAt;
   String? createdBy;
   String? updatedBy;
-  String? sector;
+  Sector? sector = Sector();
   bool? liked;
+  String? reply;
+  String? result;
+  String? resultImage;
 
   getImage() {
     return HttpRequest.s3host + image.toString();
+  }
+
+  resImage() {
+    return HttpRequest.s3host + resultImage.toString();
   }
 
   Post({
@@ -63,6 +69,9 @@ class Post {
     this.updatedBy,
     this.sector,
     this.liked,
+    this.reply,
+    this.result,
+    this.resultImage,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

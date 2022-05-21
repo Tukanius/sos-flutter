@@ -88,6 +88,7 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                 height: 20,
               ),
               Text(user.phone.toString()),
+              Text(user.role.toString()),
               const SizedBox(
                 height: 20,
               ),

@@ -252,7 +252,7 @@ class _MyCreatePostPageState extends State<MyCreatePostPage>
                                         ]),
                                   ),
                                   items:
-                                      [sectorData!.rows!.map((e) => e.fullname)]
+                                      [sectorData!.rows!.map((e) => e.fullName)]
                                           .map(
                                             (item) => DropdownMenuItem(
                                               value: item,

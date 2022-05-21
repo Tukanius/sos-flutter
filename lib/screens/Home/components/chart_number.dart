@@ -22,12 +22,14 @@ class _ChartNumberCardState extends State<ChartNumberCard>
 
   color() {
     switch (widget.dashboard!.statusString) {
-      case "Хүлээгдэж байгаа":
+      case "Хүлээгдэж буй":
         return red;
-      case "Хянагдаж байгаа":
+      case "Хянагдаж буй":
         return orange;
       case "Шийдвэрлэгдсэн":
         return const Color(0xff34A853);
+      case "Шийдвэрлэгдээгүй":
+        return grey;
       default:
     }
   }

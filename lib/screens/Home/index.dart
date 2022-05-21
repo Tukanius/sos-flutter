@@ -287,15 +287,12 @@ class _HomePageState extends State<HomePage>
                                                   const SizedBox(height: 1),
                                                 ]),
                                           ),
-                                          items: [
-                                            sectorData!.rows!
-                                                .map((e) => e.fullname)
-                                          ]
+                                          items: sectorData!.rows!
                                               .map(
                                                 (item) => DropdownMenuItem(
                                                   value: item,
                                                   child: Text(
-                                                    '$item',
+                                                    '${item.fullName}',
                                                     style: const TextStyle(
                                                         fontSize: 10),
                                                   ),

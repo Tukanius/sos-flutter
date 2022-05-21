@@ -29,6 +29,7 @@ class User {
   String? avatar;
   String? email;
   String? deviceToken;
+  String? sector;
 
   String? oldPassword;
   String? code;
@@ -85,33 +86,33 @@ class User {
     return HttpRequest.s3host + avatar.toString();
   }
 
-  User({
-    this.username,
-    this.password,
-    this.accessToken,
-    this.tokenType,
-    this.sessionState,
-    this.isActive,
-    this.userStatus,
-    this.status,
-    this.id,
-    this.phone,
-    this.userStatusDate,
-    this.role,
-    this.createdAt,
-    this.updatedAt,
-    this.createdBy,
-    this.updatedBy,
-    this.otpMethod,
-    this.firstName,
-    this.lastName,
-    this.avatar,
-    this.deviceToken,
-    this.email,
-    this.code,
-    this.oldPassword,
-    this.message,
-  });
+  User(
+      {this.username,
+      this.password,
+      this.accessToken,
+      this.tokenType,
+      this.sessionState,
+      this.isActive,
+      this.userStatus,
+      this.status,
+      this.id,
+      this.phone,
+      this.userStatusDate,
+      this.role,
+      this.createdAt,
+      this.updatedAt,
+      this.createdBy,
+      this.updatedBy,
+      this.otpMethod,
+      this.firstName,
+      this.lastName,
+      this.avatar,
+      this.deviceToken,
+      this.email,
+      this.code,
+      this.oldPassword,
+      this.message,
+      this.sector});
 
   static $fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

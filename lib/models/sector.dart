@@ -12,7 +12,7 @@ class Sector {
   List<Sector>? rows;
   String? id;
   String? avatar;
-  String? fullname;
+  String? fullName;
   String? phone;
   String? email;
   String? address;
@@ -40,7 +40,7 @@ class Sector {
     this.total,
     this.id,
     this.avatar,
-    this.fullname,
+    this.fullName,
     this.phone,
     this.email,
     this.address,

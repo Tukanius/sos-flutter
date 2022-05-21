@@ -38,9 +38,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      elevation: 0.4,
+      elevation: 0.3,
       backgroundColor: white,
-      centerTitle: false,
       title: Image.asset(
         "assets/header-logo.png",
         height: 40,
@@ -105,6 +104,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(
+              width: 15,
             ),
           ],
         )

@@ -12,7 +12,7 @@ Sector _$SectorFromJson(Map<String, dynamic> json) {
   List<Sector>? rows;
   String? id;
   String? avatar;
-  String? fullname;
+  String? fullName;
   String? phone;
   String? email;
   String? address;
@@ -53,7 +53,7 @@ Sector _$SectorFromJson(Map<String, dynamic> json) {
   if (json["total"] != null) total = int.parse('${json["total"]}');
   if (json['_id'] != null) id = json['_id'];
   if (json['avatar'] != null) avatar = json['avatar'];
-  if (json['fullname'] != null) fullname = json['fullname'];
+  if (json['fullName'] != null) fullName = json['fullName'];
   if (json['phone'] != null) phone = json['phone'];
   if (json['email'] != null) email = json['email'];
   if (json['address'] != null) address = json['address'];
@@ -82,7 +82,7 @@ Sector _$SectorFromJson(Map<String, dynamic> json) {
     total: total,
     id: id,
     avatar: avatar,
-    fullname: fullname,
+    fullName: fullName,
     phone: phone,
     email: email,
     address: address,
@@ -113,7 +113,7 @@ Map<String, dynamic> _$SectorToJson(Sector instance) {
   if (instance.rows != null) json['rows'] = instance.rows;
   if (instance.id != null) json['_id'] = instance.id;
   if (instance.avatar != null) json['avatar'] = instance.avatar;
-  if (instance.fullname != null) json['fullname'] = instance.fullname;
+  if (instance.fullName != null) json['fullName'] = instance.fullName;
   if (instance.phone != null) json['phone'] = instance.phone;
   if (instance.email != null) json['email'] = instance.email;
   if (instance.address != null) json['address'] = instance.address;

@@ -22,10 +22,16 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   String? updatedAt;
   String? createdBy;
   String? updatedBy;
-  String? sector;
+  Sector? sector;
   bool? liked;
+  String? reply;
+  String? result;
+  String? resultImage;
 
+  if (json['result'] != null) result = json['result'];
+  if (json['resultImage'] != null) resultImage = json['resultImage'];
   if (json['stats'] != null) stats = json['stats'];
+  if (json['reply'] != null) reply = json['reply'];
   if (json['statsNew'] != null) statsNew = json['statsNew'];
   if (json['pending'] != null) pending = json['pending'];
   if (json['solved'] != null) solved = json['solved'];
@@ -47,7 +53,9 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   if (json['updatedAt'] != null) updatedAt = json['updatedAt'];
   if (json['createdBy'] != null) createdBy = json['createdBy'];
   if (json['updatedBy'] != null) updatedBy = json['updatedBy'];
-  // if (json['sector'] != null) sector = json['sector'];
+  if (json["sector"] != null) {
+    sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
+  }
   if (json['liked'] != null) liked = json['liked'];
 
   return Post(
@@ -73,13 +81,18 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     createdBy: createdBy,
     updatedBy: updatedBy,
     sector: sector,
+    reply: reply,
     liked: liked,
+    result: result,
+    resultImage: resultImage,
   );
 }
 
 Map<String, dynamic> _$PostToJson(Post instance) {
   Map<String, dynamic> json = {};
 
+  if (instance.result != null) json['result'] = instance.result;
+  if (instance.resultImage != null) json['resultImage'] = instance.resultImage;
   if (instance.stats != null) json['stats'] = instance.stats;
   if (instance.statsNew != null) json['statsNew'] = instance.statsNew;
   if (instance.pending != null) json['pending'] = instance.pending;
@@ -104,6 +117,7 @@ Map<String, dynamic> _$PostToJson(Post instance) {
   if (instance.updatedBy != null) json['updatedBy'] = instance.updatedBy;
   if (instance.sector != null) json['sector'] = instance.sector;
   if (instance.liked != null) json['liked'] = instance.liked;
+  if (instance.reply != null) json['reply'] = instance.reply;
 
   return json;
 }

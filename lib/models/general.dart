@@ -10,6 +10,7 @@ class General {
   List<General>? userRoles;
   String? code;
   String? name;
+  String? url;
 
   General({
     this.s3host,
@@ -18,6 +19,7 @@ class General {
     this.userRoles,
     this.code,
     this.name,
+    this.url,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$GeneralFromJson(json);

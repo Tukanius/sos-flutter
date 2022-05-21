@@ -27,6 +27,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
   String? code;
   String? oldPassowrd;
   String? message;
+  String? sector;
 
   if (json['username'] != null) username = json['username'];
   if (json['password'] != null) password = json['password'];
@@ -54,6 +55,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
   if (json['code'] != null) code = json['code'];
   if (json['oldPassowrd'] != null) oldPassowrd = json['oldPassowrd'];
   if (json['message'] != null) message = json['message'];
+  if (json['sector'] != null) sector = json['sector'];
 
   return User(
     username: username,
@@ -81,6 +83,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     code: code,
     oldPassword: oldPassowrd,
     message: message,
+    sector: sector,
   );
 }
 
@@ -116,6 +119,7 @@ Map<String, dynamic> _$UserToJson(User instance) {
   if (instance.code != null) json['code'] = instance.code;
   if (instance.oldPassword != null) json['oldPassword'] = instance.oldPassword;
   if (instance.message != null) json['message'] = instance.message;
+  if (instance.sector != null) json['sector'] = instance.sector;
 
   return json;
 }
