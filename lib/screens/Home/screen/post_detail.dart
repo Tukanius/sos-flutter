@@ -603,7 +603,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    data.sector == null
+                                    data.sector!.fullName == null
                                         ? "Эрсдэл"
                                         : "${data.sector!.fullName}",
                                     style: const TextStyle(
@@ -768,7 +768,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     height: 25,
                   ),
                   card(),
-                  data.sector == null ? const SizedBox() : pendingCard(),
+                  data.sector!.id == null ? const SizedBox() : pendingCard(),
                   data.result == null ? const SizedBox() : resultCard(),
                   data.postStatus == "PENDING"
                       ? data.sector!.id == user.sector!.id
@@ -874,7 +874,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                 ),
                 const SizedBox(height: 7),
                 Text(
-                  data.getReplyDate(),
+                  data.repliedDate == null ? "" : data.getReplyDate(),
                   style: const TextStyle(fontSize: 12, color: greyDark),
                 ),
               ],
