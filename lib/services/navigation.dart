@@ -22,6 +22,12 @@ class NavigationService {
         .pushReplacementNamed(routeName, arguments: arguments);
   }
 
+  Future<dynamic> restorablePopAndPushNamed(
+      {required String routeName, arguments}) async {
+    return navigatorKey.currentState!
+        .restorablePopAndPushNamed(routeName, arguments: arguments);
+  }
+
   dynamic pop() {
     return navigatorKey.currentState!.pop();
   }

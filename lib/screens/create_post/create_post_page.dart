@@ -5,12 +5,15 @@ import 'package:sos/screens/home/index.dart';
 import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 import '../../api/post_api.dart';
 import '../../components/upload_image/form_upload_image.dart';
+import '../../main.dart';
 import '../../models/post.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import '../../provider/user_provider.dart';
+import '../../services/navigation.dart';
 import '../../widgets/form_textfield.dart';
 
 class CreatePostPage extends StatefulWidget {
@@ -29,6 +32,66 @@ class _CreatePostPageState extends State<CreatePostPage> {
   bool loading = false;
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
 
+  show(ctx) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(top: 75),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.only(top: 90, left: 20, right: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text(
+                        'Амжилттай',
+                        style: TextStyle(
+                            color: dark,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Таны оруулсан эрсдэл амжилттай нэмэгдлээ',
+                      ),
+                      ButtonBar(
+                        buttonMinWidth: 100,
+                        alignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            child: const Text("Үргэлжлүүлэх"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              locator<NavigationService>()
+                                  .restorablePopAndPushNamed(
+                                routeName: HomePage.routeName,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Lottie.asset('assets/success.json', height: 150, repeat: false),
+              ],
+            ),
+          );
+        });
+  }
+
   onSubmit() async {
     if (fbKey.currentState!.saveAndValidate() &&
         fbKey.currentState!.fields["image"]!.value != "") {
@@ -41,7 +104,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
         await PostApi().createPost(save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
 
-        Navigator.of(context).restorablePopAndPushNamed((HomePage.routeName));
+        show(context);
+        // Navigator.of(context).restorablePopAndPushNamed((HomePage.routeName));
         setState(() {
           loading = false;
         });

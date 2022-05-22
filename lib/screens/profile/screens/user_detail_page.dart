@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/screens/profile/components/upload_avatar.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sos/screens/profile/components/user_detail_form.dart';
 import '../../../provider/user_provider.dart';
 import '../../../widgets/colors.dart';
@@ -25,6 +26,63 @@ class _UserDetailPageState extends State<UserDetailPage> {
     });
   }
 
+  show(ctx) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(top: 75),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.only(top: 90, left: 20, right: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text(
+                        'Амжилттай',
+                        style: TextStyle(
+                            color: dark,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Таны сольсон мэдээлэл амжилттай хадгалагдлаа',
+                      ),
+                      ButtonBar(
+                        buttonMinWidth: 100,
+                        alignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            child: const Text("Үргэлжлүүлэх"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(ctx).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Lottie.asset('assets/success.json', height: 150, repeat: false),
+              ],
+            ),
+          );
+        });
+  }
+
   onSubmit() async {
     final form = user.fbKey.currentState!;
     if (form.saveAndValidate()) {
@@ -32,7 +90,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
       try {
         await Provider.of<UserProvider>(context, listen: false).update(user);
         await Provider.of<UserProvider>(context, listen: false).me(true);
-        Navigator.of(context).pop();
+        show(context);
       } catch (err) {
         rethrow;
       }
