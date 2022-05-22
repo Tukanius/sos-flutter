@@ -21,6 +21,7 @@ import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../../services/dialog.dart';
 import '../../../services/navigation.dart';
 
 class PostDetailPageArguments {
@@ -477,6 +478,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                       ),
                       const Text(
                         'Та энэ эрсдэлийг устгахдаа итгэлтэй байна уу?',
+                        textAlign: TextAlign.center,
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
@@ -559,7 +561,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
               ? user.id == data.user!.id
                   ? PopupMenuButton(
                       icon: const Icon(
-                        Icons.more_horiz,
+                        Icons.more_vert,
                         color: dark,
                       ),
                       itemBuilder: (context) {
@@ -716,39 +718,46 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                               );
                                       },
                                       onTap: (value) async {
-                                        if (data.liked == false) {
-                                          setState(() {
-                                            likeLoading = true;
-                                          });
-                                          try {
-                                            await PostApi().like("${data.id}");
+                                        if (user.id != null) {
+                                          if (data.liked == false) {
                                             setState(() {
-                                              data.liked = true;
-                                              likeLoading = false;
+                                              likeLoading = true;
                                             });
-                                          } catch (e) {
+                                            try {
+                                              await PostApi()
+                                                  .like("${data.id}");
+                                              setState(() {
+                                                data.liked = true;
+                                                likeLoading = false;
+                                              });
+                                            } catch (e) {
+                                              setState(() {
+                                                likeLoading = false;
+                                              });
+                                            }
+                                          } else {
                                             setState(() {
-                                              likeLoading = false;
+                                              likeLoading = true;
                                             });
+                                            try {
+                                              await PostApi()
+                                                  .like(data.id.toString());
+                                              setState(() {
+                                                data.liked = false;
+                                                likeLoading = false;
+                                              });
+                                            } catch (e) {
+                                              setState(() {
+                                                likeLoading = false;
+                                              });
+                                            }
                                           }
+                                          return data.liked;
                                         } else {
-                                          setState(() {
-                                            likeLoading = true;
-                                          });
-                                          try {
-                                            await PostApi()
-                                                .like(data.id.toString());
-                                            setState(() {
-                                              data.liked = false;
-                                              likeLoading = false;
-                                            });
-                                          } catch (e) {
-                                            setState(() {
-                                              likeLoading = false;
-                                            });
-                                          }
+                                          locator<DialogService>()
+                                              .showErrorDialogListener(
+                                                  "Нэвтрэн үү");
                                         }
-                                        return data.liked;
                                       },
                                     ),
                                   ),

@@ -14,6 +14,7 @@ import 'package:like_button/like_button.dart';
 import '../../../main.dart';
 import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
+import '../../../services/dialog.dart';
 import '../../../services/navigation.dart';
 import '../screen/edit_post.dart';
 import '../screen/post_detail.dart';
@@ -106,6 +107,7 @@ class _PostCardState extends State<PostCard> {
                       ),
                       const Text(
                         'Та энэ эрсдэлийг устгахдаа итгэлтэй байна уу?',
+                        textAlign: TextAlign.center,
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
@@ -282,40 +284,46 @@ class _PostCardState extends State<PostCard> {
                                 );
                         },
                         onTap: (value) async {
-                          if (widget.data!.liked == false) {
-                            setState(() {
-                              likeLoading = true;
-                            });
-                            try {
-                              await Provider.of<PostProvider>(context,
-                                      listen: false)
-                                  .getLike(widget.data!.id);
+                          if (user.id != null) {
+                            if (widget.data!.liked == false) {
                               setState(() {
-                                widget.data!.liked = true;
-                                likeLoading = false;
+                                likeLoading = true;
                               });
-                            } catch (e) {
+                              try {
+                                await Provider.of<PostProvider>(context,
+                                        listen: false)
+                                    .getLike(widget.data!.id);
+                                setState(() {
+                                  widget.data!.liked = true;
+                                  likeLoading = false;
+                                });
+                              } catch (e) {
+                                setState(() {
+                                  likeLoading = false;
+                                });
+                              }
+                            } else {
                               setState(() {
-                                likeLoading = false;
+                                likeLoading = true;
                               });
+                              try {
+                                await PostApi()
+                                    .like(widget.data!.id.toString());
+                                setState(() {
+                                  widget.data!.liked = false;
+                                  likeLoading = false;
+                                });
+                              } catch (e) {
+                                setState(() {
+                                  likeLoading = false;
+                                });
+                              }
                             }
+                            return widget.data!.liked;
                           } else {
-                            setState(() {
-                              likeLoading = true;
-                            });
-                            try {
-                              await PostApi().like(widget.data!.id.toString());
-                              setState(() {
-                                widget.data!.liked = false;
-                                likeLoading = false;
-                              });
-                            } catch (e) {
-                              setState(() {
-                                likeLoading = false;
-                              });
-                            }
+                            locator<DialogService>()
+                                .showErrorDialogListener("Нэвтрэн үү");
                           }
-                          return widget.data!.liked;
                         },
                       ),
                     ),

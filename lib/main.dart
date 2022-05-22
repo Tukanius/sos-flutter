@@ -9,7 +9,7 @@ import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/Login/Login_page.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/forgot/forgot_page.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:sos/screens/forgot/forgot_password_change.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
 import 'package:sos/screens/home/screen/new_post.dart';
@@ -33,8 +33,8 @@ import 'package:sos/widgets/dialog_manager/dialog_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseUtils.main();
+  // await Firebase.initializeApp();
+  // FirebaseUtils.main();
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => DialogService());
 
