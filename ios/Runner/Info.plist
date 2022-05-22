@@ -19,6 +19,8 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<!-- permissions -->
+	<key>com.apple.security.network.client</key>
+	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
   <key>NSAllowsArbitraryLoads</key><true/>
