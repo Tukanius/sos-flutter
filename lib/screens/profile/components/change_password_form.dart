@@ -11,12 +11,14 @@ import '../../register/components/register_form.dart';
 class ChangePasswordForm extends StatefulWidget {
   final User user;
   final Function onSubmit;
+  final String? type;
   final bool isLoading;
   const ChangePasswordForm({
     Key? key,
     required this.user,
     required this.onSubmit,
     required this.isLoading,
+    this.type,
   }) : super(key: key);
 
   @override
@@ -34,44 +36,47 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
       key: widget.user.fbKey,
       child: Column(
         children: [
-          FormTextField(
-            name: "oldPassword",
-            inputType: TextInputType.text,
-            inputAction: TextInputAction.next,
-            obscureText: oldPasswordVisible,
-            controller: widget.user.oldPasswordController,
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    oldPasswordVisible = !oldPasswordVisible;
-                  });
-                },
-                icon: _isVisible
-                    ? const Icon(
-                        Icons.visibility_off,
-                        color: Colors.black,
-                      )
-                    : const Icon(
-                        Icons.visibility,
-                        color: Colors.grey,
-                      ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              filled: true,
-              hintStyle: const TextStyle(color: Colors.black54, fontSize: 14),
-              hintText: "Хуучин нууц үг",
-              fillColor: white,
-            ),
-            validators: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: "Заавал оруулна"),
-            ]),
-          ),
+          widget.type == "FORGOT"
+              ? const SizedBox()
+              : FormTextField(
+                  name: "oldPassword",
+                  inputType: TextInputType.text,
+                  inputAction: TextInputAction.next,
+                  obscureText: oldPasswordVisible,
+                  controller: widget.user.oldPasswordController,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          oldPasswordVisible = !oldPasswordVisible;
+                        });
+                      },
+                      icon: _isVisible
+                          ? const Icon(
+                              Icons.visibility_off,
+                              color: Colors.black,
+                            )
+                          : const Icon(
+                              Icons.visibility,
+                              color: Colors.grey,
+                            ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
+                    filled: true,
+                    hintStyle:
+                        const TextStyle(color: Colors.black54, fontSize: 14),
+                    hintText: "Хуучин нууц үг",
+                    fillColor: white,
+                  ),
+                  validators: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(errorText: "Заавал оруулна"),
+                  ]),
+                ),
           const SizedBox(
             height: 15,
           ),

@@ -117,7 +117,8 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(ChangePasswordPage.routeName);
+                  Navigator.of(context).pushNamed(ChangePasswordPage.routeName,
+                      arguments: ChangePasswordPageArguments(type: "CHANGE"));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 15),

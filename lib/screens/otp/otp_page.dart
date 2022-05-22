@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -5,6 +7,7 @@ import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/splash/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import '../../api/auth_api.dart';
 import '../../main.dart';
 import '../../models/user.dart';
 import 'package:provider/provider.dart';
@@ -42,11 +45,74 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
   String otpCode = "";
   bool isLoading = false;
   bool hasError = false;
+  User user = User();
+  bool isGetCode = false;
+  int _counter = 120;
+  late Timer _timer;
+  bool isSubmit = false;
+  void getCode() async {
+    var res = await AuthApi().resend();
+    setState(() {
+      widget.data!.message = res.message!;
+    });
+  }
 
   @override
-  void afterFirstLayout(BuildContext context) {
-    print(widget.phone);
+  void initState() {
+    _startTimer();
+    super.initState();
   }
+
+  void _startTimer() async {
+    if (isSubmit == true) {
+      setState(() {
+        isGetCode = false;
+      });
+      getCode();
+      _counter = 120;
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_counter > 0) {
+          setState(() {
+            _counter--;
+          });
+        } else {
+          setState(() {
+            isGetCode = true;
+          });
+          _timer.cancel();
+        }
+      });
+    } else {
+      setState(() {
+        isGetCode = false;
+      });
+      _counter = 120;
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_counter > 0) {
+          setState(() {
+            _counter--;
+          });
+        } else {
+          setState(() {
+            isGetCode = true;
+          });
+          _timer.cancel();
+        }
+      });
+    }
+  }
+
+  String intToTimeLeft(int value) {
+    int h, m, s;
+    h = value ~/ 3600;
+    m = ((value - h * 3600)) ~/ 60;
+    s = value - (h * 3600) - (m * 60);
+    String result = "$m:$s";
+    return result;
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {}
 
   show(ctx) async {
     showDialog(
@@ -127,6 +193,8 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<UserProvider>(context, listen: false).user;
+
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
@@ -163,6 +231,55 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
                       fontWeight: FontWeight.normal,
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  if (isGetCode == false)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '0${intToTimeLeft(_counter)} ',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0,
+                              color: orange),
+                        ),
+                        const Text(
+                          'секунд',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0,
+                              color: greyDark),
+                        ),
+                      ],
+                    )
+                  else
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              isSubmit = true;
+                            });
+                            _startTimer();
+                          },
+                          child: Column(
+                            children: const [
+                              Icon(
+                                Icons.refresh,
+                                color: Colors.black,
+                              ),
+                              Text(
+                                "Код дахин авах",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   const SizedBox(
                     height: 30,
                   ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sos/screens/otp/otp_page.dart';
 import 'package:sos/screens/register/components/register_form.dart';
@@ -5,6 +7,7 @@ import 'package:sos/utils/http_handler.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:lottie/lottie.dart';
+import '../../api/auth_api.dart';
 import '../../models/user.dart';
 import '../../provider/user_provider.dart';
 import 'package:provider/provider.dart';

@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
-import 'package:sos/main.dart';
-import 'package:sos/screens/forgot/success_page.dart';
-import 'package:lottie/lottie.dart';
-import 'package:sos/screens/splash/index.dart';
+import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/widgets/colors.dart';
-import 'package:sos/widgets/custom_button.dart';
 import '../../provider/user_provider.dart';
-import '../../services/navigation.dart';
 import '../../utils/http_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import '../../models/user.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
-
-import '../../widgets/form_textfield.dart';
-import '../profile/components/user_detail_form.dart';
 
 class ForgotPasswordChangeArguments {
   User? data;
@@ -41,71 +32,69 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
   String code = "";
   bool isLoading = false;
   bool hasError = false;
-  bool _isVisible = false;
-  bool _isVisible1 = false;
   bool oldPasswordVisible = false;
 
   @override
   void afterFirstLayout(BuildContext context) {}
 
-  show(ctx) async {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(top: 75),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.only(top: 90, left: 20, right: 20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      const Text(
-                        'Амжилттай',
-                        style: TextStyle(
-                            color: dark,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      const Text(
-                        'Нууц үг амжилттай шинэчлэгдлээ',
-                      ),
-                      ButtonBar(
-                        buttonMinWidth: 100,
-                        alignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          TextButton(
-                            child: const Text("Үргэлжлүүлэх"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              locator<NavigationService>().pushReplacementNamed(
-                                routeName: SplashPage.routeName,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Lottie.asset('assets/success.json', height: 150, repeat: false),
-              ],
-            ),
-          );
-        });
-  }
+  // show(ctx) async {
+  //   showDialog(
+  //       barrierDismissible: false,
+  //       context: context,
+  //       builder: (context) {
+  //         return Container(
+  //           alignment: Alignment.center,
+  //           margin: const EdgeInsets.symmetric(horizontal: 20),
+  //           child: Stack(
+  //             alignment: Alignment.topCenter,
+  //             children: <Widget>[
+  //               Container(
+  //                 margin: const EdgeInsets.only(top: 75),
+  //                 decoration: BoxDecoration(
+  //                   color: Colors.white,
+  //                   borderRadius: BorderRadius.circular(12),
+  //                 ),
+  //                 padding: const EdgeInsets.only(top: 90, left: 20, right: 20),
+  //                 child: Column(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: <Widget>[
+  //                     const Text(
+  //                       'Амжилттай',
+  //                       style: TextStyle(
+  //                           color: dark,
+  //                           fontWeight: FontWeight.bold,
+  //                           fontSize: 24),
+  //                     ),
+  //                     const SizedBox(
+  //                       height: 16,
+  //                     ),
+  //                     const Text(
+  //                       'Нууц үг амжилттай шинэчлэгдлээ',
+  //                     ),
+  //                     ButtonBar(
+  //                       buttonMinWidth: 100,
+  //                       alignment: MainAxisAlignment.spaceEvenly,
+  //                       children: <Widget>[
+  //                         TextButton(
+  //                           child: const Text("Үргэлжлүүлэх"),
+  //                           onPressed: () {
+  //                             Navigator.of(context).pop();
+  //                             locator<NavigationService>().pushReplacementNamed(
+  //                               routeName: SplashPage.routeName,
+  //                             );
+  //                           },
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               Lottie.asset('assets/success.json', height: 150, repeat: false),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 
   onVerify() async {
     setState(() {
@@ -118,16 +107,15 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
           isLoading = true;
         });
         try {
-          User send = User.fromJson(form!.value);
-          send.code = controller.text;
+          var send = controller.text;
+          print("================SEND=================");
+          print(send);
+          print("================SEND=================");
           await Provider.of<UserProvider>(context, listen: false)
-              .changePassword(send);
-          // Navigator.of(context).pushNamed(SuccessPage.routeName,
-          //     arguments: SuccessPageArguments(
-          //       message: "Таны нууц үг амжилттай шинэчлэгдлээ",
-          //       title: "Амжилттай",
-          //     ));
-          show(context);
+              .otpPassword(User(code: send));
+          Navigator.of(context).pushNamed(ChangePasswordPage.routeName,
+              arguments: ChangePasswordPageArguments(type: "FORGOT"));
+          // show(context);
           setState(
             () {
               isLoading = false;
@@ -207,11 +195,11 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
                           hasError = false;
                         });
                       },
-                      // onDone: (text) {
-                      //   if (isLoading == false) {
-                      //     onVerify();
-                      //   }
-                      // },
+                      onDone: (text) {
+                        if (isLoading == false) {
+                          onVerify();
+                        }
+                      },
                       pinBoxWidth: 50,
                       pinBoxHeight: 64,
                       hasUnderline: false,
@@ -227,116 +215,116 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
                       highlightAnimationEndColor: Colors.white12,
                       keyboardType: TextInputType.number,
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    FormTextField(
-                      name: "password",
-                      inputType: TextInputType.text,
-                      inputAction: TextInputAction.next,
-                      obscureText: _isVisible,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isVisible = !_isVisible;
-                            });
-                          },
-                          icon: _isVisible
-                              ? const Icon(
-                                  Icons.visibility_off,
-                                  color: Colors.black,
-                                )
-                              : const Icon(
-                                  Icons.visibility,
-                                  color: Colors.grey,
-                                ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        filled: true,
-                        hintStyle: const TextStyle(
-                            color: Colors.black54, fontSize: 14),
-                        hintText: "Шинэ нууц үг",
-                        fillColor: white,
-                      ),
-                      validators: FormBuilderValidators.compose([
-                        (value) {
-                          return validatePassword(value.toString(), context);
-                        }
-                      ]),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    FormTextField(
-                      name: "password_verify",
-                      inputType: TextInputType.text,
-                      inputAction: TextInputAction.done,
-                      obscureText: _isVisible1,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isVisible1 = !_isVisible1;
-                            });
-                          },
-                          icon: _isVisible1
-                              ? const Icon(
-                                  Icons.visibility_off,
-                                  color: Colors.black,
-                                )
-                              : const Icon(
-                                  Icons.visibility,
-                                  color: Colors.grey,
-                                ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        filled: true,
-                        hintStyle: const TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14,
-                        ),
-                        hintText: "Шинэ нууц үгээ давтан оруулна уу",
-                        fillColor: white,
-                      ),
-                      validators: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(
-                            errorText: "Шинэ нууц үгээ давтан оруулна уу"),
-                        (value) {
-                          final String pVal = widget.data!.fbKey.currentState
-                              ?.fields['password']?.value;
-                          return pVal != value
-                              ? 'Оруулсан нууц үгтэй таарахгүй байна'
-                              : null;
-                        }
-                      ]),
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    CustomButton(
-                      width: MediaQuery.of(context).size.width,
-                      onClick: () {
-                        if (isLoading == false) {
-                          onVerify();
-                        }
-                      },
-                      color: orange,
-                      customWidget: const Text(
-                        "Солих",
-                        style: TextStyle(color: black, fontSize: 16),
-                      ),
-                    ),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    // FormTextField(
+                    //   name: "password",
+                    //   inputType: TextInputType.text,
+                    //   inputAction: TextInputAction.next,
+                    //   obscureText: _isVisible,
+                    //   decoration: InputDecoration(
+                    //     suffixIcon: IconButton(
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           _isVisible = !_isVisible;
+                    //         });
+                    //       },
+                    //       icon: _isVisible
+                    //           ? const Icon(
+                    //               Icons.visibility_off,
+                    //               color: Colors.black,
+                    //             )
+                    //           : const Icon(
+                    //               Icons.visibility,
+                    //               color: Colors.grey,
+                    //             ),
+                    //     ),
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10),
+                    //       borderSide: BorderSide.none,
+                    //     ),
+                    //     contentPadding: const EdgeInsets.symmetric(
+                    //         horizontal: 15, vertical: 15),
+                    //     filled: true,
+                    //     hintStyle: const TextStyle(
+                    //         color: Colors.black54, fontSize: 14),
+                    //     hintText: "Шинэ нууц үг",
+                    //     fillColor: white,
+                    //   ),
+                    //   validators: FormBuilderValidators.compose([
+                    //     (value) {
+                    //       return validatePassword(value.toString(), context);
+                    //     }
+                    //   ]),
+                    // ),
+                    // const SizedBox(
+                    //   height: 15,
+                    // ),
+                    // FormTextField(
+                    //   name: "password_verify",
+                    //   inputType: TextInputType.text,
+                    //   inputAction: TextInputAction.done,
+                    //   obscureText: _isVisible1,
+                    //   decoration: InputDecoration(
+                    //     suffixIcon: IconButton(
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           _isVisible1 = !_isVisible1;
+                    //         });
+                    //       },
+                    //       icon: _isVisible1
+                    //           ? const Icon(
+                    //               Icons.visibility_off,
+                    //               color: Colors.black,
+                    //             )
+                    //           : const Icon(
+                    //               Icons.visibility,
+                    //               color: Colors.grey,
+                    //             ),
+                    //     ),
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10),
+                    //       borderSide: BorderSide.none,
+                    //     ),
+                    //     contentPadding: const EdgeInsets.symmetric(
+                    //         horizontal: 15, vertical: 15),
+                    //     filled: true,
+                    //     hintStyle: const TextStyle(
+                    //       color: Colors.black54,
+                    //       fontSize: 14,
+                    //     ),
+                    //     hintText: "Шинэ нууц үгээ давтан оруулна уу",
+                    //     fillColor: white,
+                    //   ),
+                    //   validators: FormBuilderValidators.compose([
+                    //     FormBuilderValidators.required(
+                    //         errorText: "Шинэ нууц үгээ давтан оруулна уу"),
+                    //     (value) {
+                    //       final String pVal = widget.data!.fbKey.currentState
+                    //           ?.fields['password']?.value;
+                    //       return pVal != value
+                    //           ? 'Оруулсан нууц үгтэй таарахгүй байна'
+                    //           : null;
+                    //     }
+                    //   ]),
+                    // ),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    // CustomButton(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   onClick: () {
+                    //     if (isLoading == false) {
+                    //       onVerify();
+                    //     }
+                    //   },
+                    //   color: orange,
+                    //   customWidget: const Text(
+                    //     "Солих",
+                    //     style: TextStyle(color: black, fontSize: 16),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

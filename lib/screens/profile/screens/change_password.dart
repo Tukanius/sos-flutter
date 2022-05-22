@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:sos/models/user.dart';
+import 'package:sos/screens/home/index.dart';
+import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/components/change_password_form.dart';
 import 'package:provider/provider.dart';
+import 'package:sos/screens/splash/index.dart';
 import 'package:sos/widgets/colors.dart';
 
 import 'package:lottie/lottie.dart';
+import '../../../main.dart';
 import '../../../provider/user_provider.dart';
+import '../../../services/navigation.dart';
 import '../../../utils/http_handler.dart';
+
+class ChangePasswordPageArguments {
+  String? type;
+  ChangePasswordPageArguments({this.type});
+}
 
 class ChangePasswordPage extends StatefulWidget {
   static const routeName = "/changepasswordpage";
 
-  const ChangePasswordPage({Key? key}) : super(key: key);
+  final String? type;
+  const ChangePasswordPage({Key? key, this.type}) : super(key: key);
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -20,6 +31,22 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   User user = User();
   bool isLoading = false;
+
+  changePage(ctx) {
+    if (widget.type == "FORGOT") {
+      Navigator.of(ctx).pop();
+      UserProvider().logout();
+      locator<NavigationService>().pushReplacementNamed(
+        routeName: HomePage.routeName,
+      );
+      locator<NavigationService>().pushNamed(
+        routeName: LoginPage.routeName,
+      );
+    } else {
+      Navigator.of(context).pop();
+      Navigator.of(ctx).pop();
+    }
+  }
 
   show(ctx) async {
     showDialog(
@@ -62,8 +89,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           TextButton(
                             child: const Text("Үргэлжлүүлэх"),
                             onPressed: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(ctx).pop();
+                              changePage(context);
                             },
                           ),
                         ],
@@ -87,10 +113,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         });
         try {
           User send = User.fromJson(form!.value);
-          send.oldPassword = user.oldPasswordController.text;
-          await Provider.of<UserProvider>(context, listen: false)
-              .changePassword(send);
-          show(context);
+          if (widget.type == "FORGOT") {
+            await Provider.of<UserProvider>(context, listen: false)
+                .otpPassword(send);
+            show(context);
+          } else {
+            send.oldPassword = user.oldPasswordController.text;
+            await Provider.of<UserProvider>(context, listen: false)
+                .changePassword(send);
+            show(context);
+          }
+
           setState(
             () {
               isLoading = false;
@@ -130,6 +163,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 height: 25,
               ),
               ChangePasswordForm(
+                type: widget.type,
                 user: user,
                 onSubmit: onSubmit,
                 isLoading: isLoading,

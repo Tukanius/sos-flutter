@@ -10,7 +10,6 @@ import 'package:sos/screens/Login/Login_page.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/forgot/forgot_page.dart';
 import 'package:sos/screens/forgot/forgot_password_change.dart';
-import 'package:sos/screens/forgot/success_page.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
 import 'package:sos/screens/home/screen/new_post.dart';
 import 'package:sos/screens/home/screen/notification_page.dart';
@@ -117,37 +116,33 @@ class _MyHomePageState extends State<MyHomePage> {
                   return MaterialPageRoute(builder: (context) {
                     return const MySectorPost();
                   });
-                case SuccessPage.routeName:
-                  SuccessPageArguments arguments =
-                      settings.arguments as SuccessPageArguments;
-                  return PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        SuccessPage(
-                      title: arguments.title,
-                      message: arguments.message,
-                    ),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      var begin = const Offset(0.0, 1.0);
-                      var end = Offset.zero;
-                      var curve = Curves.ease;
+                // case SuccessPage.routeName:
+                //   SuccessPageArguments arguments =
+                //       settings.arguments as SuccessPageArguments;
+                //   return PageRouteBuilder(
+                //     pageBuilder: (context, animation, secondaryAnimation) =>
+                //         SuccessPage(
+                //       title: arguments.title,
+                //       message: arguments.message,
+                //     ),
+                //     transitionsBuilder:
+                //         (context, animation, secondaryAnimation, child) {
+                //       var begin = const Offset(0.0, 1.0);
+                //       var end = Offset.zero;
+                //       var curve = Curves.ease;
 
-                      var tween = Tween(begin: begin, end: end)
-                          .chain(CurveTween(curve: curve));
+                //       var tween = Tween(begin: begin, end: end)
+                //           .chain(CurveTween(curve: curve));
 
-                      return SlideTransition(
-                        position: animation.drive(tween),
-                        child: child,
-                      );
-                    },
-                  );
+                //       return SlideTransition(
+                //         position: animation.drive(tween),
+                //         child: child,
+                //       );
+                //     },
+                //   );
                 case UserDetailPage.routeName:
                   return MaterialPageRoute(builder: (context) {
                     return const UserDetailPage();
-                  });
-                case ChangePasswordPage.routeName:
-                  return MaterialPageRoute(builder: (context) {
-                    return const ChangePasswordPage();
                   });
                 case MyCreatePostPage.routeName:
                   return MaterialPageRoute(builder: (context) {
@@ -234,6 +229,30 @@ class _MyHomePageState extends State<MyHomePage> {
                   return PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         const NotificationPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  );
+
+                case ChangePasswordPage.routeName:
+                  ChangePasswordPageArguments arguments =
+                      settings.arguments as ChangePasswordPageArguments;
+                  return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        ChangePasswordPage(
+                      type: arguments.type,
+                    ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       var begin = const Offset(0.0, 1.0);

@@ -1,3 +1,5 @@
+import 'package:sos/provider/user_provider.dart';
+
 import '../models/user.dart';
 import '../utils/http_request.dart';
 
@@ -14,7 +16,13 @@ class AuthApi extends HttpRequest {
 
   Future<User> register(User user) async {
     var res = await post('/auth/register', data: user.toJson());
+
     return User.fromJson(res as Map<String, dynamic>);
+  }
+
+  Future<User> resend() async {
+    var res = await get('/otp');
+    return User.fromJson(res);
   }
 
   Future<User> forgot(User user) async {
@@ -28,6 +36,11 @@ class AuthApi extends HttpRequest {
 
   Future<User> verify(User user) async {
     var res = await post('/otp/verify', data: user.toJson(), handler: true);
+    return User.fromJson(res as Map<String, dynamic>);
+  }
+
+  Future<User> otpPassword(User user) async {
+    var res = await post('/otp/password', data: user.toJson(), handler: true);
     return User.fromJson(res as Map<String, dynamic>);
   }
 }
