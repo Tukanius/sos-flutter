@@ -771,7 +771,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   data.sector == null ? const SizedBox() : pendingCard(),
                   data.result == null ? const SizedBox() : resultCard(),
                   data.postStatus == "PENDING"
-                      ? data.sector!.id == user.sector
+                      ? data.sector!.id == user.sector!.id
                           ? actionButton()
                           : const SizedBox()
                       : const SizedBox(),

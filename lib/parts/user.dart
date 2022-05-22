@@ -6,7 +6,6 @@ User _$UserFromJson(Map<String, dynamic> json) {
   String? accessToken;
   String? tokenType;
   String? sessionState;
-
   bool? isActive;
   String? userStatus;
   bool? status;

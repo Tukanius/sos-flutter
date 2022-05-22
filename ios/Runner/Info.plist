@@ -26,7 +26,6 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Please grant microphone access</string>
 	<!-- end permissions -->
-
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>

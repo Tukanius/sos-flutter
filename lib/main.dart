@@ -24,12 +24,19 @@ import 'package:sos/screens/profile/screens/my_sector_post.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:sos/screens/register/register_page.dart';
 import 'package:sos/screens/splash/index.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sos/services/dialog.dart';
 import 'package:sos/services/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:sos/widgets/dialog_manager/dialog_manager.dart';
 
+checkPermission() async {
+  var notification = await Permission.notification.status;
+  if (notification.isGranted == false) await Permission.notification.request();
+}
+
 void main() {
+  checkPermission();
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => DialogService());
 

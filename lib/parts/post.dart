@@ -22,7 +22,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   String? updatedAt;
   String? createdBy;
   String? updatedBy;
-  Sector? sector;
+  Sector sector = Sector();
   bool? liked;
   String? reply;
   String? result;
@@ -30,6 +30,9 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   String? repliedDate;
   String? resultDate;
 
+  if (json["sector"] != null) {
+    sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
+  }
   if (json['repliedDate'] != null) repliedDate = json['repliedDate'];
   if (json['resultDate'] != null) resultDate = json['resultDate'];
   if (json['result'] != null) result = json['result'];
@@ -57,9 +60,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   if (json['updatedAt'] != null) updatedAt = json['updatedAt'];
   if (json['createdBy'] != null) createdBy = json['createdBy'];
   if (json['updatedBy'] != null) updatedBy = json['updatedBy'];
-  if (json["sector"] != null) {
-    sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
-  }
+
   if (json['liked'] != null) liked = json['liked'];
 
   return Post(

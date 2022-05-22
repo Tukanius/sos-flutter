@@ -1,8 +1,6 @@
 // import 'package:tw_app/screens/forgot/forgot_page.dart';
 
 import 'package:flutter/cupertino.dart';
-import 'package:sos/main.dart';
-import 'package:sos/services/dialog.dart';
 
 class HttpHandler {
   int? statusCode;
