@@ -11,10 +11,9 @@ class UserProvider extends ChangeNotifier {
 
   User user = User();
 
-  Future<User?> me(bool handler) async {
+  me(bool handler) async {
     user = await AuthApi().me(handler);
     notifyListeners();
-    return user;
   }
 
   login(User data) async {

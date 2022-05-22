@@ -27,7 +27,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
   String? code;
   String? oldPassowrd;
   String? message;
-  String? sector;
+  Sector? sector;
 
   if (json['username'] != null) username = json['username'];
   if (json['password'] != null) password = json['password'];
@@ -55,8 +55,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
   if (json['code'] != null) code = json['code'];
   if (json['oldPassowrd'] != null) oldPassowrd = json['oldPassowrd'];
   if (json['message'] != null) message = json['message'];
-  if (json['sector'] != null) sector = json['sector'];
-
+  if (json["sector"] != null) {
+    sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
+  }
   return User(
     username: username,
     password: password,

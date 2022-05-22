@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:sos/models/sector.dart';
 
 import '../utils/http_request.dart';
 part '../parts/user.dart';
@@ -29,7 +30,7 @@ class User {
   String? avatar;
   String? email;
   String? deviceToken;
-  String? sector;
+  Sector? sector;
 
   String? oldPassword;
   String? code;

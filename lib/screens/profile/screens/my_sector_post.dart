@@ -31,7 +31,7 @@ class _MySectorPostState extends State<MySectorPost>
     setState(() {
       filter = Filter(
         postStatus: "NEW",
-        sector: user.sector,
+        sector: user.sector!.id,
       );
     });
   }
@@ -134,7 +134,7 @@ class _MySectorPostState extends State<MySectorPost>
                 child: Page1(
                   name: "Page 1",
                   filter: Filter(
-                    sector: user.sector,
+                    sector: user.sector!.id,
                     postStatus: "NEW",
                   ),
                   height: 50,
@@ -143,7 +143,8 @@ class _MySectorPostState extends State<MySectorPost>
               SingleChildScrollView(
                 child: Page1(
                   name: "Page 2",
-                  filter: Filter(sector: user.sector, postStatus: "PENDING"),
+                  filter:
+                      Filter(sector: user.sector!.id, postStatus: "PENDING"),
                   height: 50,
                 ),
               ),
@@ -151,14 +152,14 @@ class _MySectorPostState extends State<MySectorPost>
                 child: Page1(
                   name: "Page 3",
                   height: 50,
-                  filter: Filter(sector: user.sector, postStatus: "SOLVED"),
+                  filter: Filter(sector: user.sector!.id, postStatus: "SOLVED"),
                 ),
               ),
               SingleChildScrollView(
                 child: Page1(
                   name: "Page 4",
                   height: 50,
-                  filter: Filter(sector: user.sector, postStatus: "FAILED"),
+                  filter: Filter(sector: user.sector!.id, postStatus: "FAILED"),
                 ),
               ),
             ],

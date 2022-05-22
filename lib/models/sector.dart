@@ -10,9 +10,11 @@ class Sector {
   String? statusString;
   int? total;
   List<Sector>? rows;
+  String? firstName;
   String? id;
   String? avatar;
   String? fullName;
+  String? lastName;
   String? phone;
   String? email;
   String? address;
@@ -55,6 +57,8 @@ class Sector {
     this.stats,
     this.pending,
     this.solved,
+    this.firstName,
+    this.lastName,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$SectorFromJson(json);
