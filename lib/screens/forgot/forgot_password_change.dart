@@ -38,7 +38,7 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
   bool oldPasswordVisible = false;
   late Timer _timer;
   bool isGetCode = false;
-  int _counter = 10;
+  int _counter = 120;
   bool isSubmit = false;
 
   @override
@@ -63,7 +63,7 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
         isGetCode = false;
       });
       getCode();
-      _counter = 10;
+      _counter = 120;
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (_counter > 0) {
           setState(() {
@@ -80,7 +80,7 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
       setState(() {
         isGetCode = false;
       });
-      _counter = 10;
+      _counter = 120;
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (_counter > 0) {
           setState(() {

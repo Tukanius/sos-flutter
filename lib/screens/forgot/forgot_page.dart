@@ -28,7 +28,6 @@ class _ForgotPageState extends State<ForgotPage> {
       isLoading = true;
     });
     final form = user.fbKey.currentState!;
-
     if (form.saveAndValidate()) {
       user = User.fromJson(form.value);
       try {

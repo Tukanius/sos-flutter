@@ -255,6 +255,25 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   )
                 : Stack(
                     children: [
+                      SizedBox(
+                        height: 0,
+                        width: 1,
+                        child: FormUploadImage(
+                          onChange: onChange,
+                          user: user,
+                          name: "resultImage",
+                          hasError: resultImageHasError,
+                          fbKey: fbKey,
+                          setFieldValue: (value) {
+                            fbKey.currentState!.fields["resultImage"]!
+                                .didChange(value);
+                            setState(() {
+                              resultImageHasError = false;
+                              visible = true;
+                            });
+                          },
+                        ),
+                      ),
                       Container(
                         height: 300,
                         width: MediaQuery.of(context).size.width,
@@ -768,7 +787,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   data.sector!.id == null ? const SizedBox() : pendingCard(),
                   data.result == null ? const SizedBox() : resultCard(),
                   data.postStatus == "PENDING"
-                      ? user.id != null
+                      ? user.sector != null
                           ? data.sector!.id == user.sector!.id
                               ? actionButton()
                               : const SizedBox()

@@ -164,6 +164,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               const SizedBox(
                 height: 25,
               ),
+              Lottie.asset('assets/password.json', height: 200, repeat: false),
               ChangePasswordForm(
                 type: widget.type,
                 user: user,

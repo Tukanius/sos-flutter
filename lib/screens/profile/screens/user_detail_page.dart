@@ -125,7 +125,6 @@ class _UserDetailPageState extends State<UserDetailPage> {
                 user: user,
                 onChange: onChange,
               ),
-              Text("${user.firstName}"),
               const SizedBox(
                 height: 20,
               ),

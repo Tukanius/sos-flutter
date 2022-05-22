@@ -46,7 +46,7 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     User user = widget.user!;
     return FormBuilder(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.disabled,
       key: user.fbKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -57,6 +57,7 @@ class _RegisterFormState extends State<RegisterForm> {
             maxLenght: 8,
             textCapitalization: TextCapitalization.none,
             inputType: TextInputType.phone,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             inputAction: TextInputAction.next,
             decoration: InputDecoration(
               counterText: "",

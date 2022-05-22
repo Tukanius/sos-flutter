@@ -308,10 +308,10 @@ class _HomePageState extends State<HomePage>
                                         ),
                                       ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              switchTab(),
+                              // const SizedBox(
+                              //   width: 10,
+                              // ),
+                              // switchTab(),
                             ],
                           ),
                           const SizedBox(height: 20),

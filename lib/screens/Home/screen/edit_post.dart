@@ -41,6 +41,7 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
   User user = User();
   bool imageHasError = false;
   bool loading = false;
+  String? image;
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   bool? visible = false;
 
@@ -154,6 +155,7 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
   onChange(image) async {
     setState(() {
       widget.data!.image = image;
+      image = widget.data!.image;
     });
   }
 
@@ -190,100 +192,93 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: FormBuilder(
             key: fbKey,
-            initialValue: const {"image": "", "text": ""},
+            initialValue: const {"text": ""},
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 visible == true
-                    ? FormUploadImage(
-                        onChange: onChange,
-                        user: user,
-                        name: "image",
-                        hasError: imageHasError,
-                        fbKey: fbKey,
-                        setFieldValue: (value) {
-                          fbKey.currentState!.fields["image"]!.didChange(value);
-                          setState(() {
-                            imageHasError = false;
-                            visible = false;
-                          });
-                        },
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FormUploadImage(
+                            onChange: onChange,
+                            user: user,
+                            name: "image",
+                            hasError: imageHasError,
+                            fbKey: fbKey,
+                            setFieldValue: (value) {
+                              fbKey.currentState!.fields["image"]!
+                                  .didChange(value);
+                              setState(() {
+                                imageHasError = false;
+                                visible = false;
+                              });
+                            },
+                          ),
+                        ],
                       )
-                    : SizedBox(
-                        height: 0,
-                        width: 1,
-                        child: FormUploadImage(
-                          onChange: onChange,
-                          user: user,
-                          name: "image",
-                          hasError: imageHasError,
-                          fbKey: fbKey,
-                          setFieldValue: (value) {
-                            fbKey.currentState!.fields["image"]!
-                                .didChange(value);
-                            setState(() {
-                              imageHasError = false;
-                            });
-                          },
-                        ),
-                      ),
-                Stack(
-                  children: [
-                    Container(
-                      height: 300,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            widget.data!.getImage(),
+                    : Stack(
+                        children: [
+                          SizedBox(
+                            height: 0,
+                            width: 1,
+                            child: FormUploadImage(
+                              onChange: onChange,
+                              user: user,
+                              name: "image",
+                              hasError: imageHasError,
+                              fbKey: fbKey,
+                              setFieldValue: (value) {
+                                fbKey.currentState!.fields["image"]!
+                                    .didChange(value);
+                                setState(() {
+                                  imageHasError = true;
+                                });
+                              },
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 10,
-                      right: 10,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(80),
-                        onTap: () {
-                          setState(() {
-                            visible = true;
-                            widget.data!.image == null;
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: black.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(80),
+                          Container(
+                            height: 300,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  widget.data!.getImage(),
+                                ),
+                              ),
+                            ),
                           ),
-                          width: 50,
-                          height: 50,
-                          child: const Icon(
-                            Icons.close,
-                            color: white,
-                          ),
-                        ),
+                          Positioned(
+                            top: 10,
+                            right: 10,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(80),
+                              onTap: () {
+                                setState(() {
+                                  visible = true;
+                                  image = null;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(80),
+                                ),
+                                width: 50,
+                                height: 50,
+                                child: const Icon(
+                                  Icons.close,
+                                  color: white,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
                 const SizedBox(
                   height: 5,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    imageHasError == true
-                        ? const Text(
-                            "Зураг заавал оруулна",
-                            style: TextStyle(color: red, fontSize: 12),
-                          )
-                        : const SizedBox(),
-                  ],
                 ),
                 const SizedBox(
                   height: 10,
@@ -324,7 +319,7 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                 CustomButton(
                   onClick: () {
                     if (loading == false) {
-                      onSubmit();
+                      imageHasError == false ? onSubmit() : {};
                     }
                   },
                   width: MediaQuery.of(context).size.width,

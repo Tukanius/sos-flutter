@@ -41,8 +41,9 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
         iconTheme: const IconThemeData(color: dark),
         backgroundColor: primaryColor,
         elevation: 0.5,
+        centerTitle: true,
         title: const Text(
-          "Profile",
+          "Хэрэглэгчийн хэсэг",
           style: TextStyle(color: dark, fontSize: 16),
         ),
       ),
