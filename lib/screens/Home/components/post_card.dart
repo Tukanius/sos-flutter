@@ -78,7 +78,7 @@ class _PostCardState extends State<PostCard> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       const Text(
-                        'Амжилттай',
+                        'Устгах',
                         style: TextStyle(
                             color: dark,
                             fontWeight: FontWeight.bold,
@@ -88,15 +88,25 @@ class _PostCardState extends State<PostCard> {
                         height: 16,
                       ),
                       const Text(
-                        'Таны оруулсан эрсдэл амжилттай устгагдлаа',
+                        'Та энэ эрсдэлийг устгахдаа итгэлтэй байна уу?',
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                            child: const Text("Үргэлжлүүлэх"),
+                            child: const Text("Болих"),
                             onPressed: () async {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                isDelete = false;
+                              });
+                            },
+                          ),
+                          TextButton(
+                            child: const Text("Устгах"),
+                            onPressed: () async {
+                              await PostApi().deletePost(data.id);
                               Navigator.of(context).pop();
                               locator<NavigationService>()
                                   .restorablePopAndPushNamed(
@@ -129,7 +139,6 @@ class _PostCardState extends State<PostCard> {
         setState(() {
           isDelete = true;
         });
-        await PostApi().deletePost(data.id);
         show(context, data);
       }
     } else {
