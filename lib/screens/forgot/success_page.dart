@@ -49,6 +49,7 @@ class _SuccessPageState extends State<SuccessPage> {
           ),
           Text("${widget.message}"),
           CustomButton(
+            width: MediaQuery.of(context).size.width,
             onClick: () {
               Navigator.of(context).pushReplacementNamed(SplashPage.routeName);
             },

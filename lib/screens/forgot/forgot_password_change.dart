@@ -327,6 +327,7 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
                       height: 25,
                     ),
                     CustomButton(
+                      width: MediaQuery.of(context).size.width,
                       onClick: () {
                         if (isLoading == false) {
                           onVerify();

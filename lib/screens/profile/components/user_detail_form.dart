@@ -10,8 +10,13 @@ class UserDetailForm extends StatefulWidget {
   final Function? onSubmit;
   final User? user;
   final bool? isLoading;
-  const UserDetailForm({Key? key, this.user, this.onSubmit, this.isLoading})
-      : super(key: key);
+
+  const UserDetailForm({
+    Key? key,
+    this.user,
+    this.onSubmit,
+    this.isLoading,
+  }) : super(key: key);
 
   @override
   _UserDetailFormState createState() => _UserDetailFormState();
@@ -122,6 +127,7 @@ class _UserDetailFormState extends State<UserDetailForm> {
           ),
           Center(
             child: CustomButton(
+              width: MediaQuery.of(context).size.width,
               onClick: () {
                 if (widget.isLoading == false) {
                   widget.onSubmit!();

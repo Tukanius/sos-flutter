@@ -4,6 +4,7 @@ import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Splash/index.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/screens/profile/screens/my_create_post_page.dart';
+import 'package:sos/screens/profile/screens/my_sector_post.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sos/widgets/colors.dart';
@@ -158,8 +159,32 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   ),
                 ),
               ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(MySectorPost.routeName);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  height: 45,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text("Надад хамааралтай"),
+                      Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
               CustomButton(
+                width: MediaQuery.of(context).size.width,
                 labelText: "Гарах",
+                fontSize: 16,
                 color: red,
                 onClick: () async {
                   logout();

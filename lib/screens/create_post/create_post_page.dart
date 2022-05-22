@@ -6,6 +6,7 @@ import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sos/widgets/custom_button.dart';
 import '../../api/post_api.dart';
 import '../../components/upload_image/form_upload_image.dart';
 import '../../main.dart';
@@ -263,17 +264,18 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 25,
                 ),
-                ElevatedButton(
-                  onPressed: () {
+                CustomButton(
+                  onClick: () {
                     if (loading == false) {
                       onSubmit();
                     }
                   },
-                  child: const Text(
-                    "Илгээх",
-                  ),
+                  width: MediaQuery.of(context).size.width,
+                  labelText: "Илгээх",
+                  fontSize: 16,
+                  color: orange,
                 ),
                 const SizedBox(
                   height: 25,

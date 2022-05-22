@@ -4,7 +4,6 @@ import 'package:sos/components/header/index.dart';
 import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
-import 'package:sos/screens/home/screen/notification_page.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/widgets/colors.dart';
@@ -198,7 +197,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserProvider>(context, listen: true).user;
-    // sectorData = Provider.of<SectorProvider>(context, listen: true).sectorData;
+    sectorData = Provider.of<SectorProvider>(context, listen: true).sectorData;
     response = Provider.of<SectorProvider>(context, listen: true).response;
 
     return Scaffold(
@@ -429,6 +428,7 @@ class _HomePageState extends State<HomePage>
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryYellow,
+        elevation: 0.0,
         onPressed: () async {
           Navigator.of(context).pushNamed(CreatePostPage.routeName);
         },
@@ -570,7 +570,7 @@ class _HomePageState extends State<HomePage>
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed(NotificationPage.routeName);
+                    // Navigator.of(context).pushNamed(NotificationPage.routeName);
                   },
                   child: Container(
                     width: 32,
@@ -588,6 +588,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
               InkWell(
+                  borderRadius: BorderRadius.circular(80),
                   onTap: () {
                     user.username == null
                         ? Navigator.of(context).pushNamed(LoginPage.routeName)
@@ -611,7 +612,10 @@ class _HomePageState extends State<HomePage>
                       : Container(
                           height: 37,
                           width: 37,
-                          color: orange,
+                          decoration: BoxDecoration(
+                            color: orange,
+                            borderRadius: BorderRadius.circular(80),
+                          ),
                           child: const Icon(Icons.person),
                         )),
             ],

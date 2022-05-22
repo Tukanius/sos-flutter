@@ -6,6 +6,7 @@ import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:provider/provider.dart';
+import 'package:sos/widgets/custom_button.dart';
 import 'package:sos/widgets/form_textfield.dart';
 import '../../../api/post_api.dart';
 import '../../../components/before_after/index.dart';
@@ -291,15 +292,16 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-              onPressed: () {
+            CustomButton(
+              onClick: () {
                 if (loading == false) {
                   onSubmit();
                 }
               },
-              child: const Text(
-                "Илгээх",
-              ),
+              width: MediaQuery.of(context).size.width,
+              labelText: "Илгээх",
+              fontSize: 16,
+              color: orange,
             ),
             const SizedBox(
               height: 25,
@@ -350,15 +352,16 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-              onPressed: () {
+            CustomButton(
+              width: MediaQuery.of(context).size.width,
+              onClick: () {
                 if (loading == false) {
                   onSubmit();
                 }
               },
-              child: const Text(
-                "Илгээх",
-              ),
+              labelText: "Илгээх",
+              color: orange,
+              fontSize: 16,
             ),
             const SizedBox(
               height: 25,

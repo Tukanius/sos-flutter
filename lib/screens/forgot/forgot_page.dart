@@ -90,10 +90,12 @@ class _ForgotPageState extends State<ForgotPage> {
                 child: FormTextField(
                   name: "phone",
                   inputType: TextInputType.phone,
+                  maxLenght: 8,
                   inputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.none,
                   decoration: InputDecoration(
                     enabled: true,
+                    counterText: "",
                     prefixIconColor: primaryGreen,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -123,6 +125,7 @@ class _ForgotPageState extends State<ForgotPage> {
                   forgot();
                 },
                 color: orange,
+                fontSize: 16,
                 textColor: black,
                 labelText: "Сэргээх",
               ),

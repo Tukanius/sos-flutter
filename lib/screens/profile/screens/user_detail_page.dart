@@ -19,10 +19,11 @@ class UserDetailPage extends StatefulWidget {
 class _UserDetailPageState extends State<UserDetailPage> {
   User user = User();
   bool? isLoading = false;
+  String? avatar;
 
   onChange(image) async {
     setState(() {
-      user.avatar = image;
+      avatar = image;
     });
   }
 

@@ -170,6 +170,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
           ),
           Center(
             child: CustomButton(
+              width: MediaQuery.of(context).size.width,
               onClick: () {
                 if (widget.isLoading == false) {
                   widget.onSubmit();

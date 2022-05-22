@@ -232,6 +232,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           Center(
             child: CustomButton(
+              width: MediaQuery.of(context).size.width,
               onClick: () {
                 if (widget.isLoading == false) {
                   widget.onSubmit!();

@@ -90,9 +90,11 @@ class _LoginPageState extends State<LoginPage>
                       name: "username",
                       inputType: TextInputType.phone,
                       inputAction: TextInputAction.next,
+                      maxLenght: 8,
                       textCapitalization: TextCapitalization.none,
                       decoration: InputDecoration(
                         enabled: true,
+                        counterText: "",
                         prefixIconColor: primaryGreen,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -163,6 +165,7 @@ class _LoginPageState extends State<LoginPage>
                   onSubmit();
                 },
                 color: orange,
+                fontSize: 16,
                 textColor: black,
                 labelText: "Нэвтрэх",
               ),

@@ -28,7 +28,7 @@ class _ChartNumberCardState extends State<ChartNumberCard>
         return orange;
       case "Шийдвэрлэгдсэн":
         return const Color(0xff34A853);
-      case "Шийдвэрлэгдээгүй":
+      case "Цуцалсан":
         return grey;
       default:
     }

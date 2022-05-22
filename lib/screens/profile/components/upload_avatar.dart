@@ -1,24 +1,19 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sos/api/user_api.dart';
+import 'package:sos/widgets/colors.dart';
+
+import '../../../api/user_api.dart';
 import '../../../models/user.dart';
-import '../../../provider/user_provider.dart';
-import 'package:provider/provider.dart';
-import '../../../widgets/colors.dart';
 
 class UploadAvatar extends StatefulWidget {
   final User? user;
-  final Function? onChange;
-  final bool isIdCard;
-  final String? uploadType;
+  final Function(String?)? onChange;
 
   const UploadAvatar({
     Key? key,
     this.user,
     this.onChange,
-    this.isIdCard = false,
-    this.uploadType,
   }) : super(key: key);
 
   @override
@@ -27,7 +22,6 @@ class UploadAvatar extends StatefulWidget {
 
 class _UploadAvatarState extends State<UploadAvatar> {
   bool loading = false;
-
   final ImagePicker _picker = ImagePicker();
   @override
   void initState() {
@@ -36,14 +30,19 @@ class _UploadAvatarState extends State<UploadAvatar> {
 
   pickImage(ImageSource imageSource) async {
     if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+
     XFile? file = await _picker.pickImage(source: imageSource);
+
     if (file != null) {
       setState(() {
         loading = true;
       });
+
       var image = await UserApi().uploadAvatar(file);
+
+      debugPrint("**************UPLOAD url IMAGE*************");
       widget.onChange!(image);
-      await Provider.of<UserProvider>(context, listen: false).me(false);
+
       setState(() {
         loading = false;
       });
@@ -52,6 +51,11 @@ class _UploadAvatarState extends State<UploadAvatar> {
 
   changeAvatar() {
     FocusScope.of(context).unfocus();
+    final ThemeData themeData = Theme.of(context);
+    // ignore: unused_local_variable
+    final TextStyle textStyle =
+        TextStyle(color: themeData.colorScheme.secondary);
+
     showModalBottomSheet<int>(
       context: context,
       isScrollControlled: true,
@@ -105,34 +109,6 @@ class _UploadAvatarState extends State<UploadAvatar> {
   Widget build(BuildContext context) {
     User? user = widget.user;
 
-    if (widget.isIdCard == true) {
-      return Column(children: [
-        Center(
-          child: SizedBox(
-            width: 150,
-            height: 150,
-            child: Stack(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      padding: const EdgeInsets.all(0),
-                      onPressed: () {
-                        changeAvatar();
-                      },
-                      icon: const Icon(
-                        Icons.camera,
-                        size: 50,
-                        color: neonGreen,
-                      )),
-                ],
-              ),
-            ]),
-          ),
-        ),
-      ]);
-    }
-
     return Column(children: [
       Center(
         child: SizedBox(
@@ -145,30 +121,13 @@ class _UploadAvatarState extends State<UploadAvatar> {
                 borderRadius: BorderRadius.circular(60.0),
                 child: () {
                   if (user!.avatar != null) {
-                    return CachedNetworkImage(
-                      imageUrl: user.getAvatar(),
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 120.0,
-                        height: 120.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover),
-                        ),
-                      ),
-                      placeholder: (context, url) => Container(
-                        height: 150,
-                        alignment: Alignment.center,
-                        child: const CircularProgressIndicator(),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error, size: 150, color: white),
-                    );
+                    return Image.network("${user.getAvatar()}",
+                        width: 120.0, height: 120.0, fit: BoxFit.cover);
                   } else {
                     return const Icon(
                       Icons.account_circle,
                       size: 120.0,
-                      color: Colors.white,
+                      color: Colors.orange,
                     );
                   }
                 }(),
@@ -179,7 +138,7 @@ class _UploadAvatarState extends State<UploadAvatar> {
               left: 70.0,
               child: RawMaterialButton(
                 elevation: 5,
-                fillColor: pink,
+                fillColor: Colors.orange,
                 child: const Icon(
                   Icons.add_a_photo,
                   color: white,
@@ -194,13 +153,12 @@ class _UploadAvatarState extends State<UploadAvatar> {
             ),
             ((() {
               if (loading == true) {
-                return const SizedBox();
-                // Container(
-                //     height: 150.0,
-                //     alignment: Alignment.center,
-                //     child: const SpinKitPulse(
-                //       color: grey,
-                //     ));
+                return Container(
+                    height: 150.0,
+                    alignment: Alignment.center,
+                    child: const SpinKitPulse(
+                      color: grey,
+                    ));
               } else {
                 return const Text("");
               }
