@@ -4,6 +4,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/provider/user_provider.dart';
+import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/splash/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
@@ -102,6 +103,12 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
     }
   }
 
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   String intToTimeLeft(int value) {
     int h, m, s;
     h = value ~/ 3600;
@@ -156,9 +163,9 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
                             child: const Text("Үргэлжлүүлэх"),
                             onPressed: () {
                               Navigator.of(context).pop();
-                              locator<NavigationService>().pushReplacementNamed(
-                                routeName: SplashPage.routeName,
-                              );
+                              UserProvider().logout();
+                              Navigator.of(ctx).pop();
+                              Navigator.of(ctx).pop();
                             },
                           ),
                         ],

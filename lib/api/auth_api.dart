@@ -1,5 +1,3 @@
-import 'package:sos/provider/user_provider.dart';
-
 import '../models/user.dart';
 import '../utils/http_request.dart';
 

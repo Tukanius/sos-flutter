@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import '../../../../models/user.dart';
@@ -89,6 +90,9 @@ class _RegisterFormState extends State<RegisterForm> {
             name: "lastName",
             textCapitalization: TextCapitalization.none,
             inputAction: TextInputAction.next,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+            ],
             decoration: InputDecoration(
               enabled: true,
               border: OutlineInputBorder(
@@ -115,6 +119,9 @@ class _RegisterFormState extends State<RegisterForm> {
             name: "firstName",
             textCapitalization: TextCapitalization.none,
             inputAction: TextInputAction.next,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+            ],
             decoration: InputDecoration(
               enabled: true,
               border: OutlineInputBorder(
