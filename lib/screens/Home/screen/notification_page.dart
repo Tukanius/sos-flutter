@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sos/screens/home/screen/post_detail.dart';
 import 'package:sos/widgets/colors.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -13,7 +12,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  List<String> _tabs = ['One', 'Two', 'Three'];
+  final List<String> _tabs = ['One', 'Two', 'Three'];
 
   @override
   Widget build(BuildContext context) {

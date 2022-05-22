@@ -46,9 +46,7 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
   bool oldPasswordVisible = false;
 
   @override
-  void afterFirstLayout(BuildContext context) {
-    print(widget.data!.toJson());
-  }
+  void afterFirstLayout(BuildContext context) {}
 
   show(ctx) async {
     showDialog(

@@ -11,8 +11,10 @@ import 'package:sos/screens/home/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:like_button/like_button.dart';
 import '../../../main.dart';
+import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
 import '../../../services/navigation.dart';
+import '../screen/edit_post.dart';
 import '../screen/post_detail.dart';
 
 class PostCard extends StatefulWidget {
@@ -121,6 +123,9 @@ class _PostCardState extends State<PostCard> {
                             child: const Text("Устгах"),
                             onPressed: () async {
                               await PostApi().deletePost(data.id);
+                              await Provider.of<SectorProvider>(ctx,
+                                      listen: false)
+                                  .sector();
                               Navigator.of(context).pop();
                               locator<NavigationService>()
                                   .restorablePopAndPushNamed(
@@ -146,7 +151,8 @@ class _PostCardState extends State<PostCard> {
   actionPopUpItemSelected(String value, data) async {
     if (value == 'edit') {
       print("edit");
-      // You can navigate the user to edit page.
+      Navigator.of(context).pushNamed(EditPostPage.routeName,
+          arguments: EditPostPageArguments(data: data));
     } else if (value == 'delete') {
       print("delete");
       if (isDelete == false) {
@@ -192,11 +198,11 @@ class _PostCardState extends State<PostCard> {
                         return [
                           const PopupMenuItem(
                             value: 'edit',
-                            child: Text('Edit'),
+                            child: Text('Засах'),
                           ),
                           const PopupMenuItem(
                             value: 'delete',
-                            child: Text('Delete'),
+                            child: Text('Устгах'),
                           )
                         ];
                       },

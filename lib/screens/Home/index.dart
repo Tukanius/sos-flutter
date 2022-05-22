@@ -250,6 +250,10 @@ class _HomePageState extends State<HomePage>
                                     : SizedBox(
                                         height: 50,
                                         child: FormBuilderDropdown(
+                                          hint: const Text(
+                                            "Салбар нэгж",
+                                            style: TextStyle(fontSize: 10),
+                                          ),
                                           allowClear: true,
                                           icon: Container(
                                             decoration: BoxDecoration(
@@ -274,8 +278,8 @@ class _HomePageState extends State<HomePage>
                                             fillColor: Color(0x4ffEBEDF1),
                                             contentPadding:
                                                 const EdgeInsets.symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 5),
+                                                    vertical: 12,
+                                                    horizontal: 10),
                                             border: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                   color: white, width: 0),
@@ -288,21 +292,6 @@ class _HomePageState extends State<HomePage>
                                               borderRadius:
                                                   BorderRadius.circular(15),
                                             ),
-                                            prefixIcon: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 30,
-                                                    height: 30,
-                                                    child: Image.asset(
-                                                      "assets/tshn.png",
-                                                      width: 30,
-                                                      height: 30,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 1),
-                                                ]),
                                           ),
                                           items: sectorData!.rows!
                                               .map(

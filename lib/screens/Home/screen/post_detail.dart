@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/screens/Home/index.dart';
+import 'package:sos/screens/home/screen/edit_post.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:after_layout/after_layout.dart';
@@ -42,6 +43,7 @@ class PostDetailPage extends StatefulWidget {
 class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   bool? isLoading = true;
   Post data = Post();
+  bool? visible = false;
   User user = User();
   bool? isConfirm = false;
   bool? isFailed = false;
@@ -235,19 +237,64 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FormUploadImage(
-              onChange: onChange,
-              user: user,
-              name: "resultImage",
-              hasError: resultImageHasError,
-              fbKey: fbKey,
-              setFieldValue: (value) {
-                fbKey.currentState!.fields["resultImage"]!.didChange(value);
-                setState(() {
-                  resultImageHasError = false;
-                });
-              },
-            ),
+            visible == false
+                ? FormUploadImage(
+                    onChange: onChange,
+                    user: user,
+                    name: "resultImage",
+                    hasError: resultImageHasError,
+                    fbKey: fbKey,
+                    setFieldValue: (value) {
+                      fbKey.currentState!.fields["resultImage"]!
+                          .didChange(value);
+                      setState(() {
+                        resultImageHasError = false;
+                        visible = true;
+                      });
+                    },
+                  )
+                : Stack(
+                    children: [
+                      Container(
+                        height: 300,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              data.resImage(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(80),
+                          onTap: () {
+                            setState(() {
+                              visible = false;
+                              data.resultImage = "";
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(80),
+                            ),
+                            width: 50,
+                            height: 50,
+                            child: const Icon(
+                              Icons.close,
+                              color: white,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
             const SizedBox(
               height: 5,
             ),
@@ -430,6 +477,9 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                             onPressed: () async {
                               await PostApi().deletePost(data.id);
                               Navigator.of(context).pop();
+                              await Provider.of<SectorProvider>(ctx,
+                                      listen: false)
+                                  .sector();
                               locator<NavigationService>()
                                   .restorablePopAndPushNamed(
                                 routeName: HomePage.routeName,
@@ -453,8 +503,8 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
 
   actionPopUpItemSelected(String value, data) async {
     if (value == 'edit') {
-      print("edit");
-      // You can navigate the user to edit page.
+      Navigator.of(context).pushNamed(EditPostPage.routeName,
+          arguments: EditPostPageArguments(data: data));
     } else if (value == 'delete') {
       print("delete");
       if (isDelete == false) {
@@ -500,11 +550,11 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                         return [
                           const PopupMenuItem(
                             value: 'edit',
-                            child: Text('Edit'),
+                            child: Text('Засах'),
                           ),
                           const PopupMenuItem(
                             value: 'delete',
-                            child: Text('Delete'),
+                            child: Text('Устгах'),
                           )
                         ];
                       },

@@ -29,4 +29,8 @@ class PostApi extends HttpRequest {
   deletePost(String? id) async {
     await del('/post/$id');
   }
+
+  editPost(String? id, Post data) async {
+    await put('/post/$id', data: data);
+  }
 }

@@ -2,37 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/screens/home/index.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/widgets/custom_button.dart';
-import '../../api/post_api.dart';
-import '../../components/upload_image/form_upload_image.dart';
-import '../../main.dart';
-import '../../models/post.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import '../../provider/user_provider.dart';
-import '../../services/navigation.dart';
-import '../../widgets/form_textfield.dart';
 
-class CreatePostPage extends StatefulWidget {
-  static const routeName = "/createpostpage";
+import '../../../api/post_api.dart';
+import '../../../components/upload_image/form_upload_image.dart';
+import '../../../main.dart';
+import '../../../models/post.dart';
+import '../../../provider/user_provider.dart';
+import '../../../services/navigation.dart';
+import '../../../widgets/form_textfield.dart';
 
-  const CreatePostPage({Key? key}) : super(key: key);
-
-  @override
-  State<CreatePostPage> createState() => _CreatePostPageState();
+class EditPostPageArguments {
+  Post? data;
+  EditPostPageArguments({
+    this.data,
+  });
 }
 
-class _CreatePostPageState extends State<CreatePostPage> {
+class EditPostPage extends StatefulWidget {
+  static const routeName = "/EditPostPage";
+  final Post? data;
+
+  const EditPostPage({Key? key, this.data}) : super(key: key);
+
+  @override
+  State<EditPostPage> createState() => _EditPostPageState();
+}
+
+class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
   String? resultImage;
   User user = User();
   bool imageHasError = false;
   bool loading = false;
-  bool visible = false;
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
+  bool? visible = false;
+
+  @override
+  void afterFirstLayout(BuildContext context) {}
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   show(ctx) async {
     showDialog(
@@ -66,7 +89,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         height: 16,
                       ),
                       const Text(
-                        'Таны оруулсан эрсдэл амжилттай нэмэгдлээ',
+                        'Таны эрсдэл амжилттай засагдлаа',
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
@@ -103,9 +126,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
         });
         Post save = Post.fromJson(fbKey.currentState!.value);
 
-        await PostApi().createPost(save);
+        await PostApi().editPost(widget.data!.id, save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
-
         show(context);
         // Navigator.of(context).restorablePopAndPushNamed((HomePage.routeName));
         setState(() {
@@ -128,7 +150,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
   onChange(image) async {
     setState(() {
-      resultImage = image;
+      widget.data!.image = image;
     });
   }
 
@@ -169,7 +191,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                visible == false
+                visible == true
                     ? FormUploadImage(
                         onChange: onChange,
                         user: user,
@@ -180,7 +202,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           fbKey.currentState!.fields["image"]!.didChange(value);
                           setState(() {
                             imageHasError = false;
-                            visible = true;
+                            visible = false;
                           });
                         },
                       )
@@ -202,7 +224,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           },
                         ),
                       ),
-                visible == true
+                visible == false
                     ? Stack(
                         children: [
                           Container(
@@ -213,7 +235,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  getImage(),
+                                  widget.data!.getImage(),
                                 ),
                               ),
                             ),
@@ -225,8 +247,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
                               borderRadius: BorderRadius.circular(80),
                               onTap: () {
                                 setState(() {
-                                  visible = false;
-                                  resultImage = "";
+                                  visible = true;
+                                  widget.data!.image == null;
                                 });
                               },
                               child: Container(
@@ -270,6 +292,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   child: FormTextField(
                     name: "text",
                     inputType: TextInputType.text,
+                    initialValue: widget.data!.text.toString(),
                     inputAction: TextInputAction.done,
                     maxLines: null,
                     autoFocus: true,
