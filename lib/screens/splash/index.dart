@@ -19,8 +19,8 @@ class _SplashPageState extends State<SplashPage>
   @override
   void afterFirstLayout(BuildContext context) async {
     try {
-      await Provider.of<GeneralProvider>(context, listen: false).init(false);
       await Provider.of<SectorProvider>(context, listen: false).sector();
+      await Provider.of<GeneralProvider>(context, listen: false).init(false);
       await Provider.of<UserProvider>(context, listen: false).me(false);
 
       Navigator.of(context).pushReplacementNamed(HomePage.routeName);

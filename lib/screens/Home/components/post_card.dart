@@ -3,10 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/api/post_api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sos/models/post.dart';
+import 'package:sos/models/user.dart';
 import 'package:sos/provider/post_provider.dart';
+import 'package:sos/screens/home/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:like_button/like_button.dart';
+import '../../../main.dart';
+import '../../../provider/user_provider.dart';
+import '../../../services/navigation.dart';
 import '../screen/post_detail.dart';
 
 class PostCard extends StatefulWidget {
@@ -46,10 +52,84 @@ icon(Post? data) {
   }
 }
 
+show(ctx, data) async {
+  showDialog(
+      barrierDismissible: false,
+      context: ctx,
+      builder: (context) {
+        return Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Text(
+                      'Амжилттай',
+                      style: TextStyle(
+                          color: dark,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    const Text(
+                      'Таны оруулсан эрсдэл амжилттай устгагдлаа',
+                    ),
+                    ButtonBar(
+                      buttonMinWidth: 100,
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        TextButton(
+                          child: const Text("Үргэлжлүүлэх"),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            locator<NavigationService>()
+                                .restorablePopAndPushNamed(
+                              routeName: HomePage.routeName,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Lottie.asset('assets/garbage.json', height: 150, repeat: false),
+            ],
+          ),
+        );
+      });
+}
+
+actionPopUpItemSelected(String value, data, context) async {
+  if (value == 'edit') {
+    print("edit");
+    // You can navigate the user to edit page.
+  } else if (value == 'delete') {
+    print("delete");
+    await PostApi().deletePost(data.id);
+    show(context, data);
+  } else {
+    print("123");
+  }
+}
+
 class _PostCardState extends State<PostCard> {
+  User user = User();
   bool? likeLoading = false;
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<UserProvider>(context, listen: false).user;
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -72,10 +152,25 @@ class _PostCardState extends State<PostCard> {
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.6), fontSize: 12),
               ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.more_vert),
-              ),
+              trailing: user.id == widget.data!.user!.id
+                  ? PopupMenuButton(
+                      icon: const Icon(Icons.more_vert),
+                      itemBuilder: (context) {
+                        return [
+                          const PopupMenuItem(
+                            value: 'edit',
+                            child: Text('Edit'),
+                          ),
+                          const PopupMenuItem(
+                            value: 'delete',
+                            child: Text('Delete'),
+                          )
+                        ];
+                      },
+                      onSelected: (String value) =>
+                          actionPopUpItemSelected(value, widget.data, context),
+                    )
+                  : const SizedBox(),
             ),
             Expanded(
               child: InkWell(

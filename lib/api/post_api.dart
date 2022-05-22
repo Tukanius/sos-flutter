@@ -25,4 +25,8 @@ class PostApi extends HttpRequest {
   addResult(String? id, Post data) async {
     await put('/post/$id/result', data: data);
   }
+
+  deletePost(String? id) async {
+    await del('/post/$id');
+  }
 }
