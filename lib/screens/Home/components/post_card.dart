@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
+import 'package:progressive_image/progressive_image.dart';
 import 'package:sos/provider/post_provider.dart';
 import 'package:sos/screens/home/index.dart';
 import 'package:sos/widgets/colors.dart';
@@ -166,6 +167,8 @@ class _PostCardState extends State<PostCard> {
     }
   }
 
+  Widget get _customWidget => Container(width: 500, height: 250, color: white);
+
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserProvider>(context, listen: false).user;
@@ -224,8 +227,14 @@ class _PostCardState extends State<PostCard> {
                     width: 2,
                   )),
                   width: MediaQuery.of(context).size.width,
-                  child: Image.network(
-                    widget.data!.getImage(),
+                  child: ProgressiveImage.custom(
+                    placeholderBuilder: (BuildContext context) => _customWidget,
+                    thumbnail: NetworkImage(
+                        'https://i.imgur.com/4WRfwXm.jpg'), // 64x43
+                    image:
+                        NetworkImage('${widget.data!.getImage()}'), // 3240x2160
+                    height: 500,
+                    width: MediaQuery.of(context).size.width,
                     fit: BoxFit.cover,
                   ),
                 ),

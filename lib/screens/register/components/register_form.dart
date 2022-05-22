@@ -256,7 +256,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
 String? validatePassword(String value, context) {
   RegExp regex =
-      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~?]).{8,}$');
   if (value.isEmpty) {
     return 'Нууц үгээ оруулна уу';
   } else {

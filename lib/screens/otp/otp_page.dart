@@ -130,7 +130,8 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
+        iconTheme: const IconThemeData(color: dark),
         elevation: 0.0,
         backgroundColor: primaryColor,
       ),

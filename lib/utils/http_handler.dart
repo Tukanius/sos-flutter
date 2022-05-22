@@ -1,6 +1,8 @@
 // import 'package:tw_app/screens/forgot/forgot_page.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:sos/main.dart';
+import 'package:sos/services/dialog.dart';
 
 class HttpHandler {
   int? statusCode;
@@ -48,7 +50,9 @@ class HttpHandler {
       case 200:
       case 304:
         return data;
-
+      case 401:
+        locator<DialogService>().showErrorDialogListener("Нэвтрэн үү");
+        break;
       default:
         HttpHandler error = HttpHandler(
             statusCode: statusCode,
