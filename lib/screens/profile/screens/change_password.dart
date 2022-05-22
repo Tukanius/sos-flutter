@@ -4,9 +4,7 @@ import 'package:sos/screens/home/index.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/components/change_password_form.dart';
 import 'package:provider/provider.dart';
-import 'package:sos/screens/splash/index.dart';
 import 'package:sos/widgets/colors.dart';
-
 import 'package:lottie/lottie.dart';
 import '../../../main.dart';
 import '../../../provider/user_provider.dart';

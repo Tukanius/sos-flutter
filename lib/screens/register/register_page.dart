@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:sos/screens/otp/otp_page.dart';
 import 'package:sos/screens/register/components/register_form.dart';

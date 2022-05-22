@@ -151,20 +151,16 @@ class _PostCardState extends State<PostCard> {
 
   actionPopUpItemSelected(String value, data) async {
     if (value == 'edit') {
-      print("edit");
       Navigator.of(context).pushNamed(EditPostPage.routeName,
           arguments: EditPostPageArguments(data: data));
     } else if (value == 'delete') {
-      print("delete");
       if (isDelete == false) {
         setState(() {
           isDelete = true;
         });
         show(context, data);
       }
-    } else {
-      print("123");
-    }
+    } else {}
   }
 
   Widget get _customWidget => Container(width: 500, height: 250, color: white);

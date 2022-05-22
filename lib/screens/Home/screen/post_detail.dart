@@ -506,16 +506,13 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       Navigator.of(context).pushNamed(EditPostPage.routeName,
           arguments: EditPostPageArguments(data: data));
     } else if (value == 'delete') {
-      print("delete");
       if (isDelete == false) {
         setState(() {
           isDelete = true;
         });
         show(context, data);
       }
-    } else {
-      print("123");
-    }
+    } else {}
   }
 
   onChange(image) async {

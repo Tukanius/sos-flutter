@@ -37,65 +37,6 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
   @override
   void afterFirstLayout(BuildContext context) {}
 
-  // show(ctx) async {
-  //   showDialog(
-  //       barrierDismissible: false,
-  //       context: context,
-  //       builder: (context) {
-  //         return Container(
-  //           alignment: Alignment.center,
-  //           margin: const EdgeInsets.symmetric(horizontal: 20),
-  //           child: Stack(
-  //             alignment: Alignment.topCenter,
-  //             children: <Widget>[
-  //               Container(
-  //                 margin: const EdgeInsets.only(top: 75),
-  //                 decoration: BoxDecoration(
-  //                   color: Colors.white,
-  //                   borderRadius: BorderRadius.circular(12),
-  //                 ),
-  //                 padding: const EdgeInsets.only(top: 90, left: 20, right: 20),
-  //                 child: Column(
-  //                   mainAxisSize: MainAxisSize.min,
-  //                   children: <Widget>[
-  //                     const Text(
-  //                       'Амжилттай',
-  //                       style: TextStyle(
-  //                           color: dark,
-  //                           fontWeight: FontWeight.bold,
-  //                           fontSize: 24),
-  //                     ),
-  //                     const SizedBox(
-  //                       height: 16,
-  //                     ),
-  //                     const Text(
-  //                       'Нууц үг амжилттай шинэчлэгдлээ',
-  //                     ),
-  //                     ButtonBar(
-  //                       buttonMinWidth: 100,
-  //                       alignment: MainAxisAlignment.spaceEvenly,
-  //                       children: <Widget>[
-  //                         TextButton(
-  //                           child: const Text("Үргэлжлүүлэх"),
-  //                           onPressed: () {
-  //                             Navigator.of(context).pop();
-  //                             locator<NavigationService>().pushReplacementNamed(
-  //                               routeName: SplashPage.routeName,
-  //                             );
-  //                           },
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //               Lottie.asset('assets/success.json', height: 150, repeat: false),
-  //             ],
-  //           ),
-  //         );
-  //       });
-  // }
-
   onVerify() async {
     setState(() {
       isLoading == true;
@@ -108,9 +49,6 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
         });
         try {
           var send = controller.text;
-          print("================SEND=================");
-          print(send);
-          print("================SEND=================");
           await Provider.of<UserProvider>(context, listen: false)
               .otpPassword(User(code: send));
           Navigator.of(context).pushNamed(ChangePasswordPage.routeName,

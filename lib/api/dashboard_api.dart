@@ -9,7 +9,7 @@ class DashboardApi extends HttpRequest {
   }
 
   Future<Sector> getSector(String id) async {
-    var res = await get('/sector/${id}', handler: true);
+    var res = await get('/sector/$id', handler: true);
     return Sector.fromJson(res as Map<String, dynamic>);
   }
 }

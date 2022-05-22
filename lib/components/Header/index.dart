@@ -89,7 +89,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     child: AnimatedContainer(
                       height: 32,
                       width: 32,
-                      duration: Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 200),
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         color: selectCheck("MAP"),

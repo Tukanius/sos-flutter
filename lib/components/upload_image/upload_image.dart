@@ -2,10 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sos/api/general_api.dart';
-import 'package:sos/api/user_api.dart';
 import '../../../models/user.dart';
-import '../../../provider/user_provider.dart';
-import 'package:provider/provider.dart';
 import '../../../widgets/colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -44,11 +41,7 @@ class _UploadImageState extends State<UploadImage> {
         loading = true;
       });
       var image = await GeneralApi().upload(file);
-      print("===========================IMAGE==========================");
-      print(image);
-      print("===========================IMAGE==========================");
       widget.onChange!(image);
-      // await Provider.of<UserProvider>(context, listen: false).me(false);
       setState(() {
         loading = false;
       });

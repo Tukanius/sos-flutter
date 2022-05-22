@@ -4,15 +4,11 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/provider/user_provider.dart';
-import 'package:sos/screens/login/login_page.dart';
-import 'package:sos/screens/splash/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import '../../api/auth_api.dart';
-import '../../main.dart';
 import '../../models/user.dart';
 import 'package:provider/provider.dart';
-import '../../services/navigation.dart';
 import '../../utils/http_handler.dart';
 
 class OtpVerifyPageArguments {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:sos/models/sector.dart';
 import 'package:sos/widgets/colors.dart';
-import 'package:skeletons/skeletons.dart';
 
 class ChartNumberCard extends StatefulWidget {
   final Sector? dashboard;

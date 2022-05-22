@@ -81,13 +81,13 @@ class _BeforeAfterState extends State<BeforeAfter> {
                     child: Slider(
                       value: _clipFactor,
                       onChanged: (double factor) =>
-                          setState(() => this._clipFactor = factor),
+                          setState(() => _clipFactor = factor),
                     ),
                   )
                 : Slider(
                     value: _clipFactor,
                     onChanged: (double factor) =>
-                        setState(() => this._clipFactor = factor),
+                        setState(() => _clipFactor = factor),
                   ),
           ),
         ),
@@ -109,7 +109,7 @@ class SizedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(_imageCornerRadius),
-      child: Container(
+      child: SizedBox(
         height: _height,
         width: _width,
         child: Container(
