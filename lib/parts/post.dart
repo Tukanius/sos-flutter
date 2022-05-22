@@ -27,7 +27,11 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   String? reply;
   String? result;
   String? resultImage;
+  String? repliedDate;
+  String? resultDate;
 
+  if (json['repliedDate'] != null) repliedDate = json['repliedDate'];
+  if (json['resultDate'] != null) resultDate = json['resultDate'];
   if (json['result'] != null) result = json['result'];
   if (json['resultImage'] != null) resultImage = json['resultImage'];
   if (json['stats'] != null) stats = json['stats'];
@@ -85,12 +89,16 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     liked: liked,
     result: result,
     resultImage: resultImage,
+    resultDate: resultDate,
+    repliedDate: repliedDate,
   );
 }
 
 Map<String, dynamic> _$PostToJson(Post instance) {
   Map<String, dynamic> json = {};
 
+  if (instance.repliedDate != null) json['repliedDate'] = instance.repliedDate;
+  if (instance.resultDate != null) json['resultDate'] = instance.resultDate;
   if (instance.result != null) json['result'] = instance.result;
   if (instance.resultImage != null) json['resultImage'] = instance.resultImage;
   if (instance.stats != null) json['stats'] = instance.stats;

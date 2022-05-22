@@ -86,32 +86,6 @@ class _RegisterFormState extends State<RegisterForm> {
             height: 15,
           ),
           FormTextField(
-            name: "firstName",
-            textCapitalization: TextCapitalization.none,
-            inputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              enabled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              filled: true,
-              hintStyle: const TextStyle(color: Colors.black54, fontSize: 14),
-              hintText: "Нэр",
-              fillColor: white,
-            ),
-            validators: FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                errorText: "Заавал бөглөнө",
-              ),
-            ]),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          FormTextField(
             name: "lastName",
             textCapitalization: TextCapitalization.none,
             inputAction: TextInputAction.next,
@@ -126,6 +100,32 @@ class _RegisterFormState extends State<RegisterForm> {
               filled: true,
               hintStyle: const TextStyle(color: Colors.black54, fontSize: 14),
               hintText: "Овог",
+              fillColor: white,
+            ),
+            validators: FormBuilderValidators.compose([
+              FormBuilderValidators.required(
+                errorText: "Заавал бөглөнө",
+              ),
+            ]),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          FormTextField(
+            name: "firstName",
+            textCapitalization: TextCapitalization.none,
+            inputAction: TextInputAction.next,
+            decoration: InputDecoration(
+              enabled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              filled: true,
+              hintStyle: const TextStyle(color: Colors.black54, fontSize: 14),
+              hintText: "Нэр",
               fillColor: white,
             ),
             validators: FormBuilderValidators.compose([

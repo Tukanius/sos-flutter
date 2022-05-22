@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage>
   int currentIndex = 0;
   int page = 1;
   int limit = 1000;
+  bool visible = false;
   Sector? sectorData;
   List<Sector> response = [];
   ScrollController scrollController = ScrollController();
@@ -58,6 +59,16 @@ class _HomePageState extends State<HomePage>
 
   @override
   void afterFirstLayout(BuildContext context) async {
+    if (user.username != null) {
+      setState(() {
+        visible = true;
+      });
+    } else {
+      setState(() {
+        visible = false;
+      });
+    }
+
     // setState(() {
     //   sectorData = data;
     //   for (var element in sectorData!.response!) {
@@ -426,15 +437,18 @@ class _HomePageState extends State<HomePage>
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryYellow,
-        elevation: 0.0,
-        onPressed: () async {
-          Navigator.of(context).pushNamed(CreatePostPage.routeName);
-        },
-        child: const Icon(
-          Icons.add,
-          size: 30,
+      floatingActionButton: Visibility(
+        visible: visible,
+        child: FloatingActionButton(
+          backgroundColor: primaryYellow,
+          elevation: 0.0,
+          onPressed: () async {
+            Navigator.of(context).pushNamed(CreatePostPage.routeName);
+          },
+          child: const Icon(
+            Icons.add,
+            size: 30,
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -590,7 +604,7 @@ class _HomePageState extends State<HomePage>
               InkWell(
                   borderRadius: BorderRadius.circular(80),
                   onTap: () {
-                    user.username == null
+                    user.id == null
                         ? Navigator.of(context).pushNamed(LoginPage.routeName)
                         : Navigator.of(context)
                             .pushNamed(ProfilePage.routeName);

@@ -8,15 +8,19 @@ import 'package:after_layout/after_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:sos/widgets/custom_button.dart';
 import 'package:sos/widgets/form_textfield.dart';
+import 'package:lottie/lottie.dart';
 import '../../../api/post_api.dart';
 import '../../../components/before_after/index.dart';
 import 'package:like_button/like_button.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../components/upload_image/form_upload_image.dart';
+import '../../../main.dart';
 import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../../../services/navigation.dart';
 
 class PostDetailPageArguments {
   String id;
@@ -42,6 +46,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   bool? isConfirm = false;
   bool? isFailed = false;
   bool? likeLoading = false;
+  bool? isDelete = false;
   bool? loading = false;
   bool resultImageHasError = false;
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
@@ -374,6 +379,95 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
     );
   }
 
+  show(ctx, data) async {
+    showDialog(
+        barrierDismissible: false,
+        context: ctx,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text(
+                        'Устгах',
+                        style: TextStyle(
+                            color: dark,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Та энэ эрсдэлийг устгахдаа итгэлтэй байна уу?',
+                      ),
+                      ButtonBar(
+                        buttonMinWidth: 100,
+                        alignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            child: const Text("Болих"),
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                isDelete = false;
+                              });
+                            },
+                          ),
+                          TextButton(
+                            child: const Text("Устгах"),
+                            onPressed: () async {
+                              await PostApi().deletePost(data.id);
+                              Navigator.of(context).pop();
+                              locator<NavigationService>()
+                                  .restorablePopAndPushNamed(
+                                routeName: HomePage.routeName,
+                              );
+                              setState(() {
+                                isDelete = false;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Lottie.asset('assets/garbage.json', height: 150, repeat: false),
+              ],
+            ),
+          );
+        });
+  }
+
+  actionPopUpItemSelected(String value, data) async {
+    if (value == 'edit') {
+      print("edit");
+      // You can navigate the user to edit page.
+    } else if (value == 'delete') {
+      print("delete");
+      if (isDelete == false) {
+        setState(() {
+          isDelete = true;
+        });
+        show(context, data);
+      }
+    } else {
+      print("123");
+    }
+  }
+
   onChange(image) async {
     setState(() {
       data.resultImage = image;
@@ -395,6 +489,30 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
           style: TextStyle(fontSize: 16, color: dark),
         ),
         actions: [
+          data.postStatus == "NEW"
+              ? user.id == data.user!.id
+                  ? PopupMenuButton(
+                      icon: const Icon(
+                        Icons.more_horiz,
+                        color: dark,
+                      ),
+                      itemBuilder: (context) {
+                        return [
+                          const PopupMenuItem(
+                            value: 'edit',
+                            child: Text('Edit'),
+                          ),
+                          const PopupMenuItem(
+                            value: 'delete',
+                            child: Text('Delete'),
+                          )
+                        ];
+                      },
+                      onSelected: (String value) =>
+                          actionPopUpItemSelected(value, data),
+                    )
+                  : const SizedBox()
+              : const SizedBox(),
           IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -446,24 +564,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                               ),
                               Row(
                                 children: [
-                                  const Text(
-                                    "2022.04.29",
-                                    style: TextStyle(
+                                  Text(
+                                    data.getPostDate(),
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14),
                                   ),
                                   const SizedBox(
                                     width: 15,
                                   ),
-                                  data.postStatus == "NEW"
-                                      ? user.id == data.user!.id
-                                          ? InkWell(
-                                              onTap: () {},
-                                              child:
-                                                  const Icon(Icons.more_vert),
-                                            )
-                                          : const SizedBox()
-                                      : const SizedBox(),
                                 ],
                               )
                             ],
@@ -658,7 +767,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                 Row(
                   children: [
                     Text(
-                      "${data.createdAt}",
+                      data.getPostDate(),
                       style: const TextStyle(fontSize: 12, color: greyDark),
                     ),
                     Container(
@@ -715,7 +824,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                 ),
                 const SizedBox(height: 7),
                 Text(
-                  "${data.createdAt}",
+                  data.getReplyDate(),
                   style: const TextStyle(fontSize: 12, color: greyDark),
                 ),
               ],
@@ -752,14 +861,14 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${data.result}",
+                  data.result.toString(),
                   style: const TextStyle(fontSize: 12),
                 ),
                 const SizedBox(height: 7),
                 Row(
                   children: [
                     Text(
-                      "${data.createdAt}",
+                      data.getResultDate(),
                       style: const TextStyle(fontSize: 12, color: greyDark),
                     ),
                     Container(

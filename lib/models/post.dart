@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 import 'package:sos/models/sector.dart';
+import 'package:simple_moment/simple_moment.dart';
 import 'package:sos/models/user.dart';
 
 import '../utils/http_request.dart';
@@ -36,6 +38,8 @@ class Post {
   String? reply;
   String? result;
   String? resultImage;
+  String? repliedDate;
+  String? resultDate;
 
   getImage() {
     return HttpRequest.s3host + image.toString();
@@ -43,6 +47,30 @@ class Post {
 
   resImage() {
     return HttpRequest.s3host + resultImage.toString();
+  }
+
+  String getPostDate() {
+    return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+            .parseUTC(postStatusDate!)
+            .toLocal()
+            .toIso8601String())
+        .format("yyyy-MM-dd HH:mm");
+  }
+
+  String getReplyDate() {
+    return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+            .parseUTC(repliedDate!)
+            .toLocal()
+            .toIso8601String())
+        .format("yyyy-MM-dd HH:mm");
+  }
+
+  String getResultDate() {
+    return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+            .parseUTC(resultDate!)
+            .toLocal()
+            .toIso8601String())
+        .format("yyyy-MM-dd HH:mm");
   }
 
   Post({
@@ -72,6 +100,8 @@ class Post {
     this.reply,
     this.result,
     this.resultImage,
+    this.repliedDate,
+    this.resultDate,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

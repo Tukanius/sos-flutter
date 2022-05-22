@@ -57,6 +57,20 @@ class _PostCardState extends State<PostCard> {
   bool? likeLoading = false;
   bool? isDelete = false;
 
+  boderColor() {
+    switch (widget.data!.postStatus) {
+      case "NEW":
+        return red;
+      case "PENDING":
+        return orange;
+      case "SOLVED":
+        return green;
+      case "FAILED":
+        return grey;
+      default:
+    }
+  }
+
   show(ctx, data) async {
     showDialog(
         barrierDismissible: false,
@@ -197,7 +211,12 @@ class _PostCardState extends State<PostCard> {
                   Navigator.of(context).pushNamed(PostDetailPage.routeName,
                       arguments: PostDetailPageArguments(id: widget.data!.id!));
                 },
-                child: SizedBox(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    color: boderColor(),
+                    width: 2,
+                  )),
                   width: MediaQuery.of(context).size.width,
                   child: Image.network(
                     widget.data!.getImage(),

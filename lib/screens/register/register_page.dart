@@ -83,11 +83,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 "Бүртгүүлэх",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              Text(
-                isLoading.toString(),
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(
                 height: 30,
               ),

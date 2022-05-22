@@ -122,8 +122,8 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
         try {
           User send = User.fromJson(form!.value);
           send.code = controller.text;
-          // await Provider.of<UserProvider>(context, listen: false)
-          //     .changePassword(send);
+          await Provider.of<UserProvider>(context, listen: false)
+              .changePassword(send);
           // Navigator.of(context).pushNamed(SuccessPage.routeName,
           //     arguments: SuccessPageArguments(
           //       message: "Таны нууц үг амжилттай шинэчлэгдлээ",
