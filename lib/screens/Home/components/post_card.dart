@@ -1,7 +1,10 @@
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/api/post_api.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sos/models/post.dart';
+import 'package:sos/provider/post_provider.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:like_button/like_button.dart';
 import '../screen/post_detail.dart';
@@ -44,6 +47,7 @@ icon(Post? data) {
 }
 
 class _PostCardState extends State<PostCard> {
+  bool? likeLoading = false;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -104,7 +108,8 @@ class _PostCardState extends State<PostCard> {
                 Expanded(
                   child: InkWell(
                     onTap: () async {
-                      await PostApi().like(widget.data!.id.toString());
+                      await Provider.of<PostProvider>(context, listen: false)
+                          .getLike(widget.data!.id);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -120,52 +125,53 @@ class _PostCardState extends State<PostCard> {
                           dotSecondaryColor: Color(0xff0099cc),
                         ),
                         likeBuilder: (bool isLiked) {
-                          return Icon(
-                            Icons.favorite,
-                            color: isLiked ? Colors.red : Colors.grey,
-                            size: 25,
-                          );
+                          return likeLoading == false
+                              ? Icon(
+                                  Icons.favorite,
+                                  color:
+                                      widget.data!.liked == true ? red : grey,
+                                  size: 25,
+                                )
+                              : const SpinKitCircle(
+                                  size: 25,
+                                  color: orange,
+                                );
                         },
                         onTap: (value) async {
-                          await PostApi().like(widget.data!.id.toString());
-                          // if (product!.isFavorite == false) {
-                          //   setState(() {
-                          //     likeLoading = true;
-                          //   });
-                          //   try {
-                          //     await ProductApi().favorite(Product(
-                          //       productId: product!.id,
-                          //       stockAvailable: 1,
-                          //       dcPrice: 1,
-                          //       price: 1,
-                          //       quantity: 1,
-                          //     ));
-                          //     setState(() {
-                          //       product!.isFavorite = true;
-                          //       likeLoading = false;
-                          //     });
-                          //   } catch (e) {
-                          //     setState(() {
-                          //       likeLoading = false;
-                          //     });
-                          //   }
-                          // } else {
-                          //   setState(() {
-                          //     likeLoading = true;
-                          //   });
-                          //   try {
-                          //     await ProductApi().delete(product!.id.toString());
-                          //     setState(() {
-                          //       product!.isFavorite = false;
-                          //       likeLoading = false;
-                          //     });
-                          //   } catch (e) {
-                          //     setState(() {
-                          //       likeLoading = false;
-                          //     });
-                          //   }
-                          // }
-                          // return product!.isFavorite;
+                          if (widget.data!.liked == false) {
+                            setState(() {
+                              likeLoading = true;
+                            });
+                            try {
+                              await Provider.of<PostProvider>(context,
+                                      listen: false)
+                                  .getLike(widget.data!.id);
+                              setState(() {
+                                widget.data!.liked = true;
+                                likeLoading = false;
+                              });
+                            } catch (e) {
+                              setState(() {
+                                likeLoading = false;
+                              });
+                            }
+                          } else {
+                            setState(() {
+                              likeLoading = true;
+                            });
+                            try {
+                              await PostApi().like(widget.data!.id.toString());
+                              setState(() {
+                                widget.data!.liked = false;
+                                likeLoading = false;
+                              });
+                            } catch (e) {
+                              setState(() {
+                                likeLoading = false;
+                              });
+                            }
+                          }
+                          return widget.data!.liked;
                         },
                       ),
                     ),

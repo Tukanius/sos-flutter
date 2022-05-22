@@ -36,6 +36,7 @@ Map<String, dynamic> _$ResultArgumentToJson(ResultArguments instance) {
     params['filter'] = {};
     params['filter']['postStatus'] = instance.filter!.postStatus;
     params['filter']['user'] = instance.filter!.user;
+    params['filter']['sector'] = instance.filter!.sector;
     params['filter']['query'] = instance.filter!.query;
 
     if (instance.offset!.page! > 0) {

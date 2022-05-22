@@ -48,6 +48,7 @@ class HttpHandler {
       case 200:
       case 304:
         return data;
+
       default:
         HttpHandler error = HttpHandler(
             statusCode: statusCode,

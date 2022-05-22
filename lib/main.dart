@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sos/components/modal/index.dart';
 import 'package:sos/provider/general_provider.dart';
+import 'package:sos/provider/post_provider.dart';
 import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Home/index.dart';
@@ -70,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => GeneralProvider()),
         ChangeNotifierProvider(create: (_) => SectorProvider()),
+        ChangeNotifierProvider(create: (_) => PostProvider()),
       ],
       child: Stack(
         children: [

@@ -4,11 +4,13 @@ class Filter {
   String? query;
   String? postStatus;
   String? user;
+  String? sector;
 
   Filter({
     this.query,
     this.postStatus,
     this.user,
+    this.sector,
   });
 }
 

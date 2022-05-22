@@ -11,7 +11,9 @@ import '../../../../models/result.dart';
 class Page1 extends StatefulWidget {
   final String? name;
   final Filter? filter;
-  const Page1({Key? key, this.name, this.filter}) : super(key: key);
+  final double? height;
+  const Page1({Key? key, this.name, this.filter, this.height})
+      : super(key: key);
 
   @override
   State<Page1> createState() => _Page1State();
@@ -56,6 +58,9 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
     if (loading == true) {
       return Column(
         children: [
+          SizedBox(
+            height: widget.height,
+          ),
           for (var i = 0; i < 10; i++)
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -151,6 +156,9 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
         ),
         child: Column(
           children: [
+            SizedBox(
+              height: widget.height,
+            ),
             if (warningPost!.rows!.isEmpty)
               Column(
                 children: [

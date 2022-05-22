@@ -10,6 +10,7 @@ import 'package:sos/widgets/custom_button.dart';
 import 'package:sos/widgets/form_textfield.dart';
 import '../../../api/post_api.dart';
 import '../../../components/before_after/index.dart';
+import 'package:like_button/like_button.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../components/upload_image/form_upload_image.dart';
@@ -40,6 +41,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   User user = User();
   bool? isConfirm = false;
   bool? isFailed = false;
+  bool? likeLoading = false;
   bool? loading = false;
   bool resultImageHasError = false;
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
@@ -499,75 +501,112 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                         height: 20,
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Material(
-                                borderRadius: BorderRadius.circular(15),
-                                color: white,
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            children: [
+                              Expanded(
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(15),
                                   onTap: () async {
                                     await PostApi().like(data.id.toString());
                                   },
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 15),
                                     decoration: BoxDecoration(
-                                      border:
-                                          Border.all(width: 0.5, color: grey),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                          "assets/heart.svg",
-                                          color: dark.withOpacity(0.5),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Text(
-                                          "${data.likeCount}",
-                                          style: TextStyle(
-                                            color: dark.withOpacity(0.5),
-                                          ),
-                                        ),
-                                      ],
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            width: 0.3, color: grey)),
+                                    height: 55,
+                                    child: LikeButton(
+                                      size: 35,
+                                      isLiked: data.liked,
+                                      circleColor: const CircleColor(
+                                          start: Color(0xff00ddff),
+                                          end: Color(0xff0099cc)),
+                                      bubblesColor: const BubblesColor(
+                                        dotPrimaryColor: Color(0xff33b5e5),
+                                        dotSecondaryColor: Color(0xff0099cc),
+                                      ),
+                                      likeBuilder: (bool isLiked) {
+                                        return likeLoading == false
+                                            ? Icon(
+                                                Icons.favorite,
+                                                color: data.liked == true
+                                                    ? red
+                                                    : grey,
+                                                size: 25,
+                                              )
+                                            : const SpinKitCircle(
+                                                size: 25,
+                                                color: orange,
+                                              );
+                                      },
+                                      onTap: (value) async {
+                                        if (data.liked == false) {
+                                          setState(() {
+                                            likeLoading = true;
+                                          });
+                                          try {
+                                            await PostApi().like("${data.id}");
+                                            setState(() {
+                                              data.liked = true;
+                                              likeLoading = false;
+                                            });
+                                          } catch (e) {
+                                            setState(() {
+                                              likeLoading = false;
+                                            });
+                                          }
+                                        } else {
+                                          setState(() {
+                                            likeLoading = true;
+                                          });
+                                          try {
+                                            await PostApi()
+                                                .like(data.id.toString());
+                                            setState(() {
+                                              data.liked = false;
+                                              likeLoading = false;
+                                            });
+                                          } catch (e) {
+                                            setState(() {
+                                              likeLoading = false;
+                                            });
+                                          }
+                                        }
+                                        return data.liked;
+                                      },
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 15),
-                                decoration: BoxDecoration(
-                                  color: white,
-                                  border: Border.all(width: 0.5, color: grey),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: InkWell(
                                   borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/location.svg",
-                                      color: dark.withOpacity(0.5),
+                                  onTap: () {},
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            width: 0.3, color: grey)),
+                                    height: 55,
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        "assets/location.svg",
+                                        color: const Color(0x4ffa7a7a7),
+                                      ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            ],
+                          )),
                     ],
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 25,
                   ),
                   card(),
                   data.sector == null ? const SizedBox() : pendingCard(),

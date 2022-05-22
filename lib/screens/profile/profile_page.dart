@@ -159,28 +159,30 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed(MySectorPost.routeName);
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  height: 45,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text("Надад хамааралтай"),
-                      Icon(Icons.keyboard_arrow_right)
-                    ],
-                  ),
-                ),
-              ),
+              user.role == "SECTOR"
+                  ? GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(MySectorPost.routeName);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        height: 45,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text("Надад хамааралтай"),
+                            Icon(Icons.keyboard_arrow_right)
+                          ],
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
               CustomButton(
                 width: MediaQuery.of(context).size.width,
                 labelText: "Гарах",
