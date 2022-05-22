@@ -22,6 +22,7 @@
 	<key>com.apple.security.network.client</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
+	<key>NSLocalNetworkUsageDescription</key>
 	<dict>
   <key>NSAllowsArbitraryLoads</key><true/>
 	</dict>
