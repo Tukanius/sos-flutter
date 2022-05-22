@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "601995328608",
+    "project_id": "sos-project-d0698",
+    "storage_bucket": "sos-project-d0698.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601995328608:android:e3c3a88baf8a532fe6d705",
+        "android_client_info": {
+          "package_name": "com.example.sos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601995328608-jntbi52jbqn0cc1iu340nsmkotddao96.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtnldx4s7HDef_10xoxuhL0NZXAQmvWp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "601995328608-jntbi52jbqn0cc1iu340nsmkotddao96.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

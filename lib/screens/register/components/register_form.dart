@@ -88,10 +88,10 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           FormTextField(
             name: "lastName",
-            textCapitalization: TextCapitalization.none,
+            textCapitalization: TextCapitalization.characters,
             inputAction: TextInputAction.next,
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+              FilteringTextInputFormatter(RegExp(r'[a-zA-Z]'), allow: true)
             ],
             decoration: InputDecoration(
               enabled: true,

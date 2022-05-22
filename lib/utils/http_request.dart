@@ -34,6 +34,12 @@ class HttpRequest {
     debugPrint('+++++++++++++++++++++++++++++++++++++++++++++++++++ ');
 
     try {
+      var deviceToken = await UserProvider.getDeviceToken();
+      debugPrint(
+          '++++++++++++++++++++++deviceToken+++++++++++++++++++++++++++++ ');
+      debugPrint(deviceToken);
+      debugPrint(
+          '+++++++++++++++++++++++deviceToken++++++++++++++++++++++++++++ ');
       Directory dir = await getTemporaryDirectory();
       CookieJar cookieJar =
           PersistCookieJar(storage: FileStorage(dir.path), ignoreExpires: true);
@@ -45,7 +51,7 @@ class HttpRequest {
 
       dio.options.headers = {
         'authorization': 'Bearer $token',
-        // 'device_token': '$deviceToken',
+        'device_token': '$deviceToken',
         'device_type': 'MOS',
         'device_imei': 'test-imei',
         'device_info': 'iphone 13'
