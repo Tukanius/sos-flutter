@@ -52,81 +52,91 @@ icon(Post? data) {
   }
 }
 
-show(ctx, data) async {
-  showDialog(
-      barrierDismissible: false,
-      context: ctx,
-      builder: (context) {
-        return Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Text(
-                      'Амжилттай',
-                      style: TextStyle(
-                          color: dark,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    const Text(
-                      'Таны оруулсан эрсдэл амжилттай устгагдлаа',
-                    ),
-                    ButtonBar(
-                      buttonMinWidth: 100,
-                      alignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        TextButton(
-                          child: const Text("Үргэлжлүүлэх"),
-                          onPressed: () async {
-                            Navigator.of(context).pop();
-                            locator<NavigationService>()
-                                .restorablePopAndPushNamed(
-                              routeName: HomePage.routeName,
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Lottie.asset('assets/garbage.json', height: 150, repeat: false),
-            ],
-          ),
-        );
-      });
-}
-
-actionPopUpItemSelected(String value, data, context) async {
-  if (value == 'edit') {
-    print("edit");
-    // You can navigate the user to edit page.
-  } else if (value == 'delete') {
-    print("delete");
-    await PostApi().deletePost(data.id);
-    show(context, data);
-  } else {
-    print("123");
-  }
-}
-
 class _PostCardState extends State<PostCard> {
   User user = User();
   bool? likeLoading = false;
+  bool? isDelete = false;
+
+  show(ctx, data) async {
+    showDialog(
+        barrierDismissible: false,
+        context: ctx,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.only(top: 120, left: 20, right: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text(
+                        'Амжилттай',
+                        style: TextStyle(
+                            color: dark,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Таны оруулсан эрсдэл амжилттай устгагдлаа',
+                      ),
+                      ButtonBar(
+                        buttonMinWidth: 100,
+                        alignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            child: const Text("Үргэлжлүүлэх"),
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              locator<NavigationService>()
+                                  .restorablePopAndPushNamed(
+                                routeName: HomePage.routeName,
+                              );
+                              setState(() {
+                                isDelete = false;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Lottie.asset('assets/garbage.json', height: 150, repeat: false),
+              ],
+            ),
+          );
+        });
+  }
+
+  actionPopUpItemSelected(String value, data) async {
+    if (value == 'edit') {
+      print("edit");
+      // You can navigate the user to edit page.
+    } else if (value == 'delete') {
+      print("delete");
+      if (isDelete == false) {
+        setState(() {
+          isDelete = true;
+        });
+        await PostApi().deletePost(data.id);
+        show(context, data);
+      }
+    } else {
+      print("123");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserProvider>(context, listen: false).user;
@@ -168,7 +178,7 @@ class _PostCardState extends State<PostCard> {
                         ];
                       },
                       onSelected: (String value) =>
-                          actionPopUpItemSelected(value, widget.data, context),
+                          actionPopUpItemSelected(value, widget.data),
                     )
                   : const SizedBox(),
             ),
