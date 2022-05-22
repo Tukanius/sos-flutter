@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserProvider>(context, listen: false).user;
+    user = Provider.of<UserProvider>(context, listen: true).user;
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: dark),
@@ -88,10 +88,31 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
               const SizedBox(
                 height: 20,
               ),
-              Text(user.phone.toString()),
-              Text(user.role.toString()),
+              Text("${user.firstName.toString()} ${user.lastName.toString()}"),
               const SizedBox(
                 height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(MyCreatePostPage.routeName);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  height: 45,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text("Миний илгээсэн эрсдэлүүд"),
+                      Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
               ),
               GestureDetector(
                 onTap: () {
@@ -109,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text("Хэрэглэгчийн тохиргоо"),
+                      Text("Миний мэдээлэл"),
                       Icon(Icons.keyboard_arrow_right)
                     ],
                   ),
@@ -133,28 +154,6 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text("Нууц үг солих"),
-                      Icon(Icons.keyboard_arrow_right)
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed(MyCreatePostPage.routeName);
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  height: 45,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text("Миний илгээсэн эрсдэлүүд"),
                       Icon(Icons.keyboard_arrow_right)
                     ],
                   ),

@@ -25,7 +25,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
     with AfterLayoutMixin<LoginPage> {
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
-
+  bool _isVisible = true;
   bool isSubmit = false;
 
   @override
@@ -118,11 +118,27 @@ class _LoginPageState extends State<LoginPage>
                     FormTextField(
                       name: "password",
                       inputAction: TextInputAction.next,
-                      obscureText: true,
+                      obscureText: _isVisible,
                       textCapitalization: TextCapitalization.none,
                       decoration: InputDecoration(
                         enabled: true,
                         prefixIconColor: primaryGreen,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isVisible = !_isVisible;
+                            });
+                          },
+                          icon: _isVisible
+                              ? const Icon(
+                                  Icons.visibility_off,
+                                  color: Colors.black,
+                                )
+                              : const Icon(
+                                  Icons.visibility,
+                                  color: Colors.grey,
+                                ),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,

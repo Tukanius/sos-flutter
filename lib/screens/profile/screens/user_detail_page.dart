@@ -19,11 +19,10 @@ class UserDetailPage extends StatefulWidget {
 class _UserDetailPageState extends State<UserDetailPage> {
   User user = User();
   bool? isLoading = false;
-  String? avatar;
 
   onChange(image) async {
     setState(() {
-      avatar = image;
+      user.avatar = image;
     });
   }
 
@@ -60,13 +59,17 @@ class _UserDetailPageState extends State<UserDetailPage> {
                       ),
                       const Text(
                         'Таны сольсон мэдээлэл амжилттай хадгалагдлаа',
+                        textAlign: TextAlign.center,
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                            child: const Text("Үргэлжлүүлэх"),
+                            child: const Text(
+                              "Үргэлжлүүлэх",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                               Navigator.of(ctx).pop();
@@ -118,7 +121,10 @@ class _UserDetailPageState extends State<UserDetailPage> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              UploadAvatar(user: user, onChange: onChange),
+              UploadAvatar(
+                user: user,
+                onChange: onChange,
+              ),
               Text("${user.firstName}"),
               const SizedBox(
                 height: 20,

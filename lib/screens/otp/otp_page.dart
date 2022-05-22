@@ -150,13 +150,17 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
                       ),
                       const Text(
                         'Таны бүртгэл амжилттай үүслээ.',
+                        textAlign: TextAlign.center,
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                            child: const Text("Үргэлжлүүлэх"),
+                            child: const Text(
+                              "Нэвтрэх",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                               UserProvider().logout();

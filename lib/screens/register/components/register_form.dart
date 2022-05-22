@@ -21,8 +21,8 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   bool showPassword = true;
   bool showconfirmPassword = true;
-  bool _isVisible = false;
-  bool _isVisible1 = false;
+  bool _isVisible = true;
+  bool _isVisible1 = true;
   bool isSubmit = false;
 
   @override

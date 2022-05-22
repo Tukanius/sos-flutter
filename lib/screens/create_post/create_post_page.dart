@@ -67,13 +67,17 @@ class _CreatePostPageState extends State<CreatePostPage> {
                       ),
                       const Text(
                         'Таны оруулсан эрсдэл амжилттай нэмэгдлээ',
+                        textAlign: TextAlign.center,
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                            child: const Text("Үргэлжлүүлэх"),
+                            child: const Text(
+                              "Ойлголоо",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                               locator<NavigationService>()

@@ -90,13 +90,17 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                       ),
                       const Text(
                         'Таны эрсдэл амжилттай засагдлаа',
+                        textAlign: TextAlign.center,
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                            child: const Text("Үргэлжлүүлэх"),
+                            child: const Text(
+                              "Үргэлжлүүлэх",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                               locator<NavigationService>()
@@ -129,7 +133,6 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
         await PostApi().editPost(widget.data!.id, save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
         show(context);
-        // Navigator.of(context).restorablePopAndPushNamed((HomePage.routeName));
         setState(() {
           loading = false;
         });
@@ -224,50 +227,48 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                           },
                         ),
                       ),
-                visible == false
-                    ? Stack(
-                        children: [
-                          Container(
-                            height: 300,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  widget.data!.getImage(),
-                                ),
-                              ),
-                            ),
+                Stack(
+                  children: [
+                    Container(
+                      height: 300,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            widget.data!.getImage(),
                           ),
-                          Positioned(
-                            top: 10,
-                            right: 10,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(80),
-                              onTap: () {
-                                setState(() {
-                                  visible = true;
-                                  widget.data!.image == null;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: black.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(80),
-                                ),
-                                width: 50,
-                                height: 50,
-                                child: const Icon(
-                                  Icons.close,
-                                  color: white,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                    : const SizedBox(),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(80),
+                        onTap: () {
+                          setState(() {
+                            visible = true;
+                            widget.data!.image == null;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: black.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(80),
+                          ),
+                          width: 50,
+                          height: 50,
+                          child: const Icon(
+                            Icons.close,
+                            color: white,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
                 const SizedBox(
                   height: 5,
                 ),

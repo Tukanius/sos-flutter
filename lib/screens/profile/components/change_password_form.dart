@@ -26,9 +26,9 @@ class ChangePasswordForm extends StatefulWidget {
 }
 
 class _ChangePasswordFormState extends State<ChangePasswordForm> {
-  bool _isVisible = false;
-  bool _isVisible1 = false;
-  bool oldPasswordVisible = false;
+  bool _isVisible = true;
+  bool _isVisible1 = true;
+  bool oldPasswordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                           oldPasswordVisible = !oldPasswordVisible;
                         });
                       },
-                      icon: _isVisible
+                      icon: oldPasswordVisible
                           ? const Icon(
                               Icons.visibility_off,
                               color: Colors.black,

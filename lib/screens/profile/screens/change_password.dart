@@ -79,13 +79,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ),
                       const Text(
                         'Нууц үг амжилттай шинэчлэгдлээ',
+                        textAlign: TextAlign.center,
                       ),
                       ButtonBar(
                         buttonMinWidth: 100,
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                            child: const Text("Үргэлжлүүлэх"),
+                            child: const Text(
+                              "Ойлголоо",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () {
                               changePage(context);
                             },

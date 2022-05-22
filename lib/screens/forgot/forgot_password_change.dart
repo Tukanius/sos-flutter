@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/widgets/colors.dart';
+import '../../api/auth_api.dart';
 import '../../provider/user_provider.dart';
 import '../../utils/http_handler.dart';
 import 'package:provider/provider.dart';
@@ -33,9 +36,80 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
   bool isLoading = false;
   bool hasError = false;
   bool oldPasswordVisible = false;
+  late Timer _timer;
+  bool isGetCode = false;
+  int _counter = 10;
+  bool isSubmit = false;
 
   @override
   void afterFirstLayout(BuildContext context) {}
+
+  void getCode() async {
+    var res = await AuthApi().resend();
+    setState(() {
+      widget.data!.message = res.message!;
+    });
+  }
+
+  @override
+  void initState() {
+    _startTimer();
+    super.initState();
+  }
+
+  void _startTimer() async {
+    if (isSubmit == true) {
+      setState(() {
+        isGetCode = false;
+      });
+      getCode();
+      _counter = 10;
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_counter > 0) {
+          setState(() {
+            _counter--;
+          });
+        } else {
+          setState(() {
+            isGetCode = true;
+          });
+          _timer.cancel();
+        }
+      });
+    } else {
+      setState(() {
+        isGetCode = false;
+      });
+      _counter = 10;
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_counter > 0) {
+          setState(() {
+            _counter--;
+          });
+        } else {
+          setState(() {
+            isGetCode = true;
+          });
+          _timer.cancel();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  String intToTimeLeft(int value) {
+    int h, m, s;
+    h = value ~/ 3600;
+    m = ((value - h * 3600)) ~/ 60;
+    s = value - (h * 3600) - (m * 60);
+    String result = "$m:$s";
+    return result;
+  }
 
   onVerify() async {
     setState(() {
@@ -51,7 +125,8 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
           var send = controller.text;
           await Provider.of<UserProvider>(context, listen: false)
               .otpPassword(User(code: send));
-          Navigator.of(context).pushNamed(ChangePasswordPage.routeName,
+          Navigator.of(context).pushReplacementNamed(
+              ChangePasswordPage.routeName,
               arguments: ChangePasswordPageArguments(type: "FORGOT"));
           // show(context);
           setState(
@@ -113,6 +188,55 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
                         fontWeight: FontWeight.normal,
                       ),
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    if (isGetCode == false)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '0${intToTimeLeft(_counter)} ',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.0,
+                                color: orange),
+                          ),
+                          const Text(
+                            'секунд',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.0,
+                                color: greyDark),
+                          ),
+                        ],
+                      )
+                    else
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                isSubmit = true;
+                              });
+                              _startTimer();
+                            },
+                            child: Column(
+                              children: const [
+                                Icon(
+                                  Icons.refresh,
+                                  color: Colors.black,
+                                ),
+                                Text(
+                                  "Код дахин авах",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     const SizedBox(
                       height: 30,
                     ),

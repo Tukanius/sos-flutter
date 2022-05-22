@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sos/widgets/colors.dart';
-
+import 'package:provider/provider.dart';
 import '../../../api/user_api.dart';
 import '../../../models/user.dart';
+import '../../../provider/user_provider.dart';
 
 class UploadAvatar extends StatefulWidget {
   final User? user;
@@ -37,12 +38,10 @@ class _UploadAvatarState extends State<UploadAvatar> {
       setState(() {
         loading = true;
       });
-
       var image = await UserApi().uploadAvatar(file);
+      await Provider.of<UserProvider>(context, listen: false).me(true);
 
-      debugPrint("**************UPLOAD url IMAGE*************");
       widget.onChange!(image);
-
       setState(() {
         loading = false;
       });
@@ -137,7 +136,7 @@ class _UploadAvatarState extends State<UploadAvatar> {
               top: 95.0,
               left: 70.0,
               child: RawMaterialButton(
-                elevation: 5,
+                elevation: 0,
                 fillColor: Colors.orange,
                 child: const Icon(
                   Icons.add_a_photo,
