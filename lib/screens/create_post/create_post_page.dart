@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sos/models/general.dart';
 import 'package:sos/models/user.dart';
-import 'package:sos/provider/general_provider.dart';
 import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/screens/home/index.dart';
 import 'package:sos/utils/http_request.dart';

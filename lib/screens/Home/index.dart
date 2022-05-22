@@ -10,7 +10,6 @@ import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import '../../api/dashboard_api.dart';
 import '../../models/result.dart';
 import '../../models/sector.dart';
 import '../../models/user.dart';
@@ -199,12 +198,12 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserProvider>(context, listen: true).user;
-    sectorData = Provider.of<SectorProvider>(context, listen: true).sectorData;
+    // sectorData = Provider.of<SectorProvider>(context, listen: true).sectorData;
     response = Provider.of<SectorProvider>(context, listen: true).response;
 
     return Scaffold(
       backgroundColor: primaryColor,
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       body: DefaultTabController(
         length: 4,
         child: NestedScrollView(

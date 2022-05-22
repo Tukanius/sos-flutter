@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sos/models/user.dart';
-import 'package:sos/screens/Splash/index.dart';
+import 'package:sos/screens/forgot/forgot_password_change.dart';
 import '../../provider/user_provider.dart';
 import '../../widgets/colors.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -32,8 +32,10 @@ class _ForgotPageState extends State<ForgotPage> {
     if (form.saveAndValidate()) {
       user = User.fromJson(form.value);
       try {
-        await Provider.of<UserProvider>(context, listen: false).forgot(user);
-        Navigator.of(context).pushNamed(SplashPage.routeName);
+        var res = await Provider.of<UserProvider>(context, listen: false)
+            .forgot(user);
+        Navigator.of(context).pushNamed(ForgotPasswordChange.routeName,
+            arguments: ForgotPasswordChangeArguments(data: res));
       } catch (err) {
         debugPrint(err.toString());
       }

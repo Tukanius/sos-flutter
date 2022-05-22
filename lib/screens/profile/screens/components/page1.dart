@@ -144,19 +144,44 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
       );
     }
     return Container(
-      padding: const EdgeInsets.only(
-        right: 10,
-        left: 10,
-        top: 5,
-      ),
-      child: Column(
-        children: [
-          for (int i = 0; i < warningPost!.rows!.length; i++)
-            PostCard(
-              data: warningPost!.rows![i],
+        padding: const EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 5,
+        ),
+        child: Column(
+          children: [
+            if (warningPost!.rows!.isEmpty)
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Image.asset(
+                    "assets/empty.png",
+                    height: 250,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Text(
+                    "Хоосон байна",
+                    style: TextStyle(
+                        color: orange,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            Column(
+              children: [
+                for (int i = 0; i < warningPost!.rows!.length; i++)
+                  PostCard(
+                    data: warningPost!.rows![i],
+                  ),
+              ],
             ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }

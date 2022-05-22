@@ -22,8 +22,7 @@ class PostApi extends HttpRequest {
     await post('/post', data: data, handler: true);
   }
 
-  Future<Post> addResult(String? id, Post data) async {
-    var res = await put('/post/$id/result', data: data);
-    return Post.fromJson(res as Map<String, dynamic>);
+  addResult(String? id, Post data) async {
+    await put('/post/$id/result', data: data);
   }
 }

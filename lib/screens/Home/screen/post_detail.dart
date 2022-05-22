@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
+import 'package:sos/screens/Home/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:after_layout/after_layout.dart';
@@ -11,6 +12,7 @@ import '../../../components/before_after/index.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../components/upload_image/form_upload_image.dart';
+import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -63,8 +65,10 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
             loading = true;
           });
           Post save = Post.fromJson(fbKey.currentState!.value);
-          save.postStatus = isConfirm == false ? "FAILED" : "SOLVED";
+          save.postStatus = "SOLVED";
           await PostApi().addResult(data.id, save);
+          await Provider.of<SectorProvider>(context, listen: false).sector();
+          Navigator.of(context).restorablePopAndPushNamed(HomePage.routeName);
           setState(() {
             loading = false;
           });
@@ -90,6 +94,8 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
           Post save = Post.fromJson(fbKey.currentState!.value);
           save.postStatus = "FAILED";
           await PostApi().addResult(data.id, save);
+          await Provider.of<SectorProvider>(context, listen: false).sector();
+          Navigator.of(context).restorablePopAndPushNamed(HomePage.routeName);
           setState(() {
             loading = false;
           });
@@ -376,11 +382,11 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
-        backgroundColor: primaryColor,
+        backgroundColor: white,
         elevation: 0.0,
         automaticallyImplyLeading: false,
         title: const Text(
-          "PostDetail",
+          "Эрсдэлийг дэлгэрэнгүй",
           style: TextStyle(fontSize: 16, color: dark),
         ),
         actions: [
@@ -566,8 +572,11 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   data.postStatus == "PENDING"
                       ? data.sector!.id == user.sector
                           ? actionButton()
-                          : SizedBox()
-                      : SizedBox()
+                          : const SizedBox()
+                      : const SizedBox(),
+                  const SizedBox(
+                    height: 25,
+                  ),
                 ],
               ),
       ),

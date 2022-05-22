@@ -60,7 +60,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
           child: Column(
             children: [
               UploadAvatar(user: user, onChange: onChange),
-              Text("${user.firstName}" "${user.lastName}"),
+              Text("${user.firstName}"),
               const SizedBox(
                 height: 20,
               ),

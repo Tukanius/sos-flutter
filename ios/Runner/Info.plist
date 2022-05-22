@@ -18,6 +18,15 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
+<!-- permissions -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please grant photo gallery access</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Please grant camera access</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Please grant microphone access</string>
+	<!-- end permissions -->
+
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>

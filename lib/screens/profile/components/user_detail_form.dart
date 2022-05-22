@@ -89,34 +89,34 @@ class _UserDetailFormState extends State<UserDetailForm> {
           const SizedBox(
             height: 15,
           ),
-          FormTextField(
-            name: "email",
-            textCapitalization: TextCapitalization.none,
-            inputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              enabled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              filled: true,
-              hintStyle: const TextStyle(color: Colors.black54, fontSize: 14),
-              hintText: "И-мейл",
-              fillColor: white,
-            ),
-            validators: FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                errorText: "И-мейлээ оруулна уу",
-              ),
-              (dynamic value) {
-                return isEmail(value.toString())
-                    ? null
-                    : "Мэйл хаяг оруулна уу!";
-              }
-            ]),
-          ),
+          // FormTextField(
+          //   name: "email",
+          //   textCapitalization: TextCapitalization.none,
+          //   inputAction: TextInputAction.next,
+          //   decoration: InputDecoration(
+          //     enabled: true,
+          //     border: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(10),
+          //       borderSide: BorderSide.none,
+          //     ),
+          //     contentPadding:
+          //         const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          //     filled: true,
+          //     hintStyle: const TextStyle(color: Colors.black54, fontSize: 14),
+          //     hintText: "И-мейл",
+          //     fillColor: white,
+          //   ),
+          //   validators: FormBuilderValidators.compose([
+          //     FormBuilderValidators.required(
+          //       errorText: "И-мейлээ оруулна уу",
+          //     ),
+          //     (dynamic value) {
+          //       return isEmail(value.toString())
+          //           ? null
+          //           : "Мэйл хаяг оруулна уу!";
+          //     }
+          //   ]),
+          // ),
           const SizedBox(
             height: 15,
           ),
@@ -154,7 +154,7 @@ String? validatePassword(String value, context) {
     return 'Нууц үгээ оруулна уу';
   } else {
     if (!regex.hasMatch(value)) {
-      return 'Нууц үг тохирохгүй байна';
+      return 'Нууц үг багадаа 1 том үсэг 1 тэмдэгт авна';
     } else {
       return null;
     }

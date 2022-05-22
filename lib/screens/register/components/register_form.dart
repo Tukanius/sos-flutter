@@ -53,11 +53,12 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           FormTextField(
             name: "phone",
-            initialValue: "88777777",
+            maxLenght: 8,
             textCapitalization: TextCapitalization.none,
             inputType: TextInputType.phone,
             inputAction: TextInputAction.next,
             decoration: InputDecoration(
+              counterText: "",
               enabled: true,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -70,18 +71,22 @@ class _RegisterFormState extends State<RegisterForm> {
               hintText: "Утасны дугаараа оруулна уу",
               fillColor: white,
             ),
-            validators: FormBuilderValidators.compose([
-              FormBuilderValidators.required(
-                errorText: "Утасны дугаараа оруулна уу",
-              ),
-            ]),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Заавал оруулна';
+              }
+              if (value.trim().length < 8) {
+                return 'Утасны дугаараа оруулна уу';
+              }
+              // Return null if the entered password is valid
+              return null;
+            },
           ),
           const SizedBox(
             height: 15,
           ),
           FormTextField(
             name: "firstName",
-            initialValue: "Tuguldur",
             textCapitalization: TextCapitalization.none,
             inputAction: TextInputAction.next,
             decoration: InputDecoration(
@@ -108,7 +113,6 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           FormTextField(
             name: "lastName",
-            initialValue: "Enkhbaatar",
             textCapitalization: TextCapitalization.none,
             inputAction: TextInputAction.next,
             decoration: InputDecoration(
@@ -135,7 +139,6 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           FormTextField(
             name: "password",
-            initialValue: "Aa123456",
             inputType: TextInputType.text,
             inputAction: TextInputAction.next,
             obscureText: _isVisible,
@@ -178,7 +181,6 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           FormTextField(
             name: "password_verify",
-            initialValue: "Aa123456",
             inputType: TextInputType.text,
             inputAction: TextInputAction.done,
             obscureText: _isVisible1,
@@ -241,6 +243,9 @@ class _RegisterFormState extends State<RegisterForm> {
                 style: TextStyle(color: black, fontSize: 16),
               ),
             ),
+          ),
+          const SizedBox(
+            height: 25,
           ),
         ],
       ),

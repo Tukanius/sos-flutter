@@ -68,6 +68,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
+              const SizedBox(
+                height: 25,
+              ),
               ChangePasswordForm(
                 user: user,
                 onSubmit: onSubmit,
