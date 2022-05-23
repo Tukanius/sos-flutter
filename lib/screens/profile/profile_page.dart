@@ -31,7 +31,9 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
 
   logout() async {
     await Provider.of<UserProvider>(context, listen: false).logout();
-    Navigator.of(context).pushReplacementNamed(SplashPage.routeName);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const SplashPage()),
+        (Route<dynamic> route) => false);
   }
 
   @override
@@ -240,8 +242,8 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   children: [
                     SvgPicture.asset(
                       "assets/Power.svg",
-                      width: 20,
-                      height: 20,
+                      width: 15,
+                      height: 15,
                     ),
                     const SizedBox(
                       width: 15,

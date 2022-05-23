@@ -20,6 +20,7 @@ class PostProvider extends ChangeNotifier {
         await PostApi().list(ResultArguments(filter: filter, offset: offset));
     postList = res;
     notifyListeners();
+    return res;
   }
 
   // getFilter(Filter filters) {

@@ -10,6 +10,7 @@ import 'package:sos/models/user.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:sos/provider/post_provider.dart';
 import 'package:sos/screens/home/index.dart';
+import 'package:sos/screens/splash/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:like_button/like_button.dart';
 import '../../../main.dart';
@@ -162,6 +163,14 @@ class _PostCardState extends State<PostCard> {
         });
   }
 
+  click(context) async {
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
+    locator<NavigationService>().pushReplacementNamed(
+      routeName: MyCreatePostPage.routeName,
+    );
+  }
+
   deleteButton(context, data, ctx) async {
     setState(() {
       isLoading = true;
@@ -173,9 +182,7 @@ class _PostCardState extends State<PostCard> {
           .post(page, limit, filter);
       Navigator.of(context).pop();
       widget.type == "MYPOST"
-          ? locator<NavigationService>().restorablePopAndPushNamed(
-              routeName: MyCreatePostPage.routeName,
-            )
+          ? click(ctx)
           : locator<NavigationService>().restorablePopAndPushNamed(
               routeName: HomePage.routeName,
             );
@@ -227,24 +234,26 @@ class _PostCardState extends State<PostCard> {
                 style: TextStyle(
                     color: Colors.black.withOpacity(0.6), fontSize: 12),
               ),
-              trailing: user.id == widget.data!.user!.id
-                  ? PopupMenuButton(
-                      icon: const Icon(Icons.more_vert),
-                      itemBuilder: (context) {
-                        return [
-                          const PopupMenuItem(
-                            value: 'edit',
-                            child: Text('Засах'),
-                          ),
-                          const PopupMenuItem(
-                            value: 'delete',
-                            child: Text('Устгах'),
-                          )
-                        ];
-                      },
-                      onSelected: (String value) =>
-                          actionPopUpItemSelected(value, widget.data),
-                    )
+              trailing: widget.data!.postStatus == "NEW"
+                  ? user.id == widget.data!.user!.id
+                      ? PopupMenuButton(
+                          icon: const Icon(Icons.more_vert),
+                          itemBuilder: (context) {
+                            return [
+                              const PopupMenuItem(
+                                value: 'edit',
+                                child: Text('Засах'),
+                              ),
+                              const PopupMenuItem(
+                                value: 'delete',
+                                child: Text('Устгах'),
+                              )
+                            ];
+                          },
+                          onSelected: (String value) =>
+                              actionPopUpItemSelected(value, widget.data),
+                        )
+                      : const SizedBox()
                   : const SizedBox(),
             ),
             Expanded(
@@ -262,7 +271,7 @@ class _PostCardState extends State<PostCard> {
                   width: MediaQuery.of(context).size.width,
                   child: ProgressiveImage.custom(
                     placeholderBuilder: (BuildContext context) => _customWidget,
-                    thumbnail: NetworkImage(
+                    thumbnail: const NetworkImage(
                         'https://i.imgur.com/4WRfwXm.jpg'), // 64x43
                     image:
                         NetworkImage('${widget.data!.getImage()}'), // 3240x2160

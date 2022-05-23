@@ -126,7 +126,6 @@ class _MyCreatePostPageState extends State<MyCreatePostPage>
             ];
           },
           body: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
             controller: tabController,
             dragStartBehavior: DragStartBehavior.start,
             children: [

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:sos/screens/home/components/post_card.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:skeletons/skeletons.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../api/post_api.dart';
 import '../../../../models/result.dart';
-import '../../../../provider/post_provider.dart';
 
 class Page1 extends StatefulWidget {
   final String? name;
@@ -29,7 +29,7 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
   bool loading = true;
   int page = 1;
   int limit = 1000;
-  Result? post = Result(count: 0, rows: []);
+  Result? warningPost = Result(count: 0, rows: []);
 
   @override
   void initState() {
@@ -46,16 +46,21 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
 
   @override
   void afterFirstLayout(BuildContext context) async {
-    await Provider.of<PostProvider>(context, listen: false)
-        .post(page, limit, widget.filter);
+    await post(page, limit);
+  }
+
+  post(int page, int limit) async {
+    Offset offset = Offset(limit: limit, page: page);
+    Result res = await PostApi()
+        .list(ResultArguments(filter: widget.filter, offset: offset));
     setState(() {
+      warningPost = res;
       loading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    post = Provider.of<PostProvider>(context, listen: true).postList;
     if (loading == true) {
       return Column(
         children: [
@@ -160,7 +165,7 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
             SizedBox(
               height: widget.height,
             ),
-            if (post!.rows!.isEmpty)
+            if (warningPost!.rows!.isEmpty)
               Column(
                 children: [
                   const SizedBox(
@@ -184,9 +189,9 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
               ),
             Column(
               children: [
-                for (int i = 0; i < post!.rows!.length; i++)
+                for (int i = 0; i < warningPost!.rows!.length; i++)
                   PostCard(
-                    data: post!.rows![i],
+                    data: warningPost!.rows![i],
                     type: widget.type,
                   ),
               ],

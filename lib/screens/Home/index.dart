@@ -422,25 +422,21 @@ class _HomePageState extends State<HomePage>
             children: [
               SingleChildScrollView(
                 child: Page1(
-                  name: "Page 1",
                   filter: filter,
                 ),
               ),
               SingleChildScrollView(
                 child: Page1(
-                  name: "Page 2",
                   filter: filter,
                 ),
               ),
               SingleChildScrollView(
                 child: Page1(
-                  name: "Page 3",
                   filter: filter,
                 ),
               ),
               SingleChildScrollView(
                 child: Page1(
-                  name: "Page 4",
                   filter: filter,
                 ),
               ),

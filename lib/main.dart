@@ -27,14 +27,14 @@ import 'package:sos/screens/splash/index.dart';
 import 'package:sos/services/dialog.dart';
 import 'package:sos/services/navigation.dart';
 import 'package:provider/provider.dart';
-import 'package:sos/utils/firebase/index.dart';
+// import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/dialog_manager/dialog_manager.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseUtils.main();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  // FirebaseUtils.main();
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => DialogService());
 

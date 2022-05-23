@@ -42,6 +42,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                   name: "oldPassword",
                   inputType: TextInputType.text,
                   inputAction: TextInputAction.next,
+                  autoFocus: true,
                   obscureText: oldPasswordVisible,
                   controller: widget.user.oldPasswordController,
                   decoration: InputDecoration(

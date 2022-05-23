@@ -11,8 +11,8 @@ import '../main.dart';
 
 class HttpRequest {
   // static const host = 'https://dev.chewme.pet';
-  // static const host = 'http://192.168.1.17:6002';
-  static const host = 'http://192.168.1.13:6002';
+  static const host = 'http://192.168.1.17:6002';
+  // static const host = 'http://192.168.1.13:6002';
 
   // static const s3host = 'https://chew.s3.amazonaws.com/';
   static const s3host = 'http://192.168.1.17:6002/s3/';
