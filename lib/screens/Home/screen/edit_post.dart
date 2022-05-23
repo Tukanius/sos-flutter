@@ -15,6 +15,8 @@ import '../../../api/post_api.dart';
 import '../../../components/upload_image/form_upload_image.dart';
 import '../../../main.dart';
 import '../../../models/post.dart';
+import '../../../models/result.dart';
+import '../../../provider/post_provider.dart';
 import '../../../provider/user_provider.dart';
 import '../../../services/navigation.dart';
 import '../../../widgets/form_textfield.dart';
@@ -44,6 +46,9 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
   String? image;
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   bool? visible = false;
+  int page = 1;
+  int limit = 1000;
+  Filter filter = Filter();
 
   @override
   void afterFirstLayout(BuildContext context) {}
@@ -102,8 +107,11 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                               "Үргэлжлүүлэх",
                               style: TextStyle(color: dark),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               Navigator.of(context).pop();
+                              await Provider.of<PostProvider>(ctx,
+                                      listen: false)
+                                  .post(page, limit, filter);
                               locator<NavigationService>()
                                   .restorablePopAndPushNamed(
                                 routeName: HomePage.routeName,

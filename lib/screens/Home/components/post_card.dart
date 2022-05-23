@@ -5,6 +5,7 @@ import 'package:sos/api/post_api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/models/post.dart';
+import 'package:sos/models/result.dart';
 import 'package:sos/models/user.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:sos/provider/post_provider.dart';
@@ -67,6 +68,9 @@ class _PostCardState extends State<PostCard> {
   bool? likeLoading = false;
   bool? isDelete = false;
   bool? isLoading = false;
+  int page = 1;
+  int limit = 1000;
+  Filter filter = Filter();
 
   boderColor() {
     switch (widget.data!.postStatus) {
@@ -165,6 +169,8 @@ class _PostCardState extends State<PostCard> {
     try {
       await PostApi().deletePost(data.id);
       await Provider.of<SectorProvider>(ctx, listen: false).sector();
+      await Provider.of<PostProvider>(ctx, listen: false)
+          .post(page, limit, filter);
       Navigator.of(context).pop();
       widget.type == "MYPOST"
           ? locator<NavigationService>().restorablePopAndPushNamed(

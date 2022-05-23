@@ -131,11 +131,11 @@ class _HomePageState extends State<HomePage>
   };
 
   final colorList = <Color>[
-    Color(0xfffdcb6e),
-    Color(0xff0984e3),
-    Color(0xfffd79a8),
-    Color(0xffe17055),
-    Color(0xff6c5ce7),
+    const Color(0xfffdcb6e),
+    const Color(0xff0984e3),
+    const Color(0xfffd79a8),
+    const Color(0xffe17055),
+    const Color(0xff6c5ce7),
   ];
 
   switchTab() {
@@ -165,11 +165,11 @@ class _HomePageState extends State<HomePage>
                   changePage(0);
                 },
                 child: Container(
-                  padding: EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: checkPage(0) == true
-                        ? Border.all(color: Color(0x4ff3F4448), width: 2)
+                        ? Border.all(color: const Color(0x4ff3F4448), width: 2)
                         : Border.all(color: white, width: 0),
                     color: white,
                   ),
@@ -184,10 +184,10 @@ class _HomePageState extends State<HomePage>
                   changePage(1);
                 },
                 child: Container(
-                  padding: EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     border: checkPage(1) == true
-                        ? Border.all(color: Color(0x4ff3F4448), width: 2)
+                        ? Border.all(color: const Color(0x4ff3F4448), width: 2)
                         : Border.all(color: white, width: 0),
                     borderRadius: BorderRadius.circular(10),
                     color: white,
@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage>
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     border: checkPage(2) == true
-                        ? Border.all(color: Color(0x4ff3F4448), width: 2)
+                        ? Border.all(color: const Color(0x4ff3F4448), width: 2)
                         : Border.all(color: white, width: 0),
                     borderRadius: BorderRadius.circular(10),
                     color: white,
@@ -377,8 +377,6 @@ class _HomePageState extends State<HomePage>
                                     chartValueStyle: TextStyle(fontSize: 12),
                                     decimalPlaces: 0,
                                   ),
-                                  // gradientList: ---To add gradient colors---
-                                  // emptyColorGradient: ---Empty Color gradient---
                                 )
                                 // Row(
                                 //   mainAxisAlignment:
@@ -398,54 +396,6 @@ class _HomePageState extends State<HomePage>
                   ],
                 ),
               ),
-              // SliverOverlapAbsorber(
-              //   handle:
-              //       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              //   sliver: SliverAppBar(
-              //     pinned: true,
-              //     floating: true,
-              //     snap: false,
-              //     elevation: 0.0,
-              //     toolbarHeight: 0,
-              //     backgroundColor: white,
-              //     excludeHeaderSemantics: false,
-              //     automaticallyImplyLeading: false,
-              //     forceElevated: innerBoxIsScrolled,
-              //     bottom: TabBar(
-              //         labelColor: black,
-              //         indicatorColor: orange,
-              //         controller: tabController,
-              //         onTap: (index) async {
-              //           scrollController.animateTo(0.0,
-              //               duration: Duration(milliseconds: 500),
-              //               curve: Curves.ease);
-              //         },
-              //         automaticIndicatorColorAdjustment: false,
-              //         tabs: [
-              //           Tab(
-              //             icon: SvgPicture.asset(
-              //               "assets/tab/1.svg",
-              //               width: 20,
-              //               height: 20,
-              //             ),
-              //           ),
-              //           Tab(
-              //             icon: SvgPicture.asset(
-              //               "assets/tab/2.svg",
-              //               width: 20,
-              //               height: 20,
-              //             ),
-              //           ),
-              //           Tab(
-              //             icon: SvgPicture.asset(
-              //               "assets/tab/3.svg",
-              //               width: 20,
-              //               height: 20,
-              //             ),
-              //           ),
-              //         ]),
-              //   ),
-              // ),
             ];
           },
           body: TabBarView(

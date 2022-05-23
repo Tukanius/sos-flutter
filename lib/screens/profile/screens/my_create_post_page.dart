@@ -50,8 +50,7 @@ class _MyCreatePostPageState extends State<MyCreatePostPage>
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserProvider>(context, listen: false).user;
-
+    user = Provider.of<UserProvider>(context, listen: true).user;
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
