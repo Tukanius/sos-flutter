@@ -27,9 +27,29 @@ class _LoginPageState extends State<LoginPage>
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   bool _isVisible = true;
   bool isSubmit = false;
+  bool saveIsUsername = false;
+  final usernameController = TextEditingController();
 
   @override
-  void afterFirstLayout(BuildContext context) {}
+  void afterFirstLayout(BuildContext context) async {
+    String? username = await UserProvider().getUsername();
+
+    if (username == null) {
+      setState(() {
+        username = username = "";
+      });
+      setState(() {
+        saveIsUsername = false;
+      });
+    } else {
+      setState(() {
+        saveIsUsername = true;
+      });
+    }
+    setState(() {
+      usernameController.text = username.toString();
+    });
+  }
 
   onSubmit() async {
     if (fbKey.currentState!.saveAndValidate()) {
@@ -38,6 +58,11 @@ class _LoginPageState extends State<LoginPage>
           isSubmit = true;
         });
         User save = User.fromJson(fbKey.currentState!.value);
+        if (saveIsUsername == true) {
+          UserProvider().setUsername(save.username.toString());
+        } else {
+          UserProvider().setUsername("");
+        }
         await Provider.of<UserProvider>(context, listen: false).login(save);
         Navigator.of(context).pushReplacementNamed(SplashPage.routeName);
       } catch (e) {
@@ -92,6 +117,7 @@ class _LoginPageState extends State<LoginPage>
                       inputAction: TextInputAction.next,
                       maxLenght: 8,
                       textCapitalization: TextCapitalization.none,
+                      controller: usernameController,
                       decoration: InputDecoration(
                         enabled: true,
                         counterText: "",
@@ -159,8 +185,14 @@ class _LoginPageState extends State<LoginPage>
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  SaveNameCheck(
+                    isSelected: saveIsUsername,
+                    onChanged: (value) {
+                      setState(() => saveIsUsername = !saveIsUsername);
+                    },
+                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(ForgotPage.routeName);
@@ -314,6 +346,58 @@ class _LoginPageState extends State<LoginPage>
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SaveNameCheck extends StatefulWidget {
+  final bool isSelected;
+  final Function(bool) onChanged;
+  const SaveNameCheck(
+      {Key? key, this.isSelected = false, required this.onChanged})
+      : super(key: key);
+
+  @override
+  _SaveNameCheckState createState() => _SaveNameCheckState();
+}
+
+class _SaveNameCheckState extends State<SaveNameCheck> {
+  bool isSelected = false;
+  @override
+  void initState() {
+    isSelected = widget.isSelected;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          isSelected = !isSelected;
+        });
+        widget.onChanged(isSelected);
+      },
+      child: Row(
+        children: [
+          Icon(
+            widget.isSelected ? Icons.check_circle : Icons.circle_outlined,
+            color: orange,
+            size: 20.0,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          const Text(
+            'Нэвтрэх нэр хадгалах',
+            style: TextStyle(
+              fontSize: 14,
+              color: black,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
       ),
     );
   }

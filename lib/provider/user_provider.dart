@@ -21,6 +21,17 @@ class UserProvider extends ChangeNotifier {
     await setAccessToken(res.accessToken);
   }
 
+  setUsername(String username) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("USERNAME", username);
+  }
+
+  Future<String?> getUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString("USERNAME");
+    return username;
+  }
+
   setDeviceToken(token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("DEVICE_TOKEN", token);

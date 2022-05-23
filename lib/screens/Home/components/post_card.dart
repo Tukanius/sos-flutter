@@ -293,75 +293,83 @@ class _PostCardState extends State<PostCard> {
                           .getLike(widget.data!.id);
                     },
                     child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 0.3, color: grey)),
-                      height: 55,
-                      child: LikeButton(
-                        size: 35,
-                        isLiked: widget.data!.liked,
-                        circleColor: const CircleColor(
-                            start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                        bubblesColor: const BubblesColor(
-                          dotPrimaryColor: Color(0xff33b5e5),
-                          dotSecondaryColor: Color(0xff0099cc),
-                        ),
-                        likeBuilder: (bool isLiked) {
-                          return likeLoading == false
-                              ? Icon(
-                                  Icons.favorite,
-                                  color:
-                                      widget.data!.liked == true ? red : grey,
-                                  size: 25,
-                                )
-                              : const SpinKitCircle(
-                                  size: 25,
-                                  color: orange,
-                                );
-                        },
-                        onTap: (value) async {
-                          if (user.id != null) {
-                            if (widget.data!.liked == false) {
-                              setState(() {
-                                likeLoading = true;
-                              });
-                              try {
-                                await Provider.of<PostProvider>(context,
-                                        listen: false)
-                                    .getLike(widget.data!.id);
-                                setState(() {
-                                  widget.data!.liked = true;
-                                  likeLoading = false;
-                                });
-                              } catch (e) {
-                                setState(() {
-                                  likeLoading = false;
-                                });
-                              }
-                            } else {
-                              setState(() {
-                                likeLoading = true;
-                              });
-                              try {
-                                await PostApi()
-                                    .like(widget.data!.id.toString());
-                                setState(() {
-                                  widget.data!.liked = false;
-                                  likeLoading = false;
-                                });
-                              } catch (e) {
-                                setState(() {
-                                  likeLoading = false;
-                                });
-                              }
-                            }
-                            return widget.data!.liked;
-                          } else {
-                            locator<DialogService>()
-                                .showErrorDialogListener("Нэвтрэн үү");
-                          }
-                        },
-                      ),
-                    ),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 0.3, color: grey)),
+                        height: 55,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            LikeButton(
+                              size: 35,
+                              isLiked: widget.data!.liked,
+                              circleColor: const CircleColor(
+                                  start: Color(0xff00ddff),
+                                  end: Color(0xff0099cc)),
+                              bubblesColor: const BubblesColor(
+                                dotPrimaryColor: Color(0xff33b5e5),
+                                dotSecondaryColor: Color(0xff0099cc),
+                              ),
+                              likeBuilder: (bool isLiked) {
+                                return likeLoading == false
+                                    ? Icon(
+                                        Icons.favorite,
+                                        color: widget.data!.liked == true
+                                            ? red
+                                            : grey,
+                                        size: 25,
+                                      )
+                                    : const SpinKitCircle(
+                                        size: 25,
+                                        color: orange,
+                                      );
+                              },
+                              onTap: (value) async {
+                                if (user.id != null) {
+                                  if (widget.data!.liked == false) {
+                                    setState(() {
+                                      likeLoading = true;
+                                    });
+                                    try {
+                                      await Provider.of<PostProvider>(context,
+                                              listen: false)
+                                          .getLike(widget.data!.id);
+                                      setState(() {
+                                        widget.data!.liked = true;
+                                        likeLoading = false;
+                                      });
+                                    } catch (e) {
+                                      setState(() {
+                                        likeLoading = false;
+                                      });
+                                    }
+                                  } else {
+                                    setState(() {
+                                      likeLoading = true;
+                                    });
+                                    try {
+                                      await PostApi()
+                                          .like(widget.data!.id.toString());
+                                      setState(() {
+                                        widget.data!.liked = false;
+                                        likeLoading = false;
+                                      });
+                                    } catch (e) {
+                                      setState(() {
+                                        likeLoading = false;
+                                      });
+                                    }
+                                  }
+                                  return widget.data!.liked;
+                                } else {
+                                  locator<DialogService>()
+                                      .showErrorDialogListener("Нэвтрэн үү");
+                                }
+                              },
+                            ),
+                            if (widget.data!.likeCount != 0)
+                              Text("${widget.data!.likeCount}"),
+                          ],
+                        )),
                   ),
                 ),
                 Expanded(

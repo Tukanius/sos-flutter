@@ -290,6 +290,20 @@ class _HomePageState extends State<HomePage>
                                                 .sectorGet(value);
                                           },
                                           decoration: InputDecoration(
+                                            prefixIcon: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              padding: const EdgeInsets.all(11),
+                                              height: 15,
+                                              width: 15,
+                                              child: Image.network(
+                                                sectorData!.rows!
+                                                    .elementAt(0)
+                                                    .getAvatar(),
+                                              ),
+                                            ),
                                             filled: true,
                                             fillColor: Color(0x4ffEBEDF1),
                                             contentPadding:
@@ -324,10 +338,10 @@ class _HomePageState extends State<HomePage>
                                         ),
                                       ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              switchTab(),
+                              // const SizedBox(
+                              //   width: 10,
+                              // ),
+                              // switchTab(),
                             ],
                           ),
                           const SizedBox(height: 20),

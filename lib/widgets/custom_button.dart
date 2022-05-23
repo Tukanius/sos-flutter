@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sos/widgets/colors.dart';
 
 class CustomButton extends StatefulWidget {
   final Function()? onClick;
@@ -42,7 +43,7 @@ class _CustomButtonState extends State<CustomButton> {
         onPressed: widget.onClick,
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          shadowColor: Colors.transparent,
+          shadowColor: white,
           primary: widget.color, // background
           onPrimary: Colors.white,
           shape: RoundedRectangleBorder(

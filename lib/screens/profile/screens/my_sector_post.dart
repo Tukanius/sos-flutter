@@ -121,6 +121,7 @@ class _MySectorPostState extends State<MySectorPost>
           },
           body: TabBarView(
             controller: tabController,
+            physics: const NeverScrollableScrollPhysics(),
             dragStartBehavior: DragStartBehavior.start,
             children: [
               SingleChildScrollView(
