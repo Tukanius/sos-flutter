@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <g id="Logoutv" transform="translate(0 0)">
+    <rect id="Rectangle_37" data-name="Rectangle 37" width="24" height="52" rx="1" transform="translate(22 6)" fill="#fffae6"/>
+    <path id="Path_100" data-name="Path 100" d="M63.707,31.293l-9-9a1,1,0,0,0-1.414,0l-3,3a1,1,0,0,0,0,1.414L52.586,29H32a1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H52.586l-2.293,2.293a1,1,0,0,0,0,1.414l3,3a1,1,0,0,0,1.414,0l9-9a1,1,0,0,0,0-1.414Z" fill="#ffb822"/>
+    <path id="Path_101" data-name="Path 101" d="M23.586.19a1,1,0,0,0-.9-.14l-22,7.267A1,1,0,0,0,0,8.267V55.733a1,1,0,0,0,.686.95l22,7.267A1,1,0,0,0,24,63V1a1,1,0,0,0-.414-.81Z" fill="#ffb822"/>
+    <circle id="Ellipse_18" data-name="Ellipse 18" cx="3" cy="3" r="3" transform="translate(14 29)" fill="#bc8819"/>
+  </g>
+</svg>

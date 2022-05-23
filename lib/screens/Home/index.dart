@@ -346,6 +346,9 @@ class _HomePageState extends State<HomePage>
                                       MainAxisAlignment.spaceBetween,
                                   children: response
                                       .map((Sector e) => ChartNumberCard(
+                                            tabController: tabController,
+                                            onChangeTap: onChangeTap,
+                                            scrollController: scrollController,
                                             dashboard: e,
                                           ))
                                       .toList(),

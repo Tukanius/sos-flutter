@@ -4,6 +4,7 @@ import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Splash/index.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/screens/profile/screens/my_create_post_page.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sos/screens/profile/screens/my_sector_post.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -108,9 +109,21 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   height: 45,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text("Миний илгээсэн эрсдэлүүд"),
-                      Icon(Icons.keyboard_arrow_right)
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/Folder.svg",
+                            width: 16,
+                            height: 16,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          const Text("Миний илгээсэн эрсдэлүүд"),
+                        ],
+                      ),
+                      const Icon(Icons.keyboard_arrow_right)
                     ],
                   ),
                 ),
@@ -130,9 +143,21 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   height: 45,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text("Миний мэдээлэл"),
-                      Icon(Icons.keyboard_arrow_right)
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/User.svg",
+                            width: 20,
+                            height: 20,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          const Text("Миний мэдээлэл"),
+                        ],
+                      ),
+                      const Icon(Icons.keyboard_arrow_right)
                     ],
                   ),
                 ),
@@ -153,9 +178,21 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   height: 45,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text("Нууц үг солих"),
-                      Icon(Icons.keyboard_arrow_right)
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/Setting.svg",
+                            width: 20,
+                            height: 20,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          const Text("Нууц үг солих"),
+                        ],
+                      ),
+                      const Icon(Icons.keyboard_arrow_right)
                     ],
                   ),
                 ),
@@ -181,7 +218,8 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                               children: [
                                 Image.network(
                                   user.sector!.getAvatar(),
-                                  width: 30,
+                                  width: 25,
+                                  height: 25,
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -197,9 +235,24 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   : const SizedBox(),
               CustomButton(
                 width: MediaQuery.of(context).size.width,
-                labelText: "Гарах",
-                fontSize: 16,
-                color: red,
+                customWidget: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/Power.svg",
+                      width: 20,
+                      height: 20,
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    const Text(
+                      "Гарах",
+                      style: TextStyle(color: red, fontSize: 16),
+                    ),
+                  ],
+                ),
+                color: white,
                 onClick: () async {
                   logout();
                 },
