@@ -46,7 +46,7 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     User user = widget.user!;
     return FormBuilder(
-      autovalidateMode: AutovalidateMode.disabled,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       key: user.fbKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

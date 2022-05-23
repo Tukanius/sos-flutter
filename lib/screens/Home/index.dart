@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/components/header/index.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
@@ -121,6 +122,21 @@ class _HomePageState extends State<HomePage>
       return false;
     }
   }
+
+  Map<String, double> dataMap = {
+    "Flutter": 5,
+    "React": 3,
+    "Xamarin": 2,
+    "Ionic": 2,
+  };
+
+  final colorList = <Color>[
+    Color(0xfffdcb6e),
+    Color(0xff0984e3),
+    Color(0xfffd79a8),
+    Color(0xffe17055),
+    Color(0xff6c5ce7),
+  ];
 
   switchTab() {
     if (response.isEmpty) {
@@ -308,10 +324,10 @@ class _HomePageState extends State<HomePage>
                                         ),
                                       ),
                               ),
-                              // const SizedBox(
-                              //   width: 10,
-                              // ),
-                              // switchTab(),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              switchTab(),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -334,6 +350,45 @@ class _HomePageState extends State<HomePage>
                                           ))
                                       .toList(),
                                 ),
+                                PieChart(
+                                  dataMap: dataMap,
+                                  animationDuration:
+                                      const Duration(milliseconds: 800),
+                                  chartLegendSpacing: 32,
+                                  chartRadius: 55,
+                                  colorList: colorList,
+                                  initialAngleInDegree: 0,
+                                  chartType: ChartType.ring,
+                                  ringStrokeWidth: 32,
+                                  legendOptions: const LegendOptions(
+                                    showLegendsInRow: false,
+                                    legendPosition: LegendPosition.right,
+                                    showLegends: true,
+                                    legendShape: BoxShape.circle,
+                                    legendTextStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  chartValuesOptions: const ChartValuesOptions(
+                                    showChartValueBackground: false,
+                                    showChartValues: true,
+                                    showChartValuesInPercentage: false,
+                                    showChartValuesOutside: false,
+                                    chartValueStyle: TextStyle(fontSize: 12),
+                                    decimalPlaces: 0,
+                                  ),
+                                  // gradientList: ---To add gradient colors---
+                                  // emptyColorGradient: ---Empty Color gradient---
+                                )
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: response
+                                //       .map((Sector e) => ChartNumberCard(
+                                //             dashboard: e,
+                                //           ))
+                                //       .toList(),
+                                // ),
                               ],
                             ),
                           ),

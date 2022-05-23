@@ -1,3 +1,5 @@
+import '../utils/http_request.dart';
+
 part '../parts/sector.dart';
 
 class Sector {
@@ -29,6 +31,10 @@ class Sector {
   Sector? stats;
   int? pending;
   int? solved;
+
+  getAvatar() {
+    return HttpRequest.s3host + avatar.toString();
+  }
 
   Sector({
     this.count,

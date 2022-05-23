@@ -176,9 +176,20 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                         height: 45,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text("Надад хамааралтай"),
-                            Icon(Icons.keyboard_arrow_right)
+                          children: [
+                            Row(
+                              children: [
+                                Image.network(
+                                  user.sector!.getAvatar(),
+                                  width: 30,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text("${user.sector!.fullName}"),
+                              ],
+                            ),
+                            const Icon(Icons.keyboard_arrow_right)
                           ],
                         ),
                       ),

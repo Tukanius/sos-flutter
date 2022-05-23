@@ -16,13 +16,19 @@ import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
 import '../../../services/dialog.dart';
 import '../../../services/navigation.dart';
+import '../../profile/screens/my_create_post_page.dart';
 import '../screen/edit_post.dart';
 import '../screen/post_detail.dart';
 
 class PostCard extends StatefulWidget {
   final Post? data;
+  final String? type;
 
-  const PostCard({Key? key, this.data}) : super(key: key);
+  const PostCard({
+    Key? key,
+    this.data,
+    this.type,
+  }) : super(key: key);
 
   @override
   State<PostCard> createState() => _PostCardState();
@@ -60,6 +66,7 @@ class _PostCardState extends State<PostCard> {
   User user = User();
   bool? likeLoading = false;
   bool? isDelete = false;
+  bool? isLoading = false;
 
   boderColor() {
     switch (widget.data!.postStatus) {
@@ -78,7 +85,7 @@ class _PostCardState extends State<PostCard> {
   show(ctx, data) async {
     showDialog(
         barrierDismissible: false,
-        context: ctx,
+        context: context,
         builder: (context) {
           return Container(
             alignment: Alignment.center,
@@ -114,7 +121,10 @@ class _PostCardState extends State<PostCard> {
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                            child: const Text("Болих"),
+                            child: const Text(
+                              "Болих",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () async {
                               Navigator.of(context).pop();
                               setState(() {
@@ -123,17 +133,14 @@ class _PostCardState extends State<PostCard> {
                             },
                           ),
                           TextButton(
-                            child: const Text("Устгах"),
+                            child: const Text(
+                              "Устгах",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () async {
-                              await PostApi().deletePost(data.id);
-                              await Provider.of<SectorProvider>(ctx,
-                                      listen: false)
-                                  .sector();
-                              Navigator.of(context).pop();
-                              locator<NavigationService>()
-                                  .restorablePopAndPushNamed(
-                                routeName: HomePage.routeName,
-                              );
+                              if (isLoading == false) {
+                                deleteButton(context, data, ctx);
+                              }
                               setState(() {
                                 isDelete = false;
                               });
@@ -149,6 +156,28 @@ class _PostCardState extends State<PostCard> {
             ),
           );
         });
+  }
+
+  deleteButton(context, data, ctx) async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      await PostApi().deletePost(data.id);
+      await Provider.of<SectorProvider>(ctx, listen: false).sector();
+      Navigator.of(context).pop();
+      widget.type == "MYPOST"
+          ? locator<NavigationService>().restorablePopAndPushNamed(
+              routeName: MyCreatePostPage.routeName,
+            )
+          : locator<NavigationService>().restorablePopAndPushNamed(
+              routeName: HomePage.routeName,
+            );
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   actionPopUpItemSelected(String value, data) async {
@@ -186,7 +215,7 @@ class _PostCardState extends State<PostCard> {
                 width: 37,
                 height: 37,
               ),
-              title: Text('${widget.data!.user!.firstName}'),
+              title: const Text('Эрсдэл'),
               subtitle: Text(
                 '${type(widget.data)}',
                 style: TextStyle(

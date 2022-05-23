@@ -130,7 +130,8 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
           loading = true;
         });
         Post save = Post.fromJson(fbKey.currentState!.value);
-
+        print(save.toJson());
+        save.image = widget.data!.image;
         await PostApi().editPost(widget.data!.id, save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
         show(context);
@@ -173,7 +174,7 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
         elevation: 0.0,
         automaticallyImplyLeading: false,
         title: const Text(
-          "Create post",
+          "Эрсдэл засах",
           style: TextStyle(fontSize: 16, color: dark),
         ),
         actions: [

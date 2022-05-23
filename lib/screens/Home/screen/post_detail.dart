@@ -43,6 +43,7 @@ class PostDetailPage extends StatefulWidget {
 
 class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   bool? isLoading = true;
+  bool? deleteloading = true;
   Post data = Post();
   bool? visible = false;
   User user = User();
@@ -485,7 +486,10 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextButton(
-                            child: const Text("Болих"),
+                            child: const Text(
+                              "Болих",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () async {
                               Navigator.of(context).pop();
                               setState(() {
@@ -494,17 +498,14 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                             },
                           ),
                           TextButton(
-                            child: const Text("Устгах"),
+                            child: const Text(
+                              "Устгах",
+                              style: TextStyle(color: dark),
+                            ),
                             onPressed: () async {
-                              await PostApi().deletePost(data.id);
-                              Navigator.of(context).pop();
-                              await Provider.of<SectorProvider>(ctx,
-                                      listen: false)
-                                  .sector();
-                              locator<NavigationService>()
-                                  .restorablePopAndPushNamed(
-                                routeName: HomePage.routeName,
-                              );
+                              if (loading == false) {
+                                deleteButton(context, data, ctx);
+                              }
                               setState(() {
                                 isDelete = false;
                               });
@@ -520,6 +521,24 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
             ),
           );
         });
+  }
+
+  deleteButton(context, data, ctx) async {
+    setState(() {
+      loading = true;
+    });
+    try {
+      await PostApi().deletePost(data.id);
+      await Provider.of<SectorProvider>(ctx, listen: false).sector();
+      Navigator.of(context).pop();
+      locator<NavigationService>().restorablePopAndPushNamed(
+        routeName: HomePage.routeName,
+      );
+    } catch (e) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   actionPopUpItemSelected(String value, data) async {
@@ -845,19 +864,6 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   children: [
                     Text(
                       data.getPostDate(),
-                      style: const TextStyle(fontSize: 12, color: greyDark),
-                    ),
-                    Container(
-                      height: 6,
-                      width: 6,
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(180),
-                        color: greyDark,
-                      ),
-                    ),
-                    Text(
-                      "${data.user!.firstName} ${data.user!.lastName}",
                       style: const TextStyle(fontSize: 12, color: greyDark),
                     ),
                   ],

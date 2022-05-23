@@ -150,7 +150,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
         elevation: 0.0,
         automaticallyImplyLeading: false,
         title: const Text(
-          "Create post",
+          "Эрсдэл мэдэгдэх",
           style: TextStyle(fontSize: 16, color: dark),
         ),
         actions: [

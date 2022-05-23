@@ -12,8 +12,14 @@ class Page1 extends StatefulWidget {
   final String? name;
   final Filter? filter;
   final double? height;
-  const Page1({Key? key, this.name, this.filter, this.height})
-      : super(key: key);
+  final String? type;
+  const Page1({
+    Key? key,
+    this.name,
+    this.filter,
+    this.height,
+    this.type,
+  }) : super(key: key);
 
   @override
   State<Page1> createState() => _Page1State();
@@ -186,6 +192,7 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
                 for (int i = 0; i < warningPost!.rows!.length; i++)
                   PostCard(
                     data: warningPost!.rows![i],
+                    type: widget.type,
                   ),
               ],
             ),

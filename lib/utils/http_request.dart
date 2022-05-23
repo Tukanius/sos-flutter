@@ -51,7 +51,7 @@ class HttpRequest {
 
       dio.options.headers = {
         'authorization': 'Bearer $token',
-        'device_token': '$deviceToken',
+        'device-token': '$deviceToken',
         'device_type': 'MOS',
         'device_imei': 'test-imei',
         'device_info': 'iphone 13'

@@ -133,7 +133,11 @@ class _MyCreatePostPageState extends State<MyCreatePostPage>
               SingleChildScrollView(
                 child: Page1(
                   name: "Page 1",
-                  filter: Filter(user: user.id, postStatus: "NEW"),
+                  filter: Filter(
+                    user: user.id,
+                    postStatus: "NEW",
+                  ),
+                  type: "MYPOST",
                   height: 50,
                 ),
               ),

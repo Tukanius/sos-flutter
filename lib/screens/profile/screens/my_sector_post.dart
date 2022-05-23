@@ -38,7 +38,7 @@ class _MySectorPostState extends State<MySectorPost>
 
   @override
   void initState() {
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -64,7 +64,7 @@ class _MySectorPostState extends State<MySectorPost>
         ),
       ),
       body: DefaultTabController(
-        length: 4,
+        length: 3,
         child: NestedScrollView(
           controller: scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -95,13 +95,6 @@ class _MySectorPostState extends State<MySectorPost>
                       tabs: [
                         Tab(
                           icon: SvgPicture.asset(
-                            "assets/tab/1.svg",
-                            width: 20,
-                            height: 20,
-                          ),
-                        ),
-                        Tab(
-                          icon: SvgPicture.asset(
                             "assets/tab/2.svg",
                             width: 20,
                             height: 20,
@@ -130,16 +123,6 @@ class _MySectorPostState extends State<MySectorPost>
             controller: tabController,
             dragStartBehavior: DragStartBehavior.start,
             children: [
-              SingleChildScrollView(
-                child: Page1(
-                  name: "Page 1",
-                  filter: Filter(
-                    sector: user.sector!.id,
-                    postStatus: "NEW",
-                  ),
-                  height: 50,
-                ),
-              ),
               SingleChildScrollView(
                 child: Page1(
                   name: "Page 2",
