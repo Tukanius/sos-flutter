@@ -567,29 +567,29 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
               const SizedBox(width: 18),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(80),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    // Navigator.of(context).pushNamed(NotificationPage.routeName);
-                  },
-                  child: Container(
-                    width: 32,
-                    height: 32,
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(80),
-                    ),
-                    child: SvgPicture.asset(
-                      "assets/tab/4.svg",
-                      width: 32,
-                      height: 32,
-                    ),
-                  ),
-                ),
-              ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(80),
+              //   ),
+              //   child: InkWell(
+              //     onTap: () {
+              //       // Navigator.of(context).pushNamed(NotificationPage.routeName);
+              //     },
+              //     child: Container(
+              //       width: 32,
+              //       height: 32,
+              //       padding: const EdgeInsets.all(3),
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(80),
+              //       ),
+              //       child: SvgPicture.asset(
+              //         "assets/tab/4.svg",
+              //         width: 32,
+              //         height: 32,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               InkWell(
                   borderRadius: BorderRadius.circular(80),
                   onTap: () {

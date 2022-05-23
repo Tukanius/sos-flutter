@@ -67,7 +67,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
                         children: <Widget>[
                           TextButton(
                             child: const Text(
-                              "Үргэлжлүүлэх",
+                              "Ойлголоо",
                               style: TextStyle(color: dark),
                             ),
                             onPressed: () {
