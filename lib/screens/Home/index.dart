@@ -469,60 +469,47 @@ class _HomePageState extends State<HomePage>
                                         ],
                                       ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     response.isNotEmpty
-                                        ? PieChart(
-                                            dataMap: chartData(response),
-                                            animationDuration: const Duration(
-                                                milliseconds: 800),
-                                            chartLegendSpacing: 32,
-                                            chartRadius: 55,
-                                            colorList: colorList,
-                                            initialAngleInDegree: 0,
-                                            chartType: ChartType.ring,
-                                            ringStrokeWidth: 30,
-                                            legendOptions: const LegendOptions(
-                                              showLegendsInRow: false,
-                                              legendPosition:
-                                                  LegendPosition.right,
-                                              showLegends: true,
-                                              legendShape: BoxShape.circle,
-                                              legendTextStyle:
-                                                  TextStyle(fontSize: 12),
-                                            ),
-                                            chartValuesOptions:
-                                                const ChartValuesOptions(
-                                              showChartValueBackground: false,
-                                              showChartValues: true,
-                                              showChartValuesInPercentage:
-                                                  false,
-                                              showChartValuesOutside: false,
-                                              chartValueStyle:
-                                                  TextStyle(fontSize: 10),
-                                              decimalPlaces: 0,
+                                        ? Expanded(
+                                            child: PieChart(
+                                              dataMap: chartData(response),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 800),
+                                              chartLegendSpacing: 32,
+                                              chartRadius: 55,
+                                              colorList: colorList,
+                                              initialAngleInDegree: 0,
+                                              chartType: ChartType.ring,
+                                              ringStrokeWidth: 30,
+                                              legendOptions:
+                                                  const LegendOptions(
+                                                showLegendsInRow: false,
+                                                legendPosition:
+                                                    LegendPosition.left,
+                                                showLegends: true,
+                                                legendShape: BoxShape.circle,
+                                                legendTextStyle:
+                                                    TextStyle(fontSize: 10),
+                                              ),
+                                              chartValuesOptions:
+                                                  const ChartValuesOptions(
+                                                showChartValueBackground: false,
+                                                showChartValues: true,
+                                                showChartValuesInPercentage:
+                                                    false,
+                                                showChartValuesOutside: false,
+                                                chartValueStyle:
+                                                    TextStyle(fontSize: 10),
+                                                decimalPlaces: 0,
+                                              ),
                                             ),
                                           )
                                         : Expanded(
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                const SizedBox(
-                                                  width: 7,
-                                                ),
-                                                SkeletonAvatar(
-                                                  style: SkeletonAvatarStyle(
-                                                    width: 80,
-                                                    height: 80,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            1000),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
                                                 Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -542,7 +529,7 @@ class _HomePageState extends State<HomePage>
                                                                       BorderRadius
                                                                           .circular(
                                                                               1),
-                                                                  width: 70)),
+                                                                  width: 90)),
                                                         ),
                                                       ),
                                                     ]),
@@ -570,10 +557,22 @@ class _HomePageState extends State<HomePage>
                                                                       BorderRadius
                                                                           .circular(
                                                                               1),
-                                                                  width: 70)),
+                                                                  width: 90)),
                                                         ),
                                                       ),
                                                     ]),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                SkeletonAvatar(
+                                                  style: SkeletonAvatarStyle(
+                                                    width: 80,
+                                                    height: 80,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            1000),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           )
