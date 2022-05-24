@@ -110,9 +110,10 @@ class _UserDetailPageState extends State<UserDetailPage> {
         iconTheme: const IconThemeData(color: dark),
         backgroundColor: primaryColor,
         elevation: 0.5,
-        title: Text(
-          user.username.toString(),
-          style: const TextStyle(color: dark, fontSize: 16),
+        centerTitle: true,
+        title: const Text(
+          "Миний мэдээлэл",
+          style: TextStyle(color: dark, fontSize: 16),
         ),
       ),
       body: SingleChildScrollView(
@@ -121,6 +122,9 @@ class _UserDetailPageState extends State<UserDetailPage> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
+              const SizedBox(
+                height: 25,
+              ),
               UploadAvatar(
                 user: user,
                 onChange: onChange,

@@ -25,6 +25,7 @@ Sector _$SectorFromJson(Map<String, dynamic> json) {
   int? countSolved;
   Sector? posted;
   Sector? stats;
+  Sector? posts;
   int? pending;
   int? solved;
   String? firstName;
@@ -33,6 +34,7 @@ Sector _$SectorFromJson(Map<String, dynamic> json) {
   if (json['firstName'] != null) firstName = json['firstName'];
   if (json['lastName'] != null) lastName = json['lastName'];
   if (json['posted'] != null) posted = json['posted'];
+  // if (json['posts'] != null) posts = json['posts'];
   if (json['stats'] != null) stats = json['stats'];
   if (json["countPending"] != null) {
     countPending = int.parse('${json["countPending"]}');
@@ -103,6 +105,7 @@ Sector _$SectorFromJson(Map<String, dynamic> json) {
     solved: solved,
     firstName: firstName,
     lastName: lastName,
+    posts: posts,
   );
 }
 
@@ -138,6 +141,7 @@ Map<String, dynamic> _$SectorToJson(Sector instance) {
   if (instance.solved != null) json['solved'] = instance.solved;
   if (instance.firstName != null) json['firstName'] = instance.firstName;
   if (instance.lastName != null) json['lastName'] = instance.lastName;
+  if (instance.posts != null) json['posts'] = instance.posts;
 
   return json;
 }

@@ -21,6 +21,7 @@ import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/screens/profile/screens/my_create_post_page.dart';
 import 'package:sos/screens/profile/screens/my_sector_post.dart';
+import 'package:sos/screens/profile/screens/saved_post_page.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:sos/screens/register/register_page.dart';
 import 'package:sos/screens/splash/index.dart';
@@ -152,6 +153,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 case MyCreatePostPage.routeName:
                   return MaterialPageRoute(builder: (context) {
                     return const MyCreatePostPage();
+                  });
+                case SavedPostPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const SavedPostPage();
                   });
                 case PendingPostPage.routeName:
                   return PageRouteBuilder(

@@ -31,6 +31,7 @@ class Sector {
   Sector? stats;
   int? pending;
   int? solved;
+  Sector? posts;
 
   getAvatar() {
     return HttpRequest.s3host + avatar.toString();
@@ -65,6 +66,7 @@ class Sector {
     this.solved,
     this.firstName,
     this.lastName,
+    this.posts,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$SectorFromJson(json);

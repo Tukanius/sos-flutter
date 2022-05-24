@@ -8,6 +8,11 @@ class PostApi extends HttpRequest {
     return Result.fromJson(res, Post.$fromJson);
   }
 
+  Future<Result> likedList(ResultArguments resultArguments) async {
+    var res = await get('/post/liked', data: resultArguments.toJson());
+    return Result.fromJson(res, Post.$fromJson);
+  }
+
   Future<Post> getPost(String id) async {
     var res = await get('/post/$id', handler: false);
     return Post.fromJson(res as Map<String, dynamic>);

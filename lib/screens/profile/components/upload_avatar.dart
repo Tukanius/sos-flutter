@@ -111,8 +111,8 @@ class _UploadAvatarState extends State<UploadAvatar> {
     return Column(children: [
       Center(
         child: SizedBox(
-          width: 150,
-          height: 150,
+          width: 120,
+          height: 120,
           child: Stack(children: [
             Container(
               alignment: Alignment.center,
@@ -132,22 +132,47 @@ class _UploadAvatarState extends State<UploadAvatar> {
                 }(),
               ),
             ),
-            Positioned(
-              top: 95.0,
-              left: 70.0,
-              child: RawMaterialButton(
-                elevation: 0,
-                fillColor: Colors.orange,
-                child: const Icon(
-                  Icons.add_a_photo,
-                  color: white,
-                  size: 22.0,
-                ),
-                padding: const EdgeInsets.all(8.0),
-                shape: const CircleBorder(),
-                onPressed: () {
-                  changeAvatar();
-                },
+            InkWell(
+              borderRadius: BorderRadius.circular(100),
+              onTap: () {
+                changeAvatar();
+              },
+              child: Container(
+                alignment: Alignment.center,
+                color: white.withOpacity(0),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(60.0),
+                    // child: () {
+                    //   if (user!.avatar != null) {
+                    //     return Image.network("${user.getAvatar()}",
+                    //         width: 120.0, height: 120.0, fit: BoxFit.cover);
+                    //   } else {
+                    //     return const Icon(
+                    //       Icons.account_circle,
+                    //       size: 120.0,
+                    //       color: Colors.orange,
+                    //     );
+                    //   }
+                    // }
+                    // (),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          width: MediaQuery.of(context).size.width,
+                          color: black.withOpacity(0.6),
+                          child: const Text(
+                            "Солих",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    )),
               ),
             ),
             ((() {

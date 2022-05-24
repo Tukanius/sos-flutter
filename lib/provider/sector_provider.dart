@@ -6,6 +6,11 @@ class SectorProvider extends ChangeNotifier {
   Sector sectorData = Sector();
   List<Sector> response = [];
 
+  clear() {
+    response = [];
+    notifyListeners();
+  }
+
   sector() async {
     sectorData = await DashboardApi().sector();
     response = sectorData.response!;

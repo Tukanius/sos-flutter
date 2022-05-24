@@ -6,6 +6,7 @@ import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/screens/profile/screens/my_create_post_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sos/screens/profile/screens/my_sector_post.dart';
+import 'package:sos/screens/profile/screens/saved_post_page.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sos/widgets/colors.dart';
@@ -98,40 +99,6 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(MyCreatePostPage.routeName);
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  height: 45,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            "assets/Folder.svg",
-                            width: 16,
-                            height: 16,
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          const Text("Миний илгээсэн эрсдэлүүд"),
-                        ],
-                      ),
-                      const Icon(Icons.keyboard_arrow_right)
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
                   Navigator.of(context).pushNamed(UserDetailPage.routeName);
                 },
                 child: Container(
@@ -157,6 +124,40 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                             width: 15,
                           ),
                           const Text("Миний мэдээлэл"),
+                        ],
+                      ),
+                      const Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(MyCreatePostPage.routeName);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  height: 45,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/Folder.svg",
+                            width: 16,
+                            height: 16,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          const Text("Миний илгээсэн эрсдэлүүд"),
                         ],
                       ),
                       const Icon(Icons.keyboard_arrow_right)
@@ -192,6 +193,40 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                             width: 15,
                           ),
                           const Text("Нууц үг солих"),
+                        ],
+                      ),
+                      const Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(SavedPostPage.routeName);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  height: 45,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/Love.svg",
+                            width: 18,
+                            height: 18,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          const Text("Хадгалсан"),
                         ],
                       ),
                       const Icon(Icons.keyboard_arrow_right)
@@ -240,14 +275,14 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                 customWidget: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      "assets/Power.svg",
-                      width: 15,
-                      height: 15,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
+                    // SvgPicture.asset(
+                    //   "assets/Power.svg",
+                    //   width: 15,
+                    //   height: 15,
+                    // ),
+                    // const SizedBox(
+                    //   width: 15,
+                    // ),
                     const Text(
                       "Гарах",
                       style: TextStyle(color: red, fontSize: 16),
