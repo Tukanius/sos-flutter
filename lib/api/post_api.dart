@@ -38,4 +38,8 @@ class PostApi extends HttpRequest {
   editPost(String? id, Post data) async {
     await put('/post/$id', data: data);
   }
+
+  assignPost(String? id, Post data) async {
+    await put('/post/$id/assign', data: data);
+  }
 }

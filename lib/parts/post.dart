@@ -29,6 +29,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   String? resultImage;
   String? repliedDate;
   String? resultDate;
+  String? sectorUser;
 
   if (json["sector"] != null) {
     sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
@@ -62,6 +63,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   if (json['updatedBy'] != null) updatedBy = json['updatedBy'];
 
   if (json['liked'] != null) liked = json['liked'];
+  if (json['sectorUser'] != null) sectorUser = json['sectorUser'];
 
   return Post(
     stats: stats,
@@ -92,6 +94,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     resultImage: resultImage,
     resultDate: resultDate,
     repliedDate: repliedDate,
+    sectorUser: sectorUser,
   );
 }
 
@@ -127,6 +130,7 @@ Map<String, dynamic> _$PostToJson(Post instance) {
   if (instance.sector != null) json['sector'] = instance.sector;
   if (instance.liked != null) json['liked'] = instance.liked;
   if (instance.reply != null) json['reply'] = instance.reply;
+  if (instance.sectorUser != null) json['sectorUser'] = instance.sectorUser;
 
   return json;
 }

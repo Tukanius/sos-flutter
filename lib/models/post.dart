@@ -40,6 +40,7 @@ class Post {
   String? resultImage;
   String? repliedDate;
   String? resultDate;
+  String? sectorUser;
 
   getImage() {
     return HttpRequest.s3host + image.toString();
@@ -102,6 +103,7 @@ class Post {
     this.resultImage,
     this.repliedDate,
     this.resultDate,
+    this.sectorUser,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

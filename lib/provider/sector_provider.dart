@@ -5,6 +5,7 @@ import 'package:sos/models/sector.dart';
 class SectorProvider extends ChangeNotifier {
   Sector sectorData = Sector();
   List<Sector> response = [];
+  String? avatar;
 
   clear() {
     response = [];

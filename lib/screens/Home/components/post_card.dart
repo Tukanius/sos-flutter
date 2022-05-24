@@ -45,7 +45,7 @@ type(Post? data) {
     case "SOLVED":
       return "Шийдвэрлэгдсэн";
     case "FAILED":
-      return "Шийдвэрлэгдээгүй";
+      return "Цуцалсан";
     default:
   }
 }
@@ -178,8 +178,6 @@ class _PostCardState extends State<PostCard> {
     try {
       await PostApi().deletePost(data.id);
       await Provider.of<SectorProvider>(ctx, listen: false).sector();
-      await Provider.of<PostProvider>(ctx, listen: false)
-          .post(page, limit, filter);
       Navigator.of(context).pop();
       widget.type == "MYPOST"
           ? click(ctx)

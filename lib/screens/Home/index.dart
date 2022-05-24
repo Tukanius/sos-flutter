@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:sos/components/header/index.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:sos/provider/sector_provider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
+import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +48,7 @@ class _HomePageState extends State<HomePage>
   Filter filter = Filter(postStatus: "NEW");
   Result? warningPost = Result(count: 0, rows: []);
   Sector data = Sector();
+  String? avatar;
   @override
   void initState() {
     tabController = TabController(length: 4, vsync: this);
@@ -223,609 +226,707 @@ class _HomePageState extends State<HomePage>
     user = Provider.of<UserProvider>(context, listen: true).user;
     sectorData = Provider.of<SectorProvider>(context, listen: true).sectorData;
     response = Provider.of<SectorProvider>(context, listen: true).response;
+    avatar = Provider.of<SectorProvider>(context, listen: true).avatar;
 
-    return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: const CustomAppBar(),
-      body: DefaultTabController(
-        length: 4,
-        child: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return WillPopScope(
+        child: Scaffold(
+          backgroundColor: primaryColor,
+          appBar: const CustomAppBar(),
+          body: DefaultTabController(
+            length: 4,
+            child: NestedScrollView(
+              controller: scrollController,
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Column(
                             children: [
-                              Expanded(
-                                child: sectorData == null
-                                    ? SkeletonAvatar(
-                                        style: SkeletonAvatarStyle(
-                                          height: 50,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                      )
-                                    : SizedBox(
-                                        height: 50,
-                                        child: FormBuilderDropdown(
-                                          hint: const Text(
-                                            "Салбар нэгж",
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          allowClear: true,
-                                          icon: Container(
-                                            decoration: BoxDecoration(
-                                              color: white,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: sectorData == null
+                                        ? SkeletonAvatar(
+                                            style: SkeletonAvatarStyle(
+                                              height: 50,
                                               borderRadius:
                                                   BorderRadius.circular(15),
                                             ),
-                                            child: const Icon(
-                                              Icons.arrow_drop_down,
-                                              color: black,
-                                            ),
-                                          ),
-                                          name: 'type',
-                                          onChanged: (value) async {
-                                            await Provider.of<SectorProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .clear();
-                                            await Provider.of<SectorProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .sectorGet(value);
-                                          },
-                                          decoration: InputDecoration(
-                                            prefixIcon: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
+                                          )
+                                        : SizedBox(
+                                            height: 50,
+                                            child: FormBuilderDropdown(
+                                              hint: const Text(
+                                                "Салбар нэгж",
+                                                style: TextStyle(fontSize: 10),
                                               ),
-                                              padding: const EdgeInsets.all(11),
-                                              height: 15,
-                                              width: 15,
-                                              child: Image.network(
-                                                sectorData!.rows!
-                                                    .elementAt(0)
-                                                    .getAvatar(),
+                                              allowClear: true,
+                                              icon: Container(
+                                                decoration: BoxDecoration(
+                                                  color: white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                child: const Icon(
+                                                  Icons.arrow_drop_down,
+                                                  color: black,
+                                                ),
                                               ),
-                                            ),
-                                            filled: true,
-                                            fillColor: Color(0x4ffEBEDF1),
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 12,
-                                                    horizontal: 10),
-                                            border: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: white, width: 0),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: white, width: 0),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
+                                              name: 'type',
+                                              onChanged: (value) async {
+                                                await Provider.of<
+                                                            SectorProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .clear();
+                                                await Provider.of<
+                                                            SectorProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .sectorGet(value);
+                                              },
+                                              decoration: InputDecoration(
+                                                filled: true,
+                                                fillColor: Color(0x4ffEBEDF1),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12,
+                                                        horizontal: 10),
+                                                border: OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      color: white, width: 0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      color: white, width: 0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                              ),
+                                              items: sectorData!.rows!
+                                                  .map(
+                                                    (item) => DropdownMenuItem(
+                                                        value: item.id,
+                                                        child: Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 30,
+                                                              width: 30,
+                                                              child: Image.network(
+                                                                  HttpRequest
+                                                                          .s3host +
+                                                                      item.avatar
+                                                                          .toString()),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Text(
+                                                              '${item.fullName}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          10),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  )
+                                                  .toList(),
                                             ),
                                           ),
-                                          items: sectorData!.rows!
-                                              .map(
-                                                (item) => DropdownMenuItem(
-                                                  value: item.id,
-                                                  child: Text(
-                                                    '${item.fullName}',
-                                                    style: const TextStyle(
-                                                        fontSize: 10),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  switchTab(),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              SizedBox(
+                                height: 90,
+                                child: PageView(
+                                  controller: controller,
+                                  onPageChanged: (index) {
+                                    setState(() {
+                                      currentIndex = index;
+                                    });
+                                  },
+                                  children: [
+                                    response.isNotEmpty
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: response
+                                                .map((Sector e) =>
+                                                    ChartNumberCard(
+                                                      tabController:
+                                                          tabController,
+                                                      onChangeTap: onChangeTap,
+                                                      scrollController:
+                                                          scrollController,
+                                                      dashboard: e,
+                                                    ))
+                                                .toList(),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: 50,
+                                                      height: 50,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: 50,
+                                                      height: 8,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: 50,
+                                                      height: 50,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: 50,
+                                                      height: 8,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: 50,
+                                                      height: 50,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: 50,
+                                                      height: 8,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: 50,
+                                                      height: 50,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: 50,
+                                                      height: 8,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                    Row(
+                                      children: [
+                                        response.isNotEmpty
+                                            ? Expanded(
+                                                child: PieChart(
+                                                  dataMap: chartData(response),
+                                                  animationDuration:
+                                                      const Duration(
+                                                          milliseconds: 800),
+                                                  chartLegendSpacing: 32,
+                                                  chartRadius: 55,
+                                                  colorList: colorList,
+                                                  initialAngleInDegree: 0,
+                                                  chartType: ChartType.ring,
+                                                  ringStrokeWidth: 30,
+                                                  legendOptions:
+                                                      const LegendOptions(
+                                                    showLegendsInRow: false,
+                                                    legendPosition:
+                                                        LegendPosition.left,
+                                                    showLegends: true,
+                                                    legendShape:
+                                                        BoxShape.circle,
+                                                    legendTextStyle:
+                                                        TextStyle(fontSize: 10),
+                                                  ),
+                                                  chartValuesOptions:
+                                                      const ChartValuesOptions(
+                                                    showChartValueBackground:
+                                                        false,
+                                                    showChartValues: true,
+                                                    showChartValuesInPercentage:
+                                                        false,
+                                                    showChartValuesOutside:
+                                                        false,
+                                                    chartValueStyle:
+                                                        TextStyle(fontSize: 10),
+                                                    decimalPlaces: 0,
                                                   ),
                                                 ),
                                               )
-                                              .toList(),
-                                        ),
-                                      ),
+                                            : Expanded(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Center(
+                                                            child:
+                                                                SkeletonParagraph(
+                                                              style: SkeletonParagraphStyle(
+                                                                  lines: 3,
+                                                                  spacing: 15,
+                                                                  lineStyle: SkeletonLineStyle(
+                                                                      randomLength:
+                                                                          false,
+                                                                      height:
+                                                                          10,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              1),
+                                                                      width:
+                                                                          90)),
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const SizedBox(
+                                                            height: 7,
+                                                          ),
+                                                          Center(
+                                                            child:
+                                                                SkeletonParagraph(
+                                                              style: SkeletonParagraphStyle(
+                                                                  lines: 1,
+                                                                  spacing: 15,
+                                                                  lineStyle: SkeletonLineStyle(
+                                                                      randomLength:
+                                                                          false,
+                                                                      height:
+                                                                          10,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              1),
+                                                                      width:
+                                                                          90)),
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    SkeletonAvatar(
+                                                      style:
+                                                          SkeletonAvatarStyle(
+                                                        width: 80,
+                                                        height: 80,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(1000),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                      ],
+                                    )
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //   children: response
+                                    //       .map((Sector e) => ChartNumberCard(
+                                    //             dashboard: e,
+                                    //           ))
+                                    //       .toList(),
+                                    // ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              switchTab(),
                             ],
                           ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            height: 90,
-                            child: PageView(
-                              controller: controller,
-                              onPageChanged: (index) {
-                                setState(() {
-                                  currentIndex = index;
-                                });
-                              },
-                              children: [
-                                response.isNotEmpty
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: response
-                                            .map((Sector e) => ChartNumberCard(
-                                                  tabController: tabController,
-                                                  onChangeTap: onChangeTap,
-                                                  scrollController:
-                                                      scrollController,
-                                                  dashboard: e,
-                                                ))
-                                            .toList(),
-                                      )
-                                    : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              SkeletonAvatar(
-                                                style: SkeletonAvatarStyle(
-                                                  width: 50,
-                                                  height: 50,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              SkeletonAvatar(
-                                                style: SkeletonAvatarStyle(
-                                                  width: 50,
-                                                  height: 8,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              SkeletonAvatar(
-                                                style: SkeletonAvatarStyle(
-                                                  width: 50,
-                                                  height: 50,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              SkeletonAvatar(
-                                                style: SkeletonAvatarStyle(
-                                                  width: 50,
-                                                  height: 8,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              SkeletonAvatar(
-                                                style: SkeletonAvatarStyle(
-                                                  width: 50,
-                                                  height: 50,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              SkeletonAvatar(
-                                                style: SkeletonAvatarStyle(
-                                                  width: 50,
-                                                  height: 8,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              SkeletonAvatar(
-                                                style: SkeletonAvatarStyle(
-                                                  width: 50,
-                                                  height: 50,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              SkeletonAvatar(
-                                                style: SkeletonAvatarStyle(
-                                                  width: 50,
-                                                  height: 8,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                Row(
-                                  children: [
-                                    response.isNotEmpty
-                                        ? Expanded(
-                                            child: PieChart(
-                                              dataMap: chartData(response),
-                                              animationDuration: const Duration(
-                                                  milliseconds: 800),
-                                              chartLegendSpacing: 32,
-                                              chartRadius: 55,
-                                              colorList: colorList,
-                                              initialAngleInDegree: 0,
-                                              chartType: ChartType.ring,
-                                              ringStrokeWidth: 30,
-                                              legendOptions:
-                                                  const LegendOptions(
-                                                showLegendsInRow: false,
-                                                legendPosition:
-                                                    LegendPosition.left,
-                                                showLegends: true,
-                                                legendShape: BoxShape.circle,
-                                                legendTextStyle:
-                                                    TextStyle(fontSize: 10),
-                                              ),
-                                              chartValuesOptions:
-                                                  const ChartValuesOptions(
-                                                showChartValueBackground: false,
-                                                showChartValues: true,
-                                                showChartValuesInPercentage:
-                                                    false,
-                                                showChartValuesOutside: false,
-                                                chartValueStyle:
-                                                    TextStyle(fontSize: 10),
-                                                decimalPlaces: 0,
-                                              ),
-                                            ),
-                                          )
-                                        : Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Center(
-                                                        child:
-                                                            SkeletonParagraph(
-                                                          style: SkeletonParagraphStyle(
-                                                              lines: 3,
-                                                              spacing: 15,
-                                                              lineStyle: SkeletonLineStyle(
-                                                                  randomLength:
-                                                                      false,
-                                                                  height: 10,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              1),
-                                                                  width: 90)),
-                                                        ),
-                                                      ),
-                                                    ]),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      const SizedBox(
-                                                        height: 7,
-                                                      ),
-                                                      Center(
-                                                        child:
-                                                            SkeletonParagraph(
-                                                          style: SkeletonParagraphStyle(
-                                                              lines: 1,
-                                                              spacing: 15,
-                                                              lineStyle: SkeletonLineStyle(
-                                                                  randomLength:
-                                                                      false,
-                                                                  height: 10,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              1),
-                                                                  width: 90)),
-                                                        ),
-                                                      ),
-                                                    ]),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                SkeletonAvatar(
-                                                  style: SkeletonAvatarStyle(
-                                                    width: 80,
-                                                    height: 80,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            1000),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                  ],
-                                )
-                                // Row(
-                                //   mainAxisAlignment:
-                                //       MainAxisAlignment.spaceBetween,
-                                //   children: response
-                                //       .map((Sector e) => ChartNumberCard(
-                                //             dashboard: e,
-                                //           ))
-                                //       .toList(),
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            controller: tabController,
-            physics: const NeverScrollableScrollPhysics(),
-            dragStartBehavior: DragStartBehavior.start,
-            children: [
-              SingleChildScrollView(
-                child: Page1(
-                  filter: filter,
-                ),
-              ),
-              SingleChildScrollView(
-                child: Page1(
-                  filter: filter,
-                ),
-              ),
-              SingleChildScrollView(
-                child: Page1(
-                  filter: filter,
-                ),
-              ),
-              SingleChildScrollView(
-                child: Page1(
-                  filter: filter,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: Visibility(
-        visible: visible,
-        child: FloatingActionButton(
-          backgroundColor: primaryYellow,
-          elevation: 0.0,
-          onPressed: () async {
-            Navigator.of(context).pushNamed(CreatePostPage.routeName);
-          },
-          child: const Icon(
-            Icons.add,
-            size: 30,
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding:
-              const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+                  ),
+                ];
+              },
+              body: TabBarView(
+                controller: tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                dragStartBehavior: DragStartBehavior.start,
                 children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(80),
-                    onTap: () {
-                      tabController.index = 0;
-                      onChangeTap(tabController.index);
-                      scrollController.animateTo(0.0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease);
-                    },
-                    child: Container(
-                      width: 37,
-                      height: 37,
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: tabController.index != 0
-                                ? primaryBorderColor
-                                : black,
-                            width: 1),
-                        borderRadius: BorderRadius.circular(80),
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/tab/1.svg",
-                        width: 37,
-                        height: 37,
-                      ),
+                  SingleChildScrollView(
+                    child: Page1(
+                      filter: filter,
                     ),
                   ),
-                  const SizedBox(width: 18),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(80),
-                    onTap: () {
-                      tabController.index = 1;
-                      onChangeTap(tabController.index);
-                      scrollController.animateTo(0.0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease);
-                    },
-                    child: Container(
-                      width: 37,
-                      height: 37,
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: tabController.index != 1
-                                ? primaryBorderColor
-                                : black,
-                            width: 1),
-                        borderRadius: BorderRadius.circular(80),
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/tab/2.svg",
-                        width: 37,
-                        height: 37,
-                      ),
+                  SingleChildScrollView(
+                    child: Page1(
+                      filter: filter,
                     ),
                   ),
-                  const SizedBox(width: 18),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(80),
-                    onTap: () {
-                      tabController.index = 2;
-                      onChangeTap(tabController.index);
-                      scrollController.animateTo(0.0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease);
-                    },
-                    child: Container(
-                      width: 37,
-                      height: 37,
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: tabController.index != 2
-                                ? primaryBorderColor
-                                : black,
-                            width: 1),
-                        borderRadius: BorderRadius.circular(80),
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/tab/3.svg",
-                        width: 37,
-                        height: 37,
-                      ),
+                  SingleChildScrollView(
+                    child: Page1(
+                      filter: filter,
                     ),
                   ),
-                  const SizedBox(width: 18),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(80),
-                    onTap: () {
-                      tabController.index = 3;
-                      onChangeTap(tabController.index);
-                      scrollController.animateTo(0.0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease);
-                    },
-                    child: Container(
-                      width: 37,
-                      height: 37,
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: tabController.index != 3
-                                ? primaryBorderColor
-                                : black,
-                            width: 1),
-                        borderRadius: BorderRadius.circular(80),
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/tab/5.svg",
-                        width: 37,
-                        height: 37,
-                      ),
+                  SingleChildScrollView(
+                    child: Page1(
+                      filter: filter,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(width: 18),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(80),
-              //   ),
-              //   child: InkWell(
-              //     onTap: () {
-              //       // Navigator.of(context).pushNamed(NotificationPage.routeName);
-              //     },
-              //     child: Container(
-              //       width: 32,
-              //       height: 32,
-              //       padding: const EdgeInsets.all(3),
-              //       decoration: BoxDecoration(
-              //         borderRadius: BorderRadius.circular(80),
-              //       ),
-              //       child: SvgPicture.asset(
-              //         "assets/tab/4.svg",
-              //         width: 32,
-              //         height: 32,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              InkWell(
-                  borderRadius: BorderRadius.circular(80),
-                  onTap: () {
-                    user.id == null
-                        ? Navigator.of(context).pushNamed(LoginPage.routeName)
-                        : Navigator.of(context)
-                            .pushNamed(ProfilePage.routeName);
-                  },
-                  child: user.avatar != null
-                      ? Container(
+            ),
+          ),
+          floatingActionButton: Visibility(
+            visible: visible,
+            child: FloatingActionButton(
+              backgroundColor: primaryYellow,
+              elevation: 0.0,
+              onPressed: () async {
+                Navigator.of(context).pushNamed(CreatePostPage.routeName);
+              },
+              child: const Icon(
+                Icons.add,
+                size: 30,
+              ),
+            ),
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+              padding:
+                  const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      InkWell(
+                        borderRadius: BorderRadius.circular(80),
+                        onTap: () {
+                          tabController.index = 0;
+                          onChangeTap(tabController.index);
+                          scrollController.animateTo(0.0,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease);
+                        },
+                        child: Container(
                           width: 37,
                           height: 37,
+                          padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
-                            border:
-                                Border.all(color: primaryBorderColor, width: 1),
+                            border: Border.all(
+                                color: tabController.index != 0
+                                    ? primaryBorderColor
+                                    : black,
+                                width: 1),
                             borderRadius: BorderRadius.circular(80),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(user.getAvatar()),
-                            ),
                           ),
-                        )
-                      : Container(
-                          height: 37,
+                          child: SvgPicture.asset(
+                            "assets/tab/1.svg",
+                            width: 37,
+                            height: 37,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 18),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(80),
+                        onTap: () {
+                          tabController.index = 1;
+                          onChangeTap(tabController.index);
+                          scrollController.animateTo(0.0,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease);
+                        },
+                        child: Container(
                           width: 37,
+                          height: 37,
+                          padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
-                            color: orange,
+                            border: Border.all(
+                                color: tabController.index != 1
+                                    ? primaryBorderColor
+                                    : black,
+                                width: 1),
                             borderRadius: BorderRadius.circular(80),
                           ),
-                          child: const Icon(Icons.person),
-                        )),
-            ],
+                          child: SvgPicture.asset(
+                            "assets/tab/2.svg",
+                            width: 37,
+                            height: 37,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 18),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(80),
+                        onTap: () {
+                          tabController.index = 2;
+                          onChangeTap(tabController.index);
+                          scrollController.animateTo(0.0,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease);
+                        },
+                        child: Container(
+                          width: 37,
+                          height: 37,
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: tabController.index != 2
+                                    ? primaryBorderColor
+                                    : black,
+                                width: 1),
+                            borderRadius: BorderRadius.circular(80),
+                          ),
+                          child: SvgPicture.asset(
+                            "assets/tab/3.svg",
+                            width: 37,
+                            height: 37,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 18),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(80),
+                        onTap: () {
+                          tabController.index = 3;
+                          onChangeTap(tabController.index);
+                          scrollController.animateTo(0.0,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.ease);
+                        },
+                        child: Container(
+                          width: 37,
+                          height: 37,
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: tabController.index != 3
+                                    ? primaryBorderColor
+                                    : black,
+                                width: 1),
+                            borderRadius: BorderRadius.circular(80),
+                          ),
+                          child: SvgPicture.asset(
+                            "assets/tab/5.svg",
+                            width: 37,
+                            height: 37,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 18),
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(80),
+                  //   ),
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       // Navigator.of(context).pushNamed(NotificationPage.routeName);
+                  //     },
+                  //     child: Container(
+                  //       width: 32,
+                  //       height: 32,
+                  //       padding: const EdgeInsets.all(3),
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(80),
+                  //       ),
+                  //       child: SvgPicture.asset(
+                  //         "assets/tab/4.svg",
+                  //         width: 32,
+                  //         height: 32,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  InkWell(
+                      borderRadius: BorderRadius.circular(80),
+                      onTap: () {
+                        user.id == null
+                            ? Navigator.of(context)
+                                .pushNamed(LoginPage.routeName)
+                            : Navigator.of(context)
+                                .pushNamed(ProfilePage.routeName);
+                      },
+                      child: user.avatar != null
+                          ? Container(
+                              width: 37,
+                              height: 37,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: primaryBorderColor, width: 1),
+                                borderRadius: BorderRadius.circular(80),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(user.getAvatar()),
+                                ),
+                              ),
+                            )
+                          : Container(
+                              height: 37,
+                              width: 37,
+                              decoration: BoxDecoration(
+                                color: orange,
+                                borderRadius: BorderRadius.circular(80),
+                              ),
+                              child: const Icon(Icons.person),
+                            )),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
-    );
+        onWillPop: () async {
+          final shouldPop = await showDialog<bool>(
+            context: context,
+            builder: (context) {
+              return Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding:
+                          const EdgeInsets.only(top: 120, left: 20, right: 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const Text(
+                            'Гарах',
+                            style: TextStyle(
+                                color: dark,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          const Text(
+                            'Та эрсдэл аппликейшнээс гарах гэж байна.',
+                            textAlign: TextAlign.center,
+                          ),
+                          ButtonBar(
+                            buttonMinWidth: 100,
+                            alignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              TextButton(
+                                child: const Text(
+                                  "Үгүй",
+                                  style: TextStyle(color: dark),
+                                ),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: const Text(
+                                  "Тийм",
+                                  style: TextStyle(color: dark),
+                                ),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Lottie.asset('assets/sos.json', height: 120, repeat: true),
+                  ],
+                ),
+              );
+            },
+          );
+          return shouldPop!;
+        });
   }
 }

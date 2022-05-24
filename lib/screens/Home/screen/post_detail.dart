@@ -51,6 +51,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   bool? isFailed = false;
   bool? likeLoading = false;
   bool? isDelete = false;
+  bool? isReturn = false;
   bool? loading = false;
   bool resultImageHasError = false;
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
@@ -97,7 +98,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
           });
         }
       }
-    } else {
+    } else if (isFailed == true) {
       if (fbKey.currentState!.saveAndValidate()) {
         try {
           setState(() {
@@ -106,6 +107,30 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
           Post save = Post.fromJson(fbKey.currentState!.value);
           save.postStatus = "FAILED";
           await PostApi().addResult(data.id, save);
+          await Provider.of<SectorProvider>(context, listen: false).sector();
+          Navigator.of(context).restorablePopAndPushNamed(HomePage.routeName);
+          setState(() {
+            loading = false;
+          });
+        } catch (e) {
+          debugPrint(e.toString());
+          setState(() {
+            loading = false;
+          });
+        }
+      }
+      setState(() {
+        loading = false;
+      });
+    } else if (isReturn == true) {
+      if (fbKey.currentState!.saveAndValidate()) {
+        try {
+          setState(() {
+            loading = true;
+          });
+          Post save = Post.fromJson(fbKey.currentState!.value);
+          save.postStatus = "REJECTED";
+          await PostApi().assignPost(data.id, save);
           await Provider.of<SectorProvider>(context, listen: false).sector();
           Navigator.of(context).restorablePopAndPushNamed(HomePage.routeName);
           setState(() {
@@ -181,52 +206,180 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   }
 
   actionButton() {
-    if (isConfirm == false && isFailed == false) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    isConfirm = true;
-                  });
-                },
-                child: const Text(
-                  "Шийдвэрлэсэн",
-                  style: TextStyle(
-                    color: green,
-                    fontSize: 12,
+    if (data.sectorUser != null) {
+      if (isConfirm == false && isFailed == false && isReturn == false) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      isConfirm = true;
+                    });
+                  },
+                  child: const Text(
+                    "Шийдвэрлэсэн",
+                    style: TextStyle(
+                      color: dark,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    isFailed = true;
-                  });
-                },
-                child: const Text(
-                  "Шийдвэрлэж чадаагүй",
-                  style: TextStyle(
-                    color: red,
-                    fontSize: 12,
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      isFailed = true;
+                    });
+                  },
+                  child: const Text(
+                    "Цуцалсан",
+                    style: TextStyle(
+                      color: dark,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      isReturn = true;
+                    });
+                  },
+                  child: const Text(
+                    "Буцаах",
+                    style: TextStyle(
+                      color: dark,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      } else {
+        if (isConfirm == true) {
+          return hasConfirm();
+        } else if (isReturn == true) {
+          return hasReturn();
+        } else if (isFailed == true) {
+          return hasFailed();
+        }
+      }
+    } else {
+      return TextButton(
+        onPressed: () {
+          addAssign(context, data);
+        },
+        child: const Text(
+          "Хүлээн авах",
+          style: TextStyle(
+            color: green,
+            fontSize: 12,
+          ),
         ),
       );
-    } else {
-      if (isConfirm == true) {
-        return hasConfirm();
-      } else if (isFailed == true) {
-        return hasFailed();
-      }
+    }
+  }
+
+  addAssign(ctx, data) async {
+    showDialog(
+        barrierDismissible: false,
+        context: ctx,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.only(top: 150, left: 20, right: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text(
+                        'Хүлээн авах',
+                        style: TextStyle(
+                            color: dark,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Энэ эрсдэлийг та хүлээн авахдаа итгэлтэй байна уу?',
+                        textAlign: TextAlign.center,
+                      ),
+                      ButtonBar(
+                        buttonMinWidth: 100,
+                        alignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            child: const Text(
+                              "Үгүй",
+                              style: TextStyle(color: dark),
+                            ),
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                isDelete = false;
+                              });
+                            },
+                          ),
+                          TextButton(
+                            child: const Text(
+                              "Тийм",
+                              style: TextStyle(color: dark),
+                            ),
+                            onPressed: () async {
+                              if (loading == false) {
+                                print("yes");
+                                assignButton(ctx, context);
+                              }
+                              setState(() {
+                                isDelete = false;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Lottie.asset('assets/check.json', height: 120, repeat: true),
+              ],
+            ),
+          );
+        });
+  }
+
+  assignButton(ctx, context) async {
+    setState(() {
+      loading = true;
+    });
+    try {
+      await PostApi().assignPost(data.id, Post(sectorUser: user.id));
+      await Provider.of<SectorProvider>(ctx, listen: false).sector();
+      locator<NavigationService>().pushReplacementNamed(
+          routeName: PostDetailPage.routeName,
+          arguments: PostDetailPageArguments(id: data.id!));
+      Navigator.of(context).pop();
+    } catch (e) {
+      setState(() {
+        loading = false;
+      });
     }
   }
 
@@ -417,6 +570,66 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   hintStyle:
                       const TextStyle(color: Colors.black54, fontSize: 14),
                   hintText: "Яагаад шийдвэрлэх боломжгүй эсэх",
+                  fillColor: grey.withOpacity(0.2),
+                ),
+                validators: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(errorText: 'Заавал оруулна уу')
+                ]),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomButton(
+              width: MediaQuery.of(context).size.width,
+              onClick: () {
+                if (loading == false) {
+                  onSubmit();
+                }
+              },
+              labelText: "Илгээх",
+              color: orange,
+              fontSize: 16,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  hasReturn() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: FormBuilder(
+        key: fbKey,
+        initialValue: const {"result": ""},
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: white,
+              width: MediaQuery.of(context).size.width,
+              child: FormTextField(
+                name: "result",
+                inputType: TextInputType.text,
+                autoFocus: true,
+                inputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.none,
+                decoration: InputDecoration(
+                  enabled: true,
+                  prefixIconColor: primaryGreen,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  disabledBorder: InputBorder.none,
+                  filled: true,
+                  hintStyle:
+                      const TextStyle(color: Colors.black54, fontSize: 14),
+                  hintText: "Яагаад буцааж байгаа мэдэгдлээ энд бичнэ",
                   fillColor: grey.withOpacity(0.2),
                 ),
                 validators: FormBuilderValidators.compose([
