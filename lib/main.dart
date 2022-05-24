@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sos/components/modal/index.dart';
@@ -28,14 +30,20 @@ import 'package:sos/screens/splash/index.dart';
 import 'package:sos/services/dialog.dart';
 import 'package:sos/services/navigation.dart';
 import 'package:provider/provider.dart';
-// import 'package:sos/utils/firebase/index.dart';
+import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/dialog_manager/dialog_manager.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  // FirebaseUtils.main();
+  print('-- main');
+
+  WidgetsFlutterBinding.ensureInitialized();
+  print('-- WidgetsFlutterBinding.ensureInitialized');
+
+  await Firebase.initializeApp();
+  print('-- main: Firebase.initializeApp');
+
+  FirebaseUtils.main();
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => DialogService());
 
