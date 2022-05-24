@@ -143,7 +143,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
         );
       case "FAILED":
         return const Text(
-          "Шийдэгдээгүй",
+          "Цуцалсан",
           style: TextStyle(color: grey),
         );
       default:
@@ -950,10 +950,13 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                 const SizedBox(height: 7),
                 Row(
                   children: [
-                    Text(
-                      data.getResultDate(),
-                      style: const TextStyle(fontSize: 12, color: greyDark),
-                    ),
+                    data.resultDate == null
+                        ? const SizedBox()
+                        : Text(
+                            data.getResultDate(),
+                            style:
+                                const TextStyle(fontSize: 12, color: greyDark),
+                          ),
                     Container(
                       height: 6,
                       width: 6,

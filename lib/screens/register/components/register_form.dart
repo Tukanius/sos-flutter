@@ -92,7 +92,7 @@ class _RegisterFormState extends State<RegisterForm> {
             textCapitalization: TextCapitalization.characters,
             inputAction: TextInputAction.next,
             inputFormatters: [
-              FilteringTextInputFormatter(RegExp(r'[a-zA-Z]'), allow: true)
+              FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: false)
             ],
             decoration: InputDecoration(
               enabled: true,
