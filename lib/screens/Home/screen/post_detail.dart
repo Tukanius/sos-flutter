@@ -855,7 +855,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                   Text(
                                     data.sector!.fullName == null
                                         ? "Эрсдэл"
-                                        : "${data.sector!.fullName}",
+                                        : "Эрсдэл",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -1179,10 +1179,12 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                         color: greyDark,
                       ),
                     ),
-                    Text(
-                      "${data.sector!.fullName}",
-                      style: const TextStyle(fontSize: 12, color: greyDark),
-                    ),
+                    Expanded(
+                      child: Text(
+                        "${data.sector!.fullName}",
+                        style: const TextStyle(fontSize: 12, color: greyDark),
+                      ),
+                    )
                   ],
                 ),
               ],

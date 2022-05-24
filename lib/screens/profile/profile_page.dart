@@ -242,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 15),
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        width: double.infinity,
+                        width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           color: white,
                           borderRadius: BorderRadius.circular(10),
@@ -251,18 +251,27 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Image.network(
-                                  user.sector!.getAvatar(),
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text("${user.sector!.fullName}"),
-                              ],
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Image.network(
+                                    user.sector!.getAvatar(),
+                                    width: 25,
+                                    height: 25,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "${user.sector!.fullName}",
+                                      style: const TextStyle(color: dark),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             const Icon(Icons.keyboard_arrow_right)
                           ],

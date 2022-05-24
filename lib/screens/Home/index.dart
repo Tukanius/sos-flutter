@@ -338,13 +338,22 @@ class _HomePageState extends State<HomePage>
                                                             const SizedBox(
                                                               width: 10,
                                                             ),
-                                                            Text(
-                                                              '${item.fullName}',
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          10),
-                                                            ),
+                                                            Expanded(
+                                                              child: SizedBox(
+                                                                child: Text(
+                                                                  '${item.fullName}',
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
                                                           ],
                                                         )),
                                                   )
