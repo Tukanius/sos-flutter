@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sos/api/post_api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sos/models/alert.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/result.dart';
 import 'package:sos/models/user.dart';
@@ -11,6 +12,7 @@ import 'package:progressive_image/progressive_image.dart';
 import 'package:sos/provider/post_provider.dart';
 import 'package:sos/screens/home/index.dart';
 import 'package:sos/screens/splash/index.dart';
+import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:like_button/like_button.dart';
 import '../../../main.dart';
@@ -68,6 +70,7 @@ class _PostCardState extends State<PostCard> {
   User user = User();
   bool? likeLoading = false;
   bool? isDelete = false;
+  bool? isHide = false;
   bool? isLoading = false;
   int page = 1;
   int limit = 1000;
@@ -202,7 +205,26 @@ class _PostCardState extends State<PostCard> {
         });
         show(context, data);
       }
-    } else {}
+    } else if (value == 'hide') {
+      if (isHide == false) {
+        try {
+          setState(() {
+            isHide = true;
+          });
+          await PostApi().reportPost(
+              widget.data!.id.toString(), Post(reportType: "IRRELEVANT"));
+          setState(() {
+            isHide = false;
+          });
+        } catch (e) {
+          dialogService.showErrorDialog("Нэвтрэн үү!");
+          print(e.toString());
+          setState(() {
+            isHide = false;
+          });
+        }
+      }
+    }
   }
 
   Widget get _customWidget => Container(width: 500, height: 250, color: white);
@@ -221,39 +243,62 @@ class _PostCardState extends State<PostCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ListTile(
-              leading: SvgPicture.asset(
-                "${icon(widget.data)}",
-                width: 37,
-                height: 37,
-              ),
-              title: const Text('Эрсдэл'),
-              subtitle: Text(
-                '${type(widget.data)}',
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.6), fontSize: 12),
-              ),
-              trailing: widget.data!.postStatus == "NEW"
-                  ? user.id == widget.data!.user!.id
-                      ? PopupMenuButton(
-                          icon: const Icon(Icons.more_vert),
-                          itemBuilder: (context) {
-                            return [
-                              const PopupMenuItem(
-                                value: 'edit',
-                                child: Text('Засах'),
-                              ),
-                              const PopupMenuItem(
-                                value: 'delete',
-                                child: Text('Устгах'),
-                              )
-                            ];
-                          },
-                          onSelected: (String value) =>
-                              actionPopUpItemSelected(value, widget.data),
-                        )
-                      : const SizedBox()
-                  : const SizedBox(),
-            ),
+                leading: SvgPicture.asset(
+                  "${icon(widget.data)}",
+                  width: 37,
+                  height: 37,
+                ),
+                title: const Text('Эрсдэл'),
+                subtitle: Text(
+                  '${type(widget.data)}',
+                  style: TextStyle(
+                      color: Colors.black.withOpacity(0.6), fontSize: 12),
+                ),
+                trailing: widget.data!.postStatus == "NEW"
+                    ? user.id == widget.data!.user!.id
+                        ? PopupMenuButton(
+                            icon: const Icon(Icons.more_vert),
+                            itemBuilder: (context) {
+                              return [
+                                const PopupMenuItem(
+                                  value: 'edit',
+                                  child: Text('Засах'),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'delete',
+                                  child: Text('Устгах'),
+                                )
+                              ];
+                            },
+                            onSelected: (String value) =>
+                                actionPopUpItemSelected(value, widget.data),
+                          )
+                        : PopupMenuButton(
+                            icon: const Icon(Icons.more_vert),
+                            itemBuilder: (context) {
+                              return [
+                                const PopupMenuItem(
+                                  value: 'hide',
+                                  child: Text('Мэдэгдэх'),
+                                ),
+                              ];
+                            },
+                            onSelected: (String value) =>
+                                actionPopUpItemSelected(value, widget.data),
+                          )
+                    : PopupMenuButton(
+                        icon: const Icon(Icons.more_vert),
+                        itemBuilder: (context) {
+                          return [
+                            const PopupMenuItem(
+                              value: 'hide',
+                              child: Text('Мэдэгдэх'),
+                            ),
+                          ];
+                        },
+                        onSelected: (String value) =>
+                            actionPopUpItemSelected(value, widget.data),
+                      )),
             Expanded(
               child: InkWell(
                 onTap: () async {
@@ -269,8 +314,8 @@ class _PostCardState extends State<PostCard> {
                   width: MediaQuery.of(context).size.width,
                   child: ProgressiveImage.custom(
                     placeholderBuilder: (BuildContext context) => _customWidget,
-                    thumbnail: const NetworkImage(
-                        'https://i.imgur.com/4WRfwXm.jpg'), // 64x43
+                    thumbnail:
+                        NetworkImage('${widget.data!.getThumb()}'), // 64x43
                     image:
                         NetworkImage('${widget.data!.getImage()}'), // 3240x2160
                     height: 500,

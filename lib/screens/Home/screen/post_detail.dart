@@ -129,7 +129,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
             loading = true;
           });
           Post save = Post.fromJson(fbKey.currentState!.value);
-          save.postStatus = "REJECTED";
+          save.isRefused = true;
           await PostApi().assignPost(data.id, save);
           await Provider.of<SectorProvider>(context, listen: false).sector();
           Navigator.of(context).restorablePopAndPushNamed(HomePage.routeName);
@@ -605,7 +605,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: FormBuilder(
         key: fbKey,
-        initialValue: const {"result": ""},
+        initialValue: const {"refuse": ""},
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -613,10 +613,11 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
               color: white,
               width: MediaQuery.of(context).size.width,
               child: FormTextField(
-                name: "result",
                 inputType: TextInputType.text,
+                name: "refuse",
                 autoFocus: true,
                 inputAction: TextInputAction.next,
+                controller: user.refuseController,
                 textCapitalization: TextCapitalization.none,
                 decoration: InputDecoration(
                   enabled: true,

@@ -44,6 +44,9 @@ class User {
   final oldPasswordController = TextEditingController();
   final oldPasswordFocusNode = FocusNode();
 
+  final refuseController = TextEditingController();
+  final refuseFocusNode = FocusNode();
+
   String? type;
   String? message;
 

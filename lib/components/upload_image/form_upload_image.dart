@@ -50,7 +50,6 @@ class _FormUploadImageState extends State<FormUploadImage> {
         loading = true;
       });
       var image = await GeneralApi().upload(file);
-
       if (widget.setFieldValue != null) {
         widget.setFieldValue("$image");
       }

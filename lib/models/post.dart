@@ -41,9 +41,17 @@ class Post {
   String? repliedDate;
   String? resultDate;
   String? sectorUser;
+  String? refuse;
+  bool? isRefused;
+  String? reportType;
+  String? imageThumb;
 
   getImage() {
     return HttpRequest.s3host + image.toString();
+  }
+
+  getThumb() {
+    return HttpRequest.s3host + imageThumb.toString();
   }
 
   resImage() {
@@ -104,6 +112,10 @@ class Post {
     this.repliedDate,
     this.resultDate,
     this.sectorUser,
+    this.refuse,
+    this.isRefused,
+    this.imageThumb,
+    this.reportType,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

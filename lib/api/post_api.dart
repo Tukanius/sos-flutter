@@ -27,6 +27,10 @@ class PostApi extends HttpRequest {
     await post('/post', data: data, handler: true);
   }
 
+  reportPost(String id, Post data) async {
+    await post('/post/$id/report', data: data, handler: true);
+  }
+
   addResult(String? id, Post data) async {
     await put('/post/$id/result', data: data);
   }

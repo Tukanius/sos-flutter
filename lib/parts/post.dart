@@ -30,6 +30,10 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   String? repliedDate;
   String? resultDate;
   String? sectorUser;
+  String? refuse;
+  bool? isRefused;
+  String? reportType;
+  String? imageThumb;
 
   if (json["sector"] != null) {
     sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
@@ -64,6 +68,10 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 
   if (json['liked'] != null) liked = json['liked'];
   if (json['sectorUser'] != null) sectorUser = json['sectorUser'];
+  if (json['refuse'] != null) refuse = json['refuse'];
+  if (json['isRefused'] != null) isRefused = json['isRefused'];
+  if (json['reportType'] != null) reportType = json['reportType'];
+  if (json['imageThumb'] != null) imageThumb = json['imageThumb'];
 
   return Post(
     stats: stats,
@@ -95,6 +103,10 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     resultDate: resultDate,
     repliedDate: repliedDate,
     sectorUser: sectorUser,
+    refuse: refuse,
+    isRefused: isRefused,
+    reportType: reportType,
+    imageThumb: imageThumb,
   );
 }
 
@@ -131,6 +143,10 @@ Map<String, dynamic> _$PostToJson(Post instance) {
   if (instance.liked != null) json['liked'] = instance.liked;
   if (instance.reply != null) json['reply'] = instance.reply;
   if (instance.sectorUser != null) json['sectorUser'] = instance.sectorUser;
+  if (instance.refuse != null) json['refuse'] = instance.refuse;
+  if (instance.isRefused != null) json['isRefused'] = instance.isRefused;
+  if (instance.reportType != null) json['reportType'] = instance.reportType;
+  if (instance.imageThumb != null) json['imageThumb'] = instance.imageThumb;
 
   return json;
 }

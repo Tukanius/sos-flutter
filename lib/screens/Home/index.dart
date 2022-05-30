@@ -6,6 +6,7 @@ import 'package:sos/provider/sector_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
+import 'package:sos/screens/home/screen/notification_page.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/utils/http_request.dart';
@@ -808,61 +809,62 @@ class _HomePageState extends State<HomePage>
                     ],
                   ),
                   const SizedBox(width: 18),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(80),
-                  //   ),
-                  //   child: InkWell(
-                  //     onTap: () {
-                  //       // Navigator.of(context).pushNamed(NotificationPage.routeName);
-                  //     },
-                  //     child: Container(
-                  //       width: 32,
-                  //       height: 32,
-                  //       padding: const EdgeInsets.all(3),
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(80),
-                  //       ),
-                  //       child: SvgPicture.asset(
-                  //         "assets/tab/4.svg",
-                  //         width: 32,
-                  //         height: 32,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  InkWell(
+                  Container(
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(80),
+                    ),
+                    child: InkWell(
                       onTap: () {
-                        user.id == null
-                            ? Navigator.of(context)
-                                .pushNamed(LoginPage.routeName)
-                            : Navigator.of(context)
-                                .pushNamed(ProfilePage.routeName);
+                        Navigator.of(context)
+                            .pushNamed(NotificationPage.routeName);
                       },
-                      child: user.avatar != null
-                          ? Container(
-                              width: 37,
-                              height: 37,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: primaryBorderColor, width: 1),
-                                borderRadius: BorderRadius.circular(80),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(user.getAvatar()),
-                                ),
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        padding: const EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(80),
+                        ),
+                        child: SvgPicture.asset(
+                          "assets/tab/4.svg",
+                          width: 32,
+                          height: 32,
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(80),
+                    onTap: () {
+                      user.id == null
+                          ? Navigator.of(context).pushNamed(LoginPage.routeName)
+                          : Navigator.of(context)
+                              .pushNamed(ProfilePage.routeName);
+                    },
+                    child: user.avatar != null
+                        ? Container(
+                            width: 37,
+                            height: 37,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: primaryBorderColor, width: 1),
+                              borderRadius: BorderRadius.circular(80),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(user.getAvatar()),
                               ),
-                            )
-                          : Container(
-                              height: 37,
-                              width: 37,
-                              decoration: BoxDecoration(
-                                color: orange,
-                                borderRadius: BorderRadius.circular(80),
-                              ),
-                              child: const Icon(Icons.person),
-                            )),
+                            ),
+                          )
+                        : Container(
+                            height: 37,
+                            width: 37,
+                            decoration: BoxDecoration(
+                              color: orange,
+                              borderRadius: BorderRadius.circular(80),
+                            ),
+                            child: const Icon(Icons.person),
+                          ),
+                  ),
                 ],
               ),
             ),
