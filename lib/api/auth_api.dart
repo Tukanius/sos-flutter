@@ -1,4 +1,5 @@
 import '../models/user.dart';
+import '../provider/user_provider.dart';
 import '../utils/http_request.dart';
 
 class AuthApi extends HttpRequest {
@@ -40,5 +41,10 @@ class AuthApi extends HttpRequest {
   Future<User> otpPassword(User user) async {
     var res = await post('/otp/password', data: user.toJson(), handler: true);
     return User.fromJson(res as Map<String, dynamic>);
+  }
+
+  Future<void> socialLogin(User data) async {
+    var res = await post('/auth/social', data: data.toJson());
+    UserProvider().setAccessToken(res["accessToken"]);
   }
 }

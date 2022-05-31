@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sos/screens/home/screen/map_screen_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -82,9 +83,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   const SizedBox(width: 7),
                   InkWell(
                     onTap: () {
-                      setState(() {
-                        switchType = "MAP";
-                      });
+                      // setState(() {
+                      //   switchType = "MAP";
+                      // });
+                      Navigator.of(context).pushNamed(MapScreenPage.routeName);
                     },
                     child: AnimatedContainer(
                       height: 32,

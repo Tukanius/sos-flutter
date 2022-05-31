@@ -27,8 +27,12 @@ User _$UserFromJson(Map<String, dynamic> json) {
   String? oldPassowrd;
   String? message;
   Sector? sector;
+  String? type;
+  String? redirectUri;
+  String? idToken;
 
   if (json['username'] != null) username = json['username'];
+  if (json['id_token'] != null) idToken = json['id_token'];
   if (json['password'] != null) password = json['password'];
   if (json['accessToken'] != null) accessToken = json['accessToken'];
   if (json['tokenType'] != null) tokenType = json['tokenType'];
@@ -54,6 +58,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
   if (json['code'] != null) code = json['code'];
   if (json['oldPassowrd'] != null) oldPassowrd = json['oldPassowrd'];
   if (json['message'] != null) message = json['message'];
+  if (json['type'] != null) type = json['type'];
+  if (json['redirect_uri'] != null) redirectUri = json['redirect_uri'];
   if (json["sector"] != null) {
     sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
   }
@@ -84,6 +90,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
     oldPassword: oldPassowrd,
     message: message,
     sector: sector,
+    type: type,
+    redirectUri: redirectUri,
+    idToken: idToken,
   );
 }
 
@@ -91,6 +100,7 @@ Map<String, dynamic> _$UserToJson(User instance) {
   Map<String, dynamic> json = {};
 
   if (instance.username != null) json['username'] = instance.username;
+  if (instance.type != null) json['type'] = instance.type;
   if (instance.password != null) json['password'] = instance.password;
   if (instance.accessToken != null) json['accessToken'] = instance.accessToken;
   if (instance.tokenType != null) json['tokenType'] = instance.tokenType;
@@ -120,6 +130,8 @@ Map<String, dynamic> _$UserToJson(User instance) {
   if (instance.oldPassword != null) json['oldPassword'] = instance.oldPassword;
   if (instance.message != null) json['message'] = instance.message;
   if (instance.sector != null) json['sector'] = instance.sector;
+  if (instance.redirectUri != null) json['redirect_uri'] = instance.redirectUri;
+  if (instance.idToken != null) json['id_token'] = instance.idToken;
 
   return json;
 }

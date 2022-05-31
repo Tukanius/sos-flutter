@@ -49,6 +49,8 @@ class User {
 
   String? type;
   String? message;
+  String? redirectUri;
+  String? idToken;
 
   final firstNameController = TextEditingController();
   final firstNameFocusNode = FocusNode();
@@ -90,33 +92,37 @@ class User {
     return HttpRequest.s3host + avatar.toString();
   }
 
-  User(
-      {this.username,
-      this.password,
-      this.accessToken,
-      this.tokenType,
-      this.sessionState,
-      this.isActive,
-      this.userStatus,
-      this.status,
-      this.id,
-      this.phone,
-      this.userStatusDate,
-      this.role,
-      this.createdAt,
-      this.updatedAt,
-      this.createdBy,
-      this.updatedBy,
-      this.otpMethod,
-      this.firstName,
-      this.lastName,
-      this.avatar,
-      this.deviceToken,
-      this.email,
-      this.code,
-      this.oldPassword,
-      this.message,
-      this.sector});
+  User({
+    this.username,
+    this.password,
+    this.accessToken,
+    this.tokenType,
+    this.sessionState,
+    this.isActive,
+    this.userStatus,
+    this.status,
+    this.id,
+    this.phone,
+    this.userStatusDate,
+    this.role,
+    this.createdAt,
+    this.updatedAt,
+    this.createdBy,
+    this.updatedBy,
+    this.type,
+    this.otpMethod,
+    this.firstName,
+    this.lastName,
+    this.avatar,
+    this.deviceToken,
+    this.email,
+    this.code,
+    this.oldPassword,
+    this.message,
+    this.sector,
+    this.redirectUri,
+    this.idToken,
+  });
 
   static $fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

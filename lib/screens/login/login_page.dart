@@ -4,13 +4,19 @@ import 'package:sos/screens/Splash/index.dart';
 import 'package:sos/screens/register/register_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:sos/widgets/custom_button.dart';
+import '../../api/auth_api.dart';
+import '../../components/social_login.dart';
+import '../../main.dart';
 import '../../models/user.dart';
 import '../../provider/user_provider.dart';
+import '../../services/navigation.dart';
 import '../../widgets/form_textfield.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:provider/provider.dart';
 import '../forgot/forgot_page.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,6 +33,7 @@ class _LoginPageState extends State<LoginPage>
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   bool _isVisible = true;
   bool isSubmit = false;
+  bool loading = false;
   bool saveIsUsername = false;
   final usernameController = TextEditingController();
 
@@ -49,6 +56,68 @@ class _LoginPageState extends State<LoginPage>
     setState(() {
       usernameController.text = username.toString();
     });
+  }
+
+  googleLogin() async {
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      setState(() {
+        loading = true;
+      });
+      googleSignIn.signIn().then((result) {
+        result!.authentication.then((googleKey) async {
+          await AuthApi().socialLogin(
+            User(
+              type: "GOOGLE",
+              accessToken: googleKey.accessToken,
+              idToken: googleKey.idToken,
+              redirectUri: googleRedirectUri,
+            ),
+          );
+          locator<NavigationService>()
+              .pushReplacementNamed(routeName: SplashPage.routeName);
+          setState(() {
+            loading = false;
+          });
+        }).catchError((err) {});
+      }).catchError((err) {
+        setState(() {
+          loading = false;
+        });
+      });
+    } catch (err) {
+      debugPrint(err.toString());
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
+  facebookLogin() async {
+    try {
+      setState(() {
+        loading = true;
+      });
+      LoginResult userData = await FacebookAuth.instance
+          .login(permissions: ["public_profile", "email"]);
+      await AuthApi().socialLogin(
+        User(
+          type: "FACEBOOK",
+          accessToken: userData.accessToken!.token,
+          redirectUri: fbRedirectUri,
+        ),
+      );
+      locator<NavigationService>()
+          .pushReplacementNamed(routeName: SplashPage.routeName);
+      setState(() {
+        loading = false;
+      });
+    } catch (err) {
+      setState(() {
+        loading = false;
+      });
+      debugPrint(err.toString());
+    }
   }
 
   onSubmit() async {
@@ -260,7 +329,9 @@ class _LoginPageState extends State<LoginPage>
                   Expanded(
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
-                      onTap: () {},
+                      onTap: () {
+                        facebookLogin();
+                      },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         height: 50,
@@ -280,7 +351,9 @@ class _LoginPageState extends State<LoginPage>
                   Expanded(
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
-                      onTap: () {},
+                      onTap: () {
+                        googleLogin();
+                      },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         height: 50,
@@ -290,26 +363,6 @@ class _LoginPageState extends State<LoginPage>
                         ),
                         child: SvgPicture.asset(
                           "assets/google.svg",
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () {},
-                      child: Container(
-                        height: 50,
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 2, color: white),
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/apple-black-logo.svg",
                         ),
                       ),
                     ),

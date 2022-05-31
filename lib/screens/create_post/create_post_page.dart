@@ -6,6 +6,7 @@ import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:lottie/lottie.dart';
+import 'dart:async';
 import 'package:sos/widgets/custom_button.dart';
 import '../../api/post_api.dart';
 import '../../components/upload_image/form_upload_image.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import '../../provider/user_provider.dart';
 import '../../services/navigation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../widgets/form_textfield.dart';
 
 class CreatePostPage extends StatefulWidget {
@@ -33,6 +35,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
   bool loading = false;
   bool visible = false;
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
+  Completer<GoogleMapController> _controller = Completer();
+
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(49.537685, 105.960388),
+    zoom: 14.4746,
+  );
 
   show(ctx) async {
     showDialog(
@@ -296,6 +304,21 @@ class _CreatePostPageState extends State<CreatePostPage> {
                       FormBuilderValidators.required(
                           errorText: 'Заавал оруулна уу')
                     ]),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: red,
+                  height: 300,
+                  child: GoogleMap(
+                    mapType: MapType.hybrid,
+                    initialCameraPosition: _kGooglePlex,
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
                   ),
                 ),
                 const SizedBox(
