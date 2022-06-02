@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/provider/sector_provider.dart';
@@ -6,9 +7,10 @@ import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:lottie/lottie.dart';
-import 'dart:async';
 import 'package:sos/widgets/custom_button.dart';
+import 'package:geolocator/geolocator.dart';
 import '../../api/post_api.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../components/upload_image/form_upload_image.dart';
 import '../../main.dart';
 import '../../models/post.dart';
@@ -34,13 +36,77 @@ class _CreatePostPageState extends State<CreatePostPage> {
   bool imageHasError = false;
   bool loading = false;
   bool visible = false;
+  bool isMap = false;
+  double lng = 0;
+  double lat = 0;
+  Offset position = const Offset(0, 0);
+
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(49.537685, 105.960388),
+    target: LatLng(49.468256759865504, 105.96434477716684),
     zoom: 14.4746,
   );
+
+  mapDialog(ctx) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 500,
+                      child: GoogleMap(
+                        mapType: MapType.hybrid,
+                        initialCameraPosition: _kGooglePlex,
+                        myLocationEnabled: true,
+                        onCameraMove: (cameraPosition) => setState(() {
+                          lat = cameraPosition.target.latitude;
+                          lng = cameraPosition.target.longitude;
+                        }),
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                        },
+                      ),
+                    ),
+                    Positioned.fill(
+                      bottom: 20,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Lottie.asset(
+                          'assets/pin.json',
+                          height: 50,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                CustomButton(
+                  color: orange,
+                  labelText: "Байршил илгээх",
+                  textColor: white,
+                  onClick: () {
+                    Navigator.of(context).pop();
+                  },
+                  width: MediaQuery.of(context).size.width,
+                )
+              ],
+            ),
+          );
+        });
+  }
 
   show(ctx) async {
     showDialog(
@@ -114,6 +180,11 @@ class _CreatePostPageState extends State<CreatePostPage> {
           loading = true;
         });
         Post save = Post.fromJson(fbKey.currentState!.value);
+        // save.lat = position.latitude;
+        // save.lng = position.longitude;
+
+        save.lng = lng;
+        save.lat = lat;
 
         await PostApi().createPost(save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
@@ -307,22 +378,23 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: red,
-                  height: 300,
-                  child: GoogleMap(
-                    mapType: MapType.hybrid,
-                    initialCameraPosition: _kGooglePlex,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
-                  ),
-                ),
-                const SizedBox(
                   height: 25,
+                ),
+                Column(
+                  children: [
+                    CustomButton(
+                      onClick: () {
+                        mapDialog(context);
+                      },
+                      width: MediaQuery.of(context).size.width,
+                      labelText: "Байршил нэмэх",
+                      fontSize: 16,
+                      color: dark,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
                 CustomButton(
                   onClick: () {

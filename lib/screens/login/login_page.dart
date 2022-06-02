@@ -199,7 +199,7 @@ class _LoginPageState extends State<LoginPage>
                         filled: true,
                         hintStyle: const TextStyle(
                             color: Colors.black54, fontSize: 14),
-                        hintText: "Утасны дугаараа",
+                        hintText: "Утасны дугаар",
                         fillColor: white,
                       ),
                       validators: FormBuilderValidators.compose([

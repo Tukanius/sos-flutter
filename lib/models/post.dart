@@ -45,6 +45,8 @@ class Post {
   bool? isRefused;
   String? reportType;
   String? imageThumb;
+  double? lat;
+  double? lng;
 
   getImage() {
     return HttpRequest.s3host + image.toString();
@@ -116,6 +118,8 @@ class Post {
     this.isRefused,
     this.imageThumb,
     this.reportType,
+    this.lat,
+    this.lng,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

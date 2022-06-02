@@ -34,6 +34,8 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   bool? isRefused;
   String? reportType;
   String? imageThumb;
+  double? lat;
+  double? lng;
 
   if (json["sector"] != null) {
     sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
@@ -72,6 +74,8 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   if (json['isRefused'] != null) isRefused = json['isRefused'];
   if (json['reportType'] != null) reportType = json['reportType'];
   if (json['imageThumb'] != null) imageThumb = json['imageThumb'];
+  if (json["lat"] != null) lat = double.parse('${json["lat"]}');
+  if (json["lng"] != null) lng = double.parse('${json["lng"]}');
 
   return Post(
     stats: stats,
@@ -107,6 +111,8 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     isRefused: isRefused,
     reportType: reportType,
     imageThumb: imageThumb,
+    lat: lat,
+    lng: lng,
   );
 }
 
@@ -147,6 +153,8 @@ Map<String, dynamic> _$PostToJson(Post instance) {
   if (instance.isRefused != null) json['isRefused'] = instance.isRefused;
   if (instance.reportType != null) json['reportType'] = instance.reportType;
   if (instance.imageThumb != null) json['imageThumb'] = instance.imageThumb;
+  if (instance.lat != null) json['lat'] = instance.lat;
+  if (instance.lng != null) json['lng'] = instance.lng;
 
   return json;
 }

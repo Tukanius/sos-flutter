@@ -78,6 +78,8 @@ dev_dependencies:
   flutter_facebook_auth: ^4.3.4
   google_maps_flutter: ^2.1.6
   location: ^4.4.0
+  geolocator: ^8.2.1
+  rxdart: ^0.27.4
   
 
   # The "flutter_lints" package below contains a set of recommended lints to
