@@ -5,12 +5,16 @@ class Filter {
   String? postStatus;
   String? user;
   String? sector;
+  String? sectorUser;
+  bool? isAssigned;
 
   Filter({
     this.query,
     this.postStatus,
     this.user,
     this.sector,
+    this.sectorUser,
+    this.isAssigned,
   });
 }
 

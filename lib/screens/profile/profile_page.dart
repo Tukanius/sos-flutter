@@ -3,6 +3,7 @@ import 'package:sos/models/user.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Splash/index.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
+import 'package:sos/screens/profile/screens/depending_post.dart';
 import 'package:sos/screens/profile/screens/my_create_post_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sos/screens/profile/screens/my_sector_post.dart';
@@ -234,65 +235,104 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                   ),
                 ),
               ),
-              user.role == "SECTOR"
-                  ? GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(MySectorPost.routeName);
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 15),
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        height: 45,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Image.network(
-                                    user.sector!.getAvatar(),
-                                    width: 25,
-                                    height: 25,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${user.sector!.fullName}",
-                                      style: const TextStyle(color: dark),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  )
-                                ],
+              if (user.role == "SECTOR")
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(MySectorPost.routeName);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    height: 45,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Image.network(
+                                user.sector!.getAvatar(),
+                                width: 25,
+                                height: 25,
                               ),
-                            ),
-                            const Icon(Icons.keyboard_arrow_right)
-                          ],
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${user.sector!.fullName}",
+                                  style: const TextStyle(color: dark),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  : const SizedBox(),
+                        const Icon(Icons.keyboard_arrow_right)
+                      ],
+                    ),
+                  ),
+                ),
+              if (user.role == "SECTOR")
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(DependingPostPage.routeName);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    height: 45,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              SvgPicture.asset(
+                                "assets/Folder.svg",
+                                width: 16,
+                                height: 16,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Expanded(
+                                child: Text(
+                                  "Надад хамааралтай",
+                                  style: TextStyle(color: dark),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const Icon(Icons.keyboard_arrow_right)
+                      ],
+                    ),
+                  ),
+                ),
               CustomButton(
                 width: MediaQuery.of(context).size.width,
                 customWidget: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // SvgPicture.asset(
-                    //   "assets/Power.svg",
-                    //   width: 15,
-                    //   height: 15,
-                    // ),
-                    // const SizedBox(
-                    //   width: 15,
-                    // ),
-                    const Text(
+                  children: const [
+                    Text(
                       "Гарах",
                       style: TextStyle(color: red, fontSize: 16),
                     ),

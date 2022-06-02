@@ -1,25 +1,23 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-import 'package:sos/models/user.dart';
-import 'package:after_layout/after_layout.dart';
-import 'package:sos/widgets/colors.dart';
-
 import '../../../models/result.dart';
+import 'package:provider/provider.dart';
+import '../../../models/user.dart';
+import 'package:after_layout/after_layout.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../provider/user_provider.dart';
+import '../../../widgets/colors.dart';
 import 'components/page1.dart';
 
-class MySectorPost extends StatefulWidget {
-  static const routeName = "/mysector";
-
-  const MySectorPost({Key? key}) : super(key: key);
+class DependingPostPage extends StatefulWidget {
+  static const routeName = "/dependingPost";
+  const DependingPostPage({Key? key}) : super(key: key);
 
   @override
-  State<MySectorPost> createState() => _MySectorPostState();
+  State<DependingPostPage> createState() => _DependingPostPageState();
 }
 
-class _MySectorPostState extends State<MySectorPost>
+class _DependingPostPageState extends State<DependingPostPage>
     with SingleTickerProviderStateMixin, AfterLayoutMixin {
   ScrollController scrollController = ScrollController();
   late TabController tabController;
@@ -27,11 +25,8 @@ class _MySectorPostState extends State<MySectorPost>
   Filter filter = Filter();
 
   @override
-  void afterFirstLayout(BuildContext context) {}
-
-  @override
   void initState() {
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -42,6 +37,15 @@ class _MySectorPostState extends State<MySectorPost>
   }
 
   @override
+  void afterFirstLayout(BuildContext context) {
+    setState(() {
+      filter = Filter(
+        sector: user.sector!.id,
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     user = Provider.of<UserProvider>(context, listen: false).user;
 
@@ -49,15 +53,15 @@ class _MySectorPostState extends State<MySectorPost>
       backgroundColor: primaryColor,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: white,
+        backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: dark),
-        title: Text(
-          "${user.sector!.fullName}",
-          style: const TextStyle(color: dark, fontSize: 16),
+        title: const Text(
+          "Надад хамааралтай",
+          style: TextStyle(color: dark, fontSize: 16),
         ),
       ),
       body: DefaultTabController(
-        length: 2,
+        length: 3,
         child: NestedScrollView(
           controller: scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -71,7 +75,7 @@ class _MySectorPostState extends State<MySectorPost>
                   snap: false,
                   elevation: 0.0,
                   toolbarHeight: 0,
-                  backgroundColor: white,
+                  backgroundColor: white.withOpacity(0.5),
                   excludeHeaderSemantics: false,
                   automaticallyImplyLeading: false,
                   forceElevated: innerBoxIsScrolled,
@@ -88,19 +92,24 @@ class _MySectorPostState extends State<MySectorPost>
                       tabs: [
                         Tab(
                           icon: SvgPicture.asset(
-                            "assets/tab/1.svg",
-                            width: 20,
-                            height: 20,
-                          ),
-                          text: "Хувиарлагдаагүй",
-                        ),
-                        Tab(
-                          icon: SvgPicture.asset(
                             "assets/tab/2.svg",
                             width: 20,
                             height: 20,
                           ),
-                          text: "Нийт",
+                        ),
+                        Tab(
+                          icon: SvgPicture.asset(
+                            "assets/tab/3.svg",
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
+                        Tab(
+                          icon: SvgPicture.asset(
+                            "assets/tab/5.svg",
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
                       ]),
                 ),
@@ -113,22 +122,35 @@ class _MySectorPostState extends State<MySectorPost>
             children: [
               SingleChildScrollView(
                 child: Page1(
-                  name: "Бүгд",
-                  height: 80,
+                  name: "Page 2",
                   filter: Filter(
                     sector: user.sector!.id,
                     postStatus: "PENDING",
-                    isAssigned: false,
+                    sectorUser: user.id,
+                  ),
+                  height: 50,
+                ),
+              ),
+              SingleChildScrollView(
+                child: Page1(
+                  name: "Page 3",
+                  height: 50,
+                  filter: Filter(
+                    sector: user.sector!.id,
+                    postStatus: "SOLVED",
+                    sectorUser: user.id,
                   ),
                 ),
               ),
               SingleChildScrollView(
                 child: Page1(
-                  name: "Бүгд",
+                  name: "Page 4",
+                  height: 50,
                   filter: Filter(
                     sector: user.sector!.id,
+                    postStatus: "FAILED",
+                    sectorUser: user.id,
                   ),
-                  height: 80,
                 ),
               ),
             ],

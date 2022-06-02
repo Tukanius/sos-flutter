@@ -22,6 +22,7 @@ import 'package:sos/screens/home/screen/successful_post.dart';
 import 'package:sos/screens/otp/otp_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
+import 'package:sos/screens/profile/screens/depending_post.dart';
 import 'package:sos/screens/profile/screens/my_create_post_page.dart';
 import 'package:sos/screens/profile/screens/my_sector_post.dart';
 import 'package:sos/screens/profile/screens/saved_post_page.dart';
@@ -130,6 +131,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 case MySectorPost.routeName:
                   return MaterialPageRoute(builder: (context) {
                     return const MySectorPost();
+                  });
+                case DependingPostPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const DependingPostPage();
                   });
                 // case SuccessPage.routeName:
                 //   SuccessPageArguments arguments =

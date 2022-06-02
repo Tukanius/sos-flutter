@@ -5,11 +5,12 @@ import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:sos/widgets/custom_button.dart';
 import 'package:sos/widgets/form_textfield.dart';
-import 'package:lottie/lottie.dart';
+// import 'package:lottie/lottie.dart';
 import '../../../api/post_api.dart';
 import '../../../components/before_after/index.dart';
 import 'package:like_button/like_button.dart';
@@ -54,19 +55,36 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   bool? isReturn = false;
   bool? loading = false;
   bool resultImageHasError = false;
+
+  List<Marker> _marker = [];
+  late final Marker _list;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   FormBuilderFieldState<FormBuilderField<dynamic>, dynamic> field =
       FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>();
+
   @override
   void afterFirstLayout(BuildContext context) async {
     setState(() {
       isLoading = true;
     });
     Post res = await PostApi().getPost(widget.id);
+
     setState(() {
       data = res;
       isLoading = false;
+      _list = Marker(
+        markerId: MarkerId("1"),
+        position: LatLng(res.lat!, res.lng!),
+      );
     });
+
+    _marker.add(_list);
   }
 
   onSubmit() async {
@@ -205,8 +223,50 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
     }
   }
 
+  mapDialog(ctx) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 500,
+                  child: GoogleMap(
+                    markers: Set<Marker>.of(_marker),
+                    mapType: MapType.hybrid,
+                    initialCameraPosition: CameraPosition(
+                        target: LatLng(data.lat!, data.lng!),
+                        zoom: 16,
+                        tilt: 37.0),
+                    myLocationEnabled: true,
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                CustomButton(
+                  color: orange,
+                  labelText: "Хаах",
+                  textColor: white,
+                  onClick: () {
+                    Navigator.of(context).pop();
+                  },
+                  width: MediaQuery.of(context).size.width,
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   actionButton() {
-    if (data.sectorUser != null) {
+    if (data.sectorUser == user.id) {
       if (isConfirm == false && isFailed == false && isReturn == false) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -236,22 +296,6 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     });
                   },
                   child: const Text(
-                    "Цуцалсан",
-                    style: TextStyle(
-                      color: dark,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      isReturn = true;
-                    });
-                  },
-                  child: const Text(
                     "Буцаах",
                     style: TextStyle(
                       color: dark,
@@ -266,25 +310,49 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       } else {
         if (isConfirm == true) {
           return hasConfirm();
-        } else if (isReturn == true) {
-          return hasReturn();
         } else if (isFailed == true) {
           return hasFailed();
         }
       }
-    } else {
-      return TextButton(
-        onPressed: () {
-          addAssign(context, data);
-        },
-        child: const Text(
-          "Хүлээн авах",
-          style: TextStyle(
-            color: green,
-            fontSize: 12,
+    } else if (data.sectorUser == null && isReturn == false) {
+      return Row(
+        children: [
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                addAssign(context, data);
+              },
+              child: const Text(
+                "Хүлээн авах",
+                style: TextStyle(
+                  color: green,
+                  fontSize: 12,
+                ),
+              ),
+            ),
           ),
-        ),
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  isReturn = true;
+                });
+              },
+              child: const Text(
+                "Цуцалсан",
+                style: TextStyle(
+                  color: dark,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ),
+        ],
       );
+    } else if (isReturn == true) {
+      return hasReturn();
+    } else {
+      return const SizedBox();
     }
   }
 
@@ -345,7 +413,6 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                             ),
                             onPressed: () async {
                               if (loading == false) {
-                                print("yes");
                                 assignButton(ctx, context);
                               }
                               setState(() {
@@ -358,7 +425,14 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     ],
                   ),
                 ),
-                Lottie.asset('assets/check.json', height: 120, repeat: true),
+                Positioned(
+                  top: 25,
+                  child: SvgPicture.asset(
+                    "assets/file.svg",
+                    height: 80,
+                  ),
+                )
+                // Lottie.asset('assets/check.json', height: 120, repeat: true),
               ],
             ),
           );
@@ -730,7 +804,14 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     ],
                   ),
                 ),
-                Lottie.asset('assets/garbage.json', height: 150, repeat: false),
+                Positioned(
+                  top: 25,
+                  child: SvgPicture.asset(
+                    "assets/garbage.svg",
+                    height: 80,
+                  ),
+                )
+                // Lottie.asset('assets/garbage.json', height: 150, repeat: false),
               ],
             ),
           );
@@ -1002,7 +1083,9 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                               Expanded(
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(15),
-                                  onTap: () {},
+                                  onTap: () {
+                                    mapDialog(context);
+                                  },
                                   child: Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
@@ -1028,16 +1111,10 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   card(),
                   data.sector!.id == null ? const SizedBox() : pendingCard(),
                   data.result == null ? const SizedBox() : resultCard(),
-                  data.postStatus == "PENDING"
-                      ? user.sector != null
-                          ? data.sector!.id == user.sector!.id
-                              ? actionButton()
-                              : const SizedBox()
-                          : const SizedBox()
-                      : const SizedBox(),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  if (data.postStatus == "PENDING" &&
+                      user.sector != null &&
+                      data.sector!.id == user.sector!.id)
+                    actionButton()
                 ],
               ),
       ),

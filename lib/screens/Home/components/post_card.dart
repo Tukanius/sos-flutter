@@ -1,17 +1,16 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/api/post_api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:lottie/lottie.dart';
-import 'package:sos/models/alert.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/result.dart';
 import 'package:sos/models/user.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:sos/provider/post_provider.dart';
 import 'package:sos/screens/home/index.dart';
-import 'package:sos/screens/splash/index.dart';
 import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:like_button/like_button.dart';
@@ -20,6 +19,7 @@ import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
 import '../../../services/dialog.dart';
 import '../../../services/navigation.dart';
+import '../../../widgets/custom_button.dart';
 import '../../profile/screens/my_create_post_page.dart';
 import '../screen/edit_post.dart';
 import '../screen/post_detail.dart';
@@ -66,7 +66,7 @@ icon(Post? data) {
   }
 }
 
-class _PostCardState extends State<PostCard> {
+class _PostCardState extends State<PostCard> with AfterLayoutMixin {
   User user = User();
   bool? likeLoading = false;
   bool? isDelete = false;
@@ -75,6 +75,8 @@ class _PostCardState extends State<PostCard> {
   int page = 1;
   int limit = 1000;
   Filter filter = Filter();
+  final List<Marker> _marker = [];
+  late final Marker _list;
 
   boderColor() {
     switch (widget.data!.postStatus) {
@@ -88,6 +90,57 @@ class _PostCardState extends State<PostCard> {
         return grey;
       default:
     }
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) async {
+    _list = Marker(
+      markerId: const MarkerId("1"),
+      position: LatLng(widget.data!.lat!, widget.data!.lng!),
+    );
+    _marker.add(_list);
+  }
+
+  mapDialog(ctx) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 500,
+                  child: GoogleMap(
+                    markers: Set<Marker>.of(_marker),
+                    mapType: MapType.hybrid,
+                    initialCameraPosition: CameraPosition(
+                        target: LatLng(widget.data!.lat!, widget.data!.lng!),
+                        zoom: 16,
+                        tilt: 37.0),
+                    myLocationEnabled: true,
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                CustomButton(
+                  color: orange,
+                  labelText: "Хаах",
+                  textColor: white,
+                  onClick: () {
+                    Navigator.of(context).pop();
+                  },
+                  width: MediaQuery.of(context).size.width,
+                )
+              ],
+            ),
+          );
+        });
   }
 
   show(ctx, data) async {
@@ -159,7 +212,13 @@ class _PostCardState extends State<PostCard> {
                     ],
                   ),
                 ),
-                Lottie.asset('assets/garbage.json', height: 150, repeat: false),
+                Positioned(
+                  top: 25,
+                  child: SvgPicture.asset(
+                    "assets/garbage.svg",
+                    height: 80,
+                  ),
+                )
               ],
             ),
           );
@@ -218,7 +277,6 @@ class _PostCardState extends State<PostCard> {
           });
         } catch (e) {
           dialogService.showErrorDialog("Нэвтрэн үү!");
-          print(e.toString());
           setState(() {
             isHide = false;
           });
@@ -387,6 +445,7 @@ class _PostCardState extends State<PostCard> {
                                           .getLike(widget.data!.id);
                                       setState(() {
                                         widget.data!.liked = true;
+                                        widget.data!.likeCount! + 1;
                                         likeLoading = false;
                                       });
                                     } catch (e) {
@@ -403,6 +462,8 @@ class _PostCardState extends State<PostCard> {
                                           .like(widget.data!.id.toString());
                                       setState(() {
                                         widget.data!.liked = false;
+                                        widget.data!.likeCount! - 1;
+
                                         likeLoading = false;
                                       });
                                     } catch (e) {
@@ -426,16 +487,28 @@ class _PostCardState extends State<PostCard> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      if (widget.data!.lat != null) {
+                        mapDialog(context);
+                      } else {
+                        dialogService.showErrorDialog(
+                            "Энэ эрсдэлд байршил өгөөгүй байна.");
+                      }
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border.all(width: 0.3, color: grey)),
                       height: 55,
                       child: Center(
-                        child: SvgPicture.asset(
-                          "assets/location.svg",
-                          color: Color(0x4ffA7A7A7),
-                        ),
+                        child: widget.data!.lat != null
+                            ? SvgPicture.asset(
+                                "assets/location.svg",
+                                color: red,
+                              )
+                            : SvgPicture.asset(
+                                "assets/location.svg",
+                                color: Color(0x4ffa7a7a7),
+                              ),
                       ),
                     ),
                   ),
