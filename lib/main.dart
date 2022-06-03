@@ -15,7 +15,7 @@ import 'package:sos/screens/forgot/forgot_password_change.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
 import 'package:sos/screens/home/screen/map_screen_page.dart';
 import 'package:sos/screens/home/screen/new_post.dart';
-import 'package:sos/screens/home/screen/notification_page.dart';
+import 'package:sos/screens/notify/notification_page.dart';
 import 'package:sos/screens/home/screen/pending_post.dart';
 import 'package:sos/screens/home/screen/post_detail.dart';
 import 'package:sos/screens/home/screen/successful_post.dart';

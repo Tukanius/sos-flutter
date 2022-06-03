@@ -6,7 +6,6 @@ import 'package:sos/provider/sector_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
-import 'package:sos/screens/home/screen/notification_page.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/utils/http_request.dart';
@@ -24,6 +23,8 @@ import '../../../models/result.dart';
 import '../../../models/sector.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:skeletons/skeletons.dart';
+
+import '../notify/notification_page.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = "/HomePage";
@@ -47,9 +48,9 @@ class _HomePageState extends State<HomePage>
   late TabController tabController;
   bool? isLoading = true;
   Filter filter = Filter(postStatus: "NEW");
-  Result? warningPost = Result(count: 0, rows: []);
   Sector data = Sector();
   String? avatar;
+
   @override
   void initState() {
     tabController = TabController(length: 4, vsync: this);
@@ -809,30 +810,31 @@ class _HomePageState extends State<HomePage>
                     ],
                   ),
                   const SizedBox(width: 18),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(80),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(NotificationPage.routeName);
-                      },
-                      child: Container(
-                        width: 32,
-                        height: 32,
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(80),
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/tab/4.svg",
+                  if (user.id != null)
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(80),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(NotificationPage.routeName);
+                        },
+                        child: Container(
                           width: 32,
                           height: 32,
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80),
+                          ),
+                          child: SvgPicture.asset(
+                            "assets/tab/4.svg",
+                            width: 32,
+                            height: 32,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   InkWell(
                     borderRadius: BorderRadius.circular(80),
                     onTap: () {

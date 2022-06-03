@@ -64,6 +64,11 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   FormBuilderFieldState<FormBuilderField<dynamic>, dynamic> field =
       FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>();
