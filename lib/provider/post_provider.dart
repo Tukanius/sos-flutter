@@ -6,7 +6,6 @@ import '../models/result.dart';
 
 class PostProvider extends ChangeNotifier {
   Post? like;
-  bool? isLike;
   Result? postList;
 
   getLike(id) async {
@@ -22,12 +21,4 @@ class PostProvider extends ChangeNotifier {
     notifyListeners();
     return res;
   }
-
-  // getFilter(Filter filters) {
-  //   filter = filters;
-  //   print("-------------------FILTER----------------");
-  //   print(filter!.postStatus);
-  //   print("-------------------FILTER----------------");
-  //   notifyListeners();
-  // }
 }

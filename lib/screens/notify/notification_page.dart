@@ -62,85 +62,115 @@ class _NotificationPageState extends State<NotificationPage>
             ),
           ),
         ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              for (var i = 0; i < notifyList.rows!.length; i++)
-                InkWell(
-                  onTap: () {
-                    NotifyApi().getNotify(notifyList.rows![i].id);
-                    Navigator.of(context).pushNamed(
-                      PostDetailPage.routeName,
-                      arguments:
-                          PostDetailPageArguments(id: notifyList.rows![i].post),
-                    );
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 0.0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+        body: isLoading == true
+            ? const SizedBox()
+            : Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  children: [
+                    if (notifyList.rows!.isEmpty)
+                      Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    notifyList.rows![i].title,
-                                    style: TextStyle(
-                                      fontWeight:
-                                          notifyList.rows![i].seen != true
-                                              ? FontWeight.w700
-                                              : FontWeight.w400,
-                                    ),
-                                  ),
-                                  if (notifyList.rows![i].seen != true)
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 5),
-                                      decoration: BoxDecoration(
-                                        color: orange,
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                      ),
-                                      width: 8,
-                                      height: 8,
-                                    )
-                                ],
-                              ),
-                              Text(
-                                notifyList.rows![i].getDate(),
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            ],
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          Image.asset(
+                            "assets/empty.png",
+                            height: 250,
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 15,
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  notifyList.rows![i].body,
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                              ),
-                            ],
-                          )
+                          const Text(
+                            "Хоосон байна",
+                            style: TextStyle(
+                                color: orange,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
+                          ),
                         ],
                       ),
-                    ),
-                  ),
+                    for (var i = 0; i < notifyList.rows!.length; i++)
+                      InkWell(
+                        onTap: () {
+                          if (notifyList.rows![i].notifyType == "WEB") {
+                            print("web");
+                          } else {
+                            NotifyApi().getNotify(notifyList.rows![i].id);
+                            Navigator.of(context).pushNamed(
+                              PostDetailPage.routeName,
+                              arguments: PostDetailPageArguments(
+                                  id: notifyList.rows![i].post),
+                            );
+                          }
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 0.0,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          notifyList.rows![i].title,
+                                          style: TextStyle(
+                                            fontWeight:
+                                                notifyList.rows![i].seen != true
+                                                    ? FontWeight.w700
+                                                    : FontWeight.w400,
+                                          ),
+                                        ),
+                                        if (notifyList.rows![i].seen != true)
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 5),
+                                            decoration: BoxDecoration(
+                                              color: orange,
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                            ),
+                                            width: 8,
+                                            height: 8,
+                                          )
+                                      ],
+                                    ),
+                                    Text(
+                                      notifyList.rows![i].getDate(),
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        notifyList.rows![i].body,
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-            ],
-          ),
-        ),
+              ),
       ),
     );
   }

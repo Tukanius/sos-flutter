@@ -133,7 +133,7 @@ class _SavedPostPageState extends State<SavedPostPage>
               SingleChildScrollView(
                 child: SavePostList(
                   filter: Filter(
-                    postStatus: "",
+                    postStatus: "NEW",
                   ),
                   type: "MYPOST",
                   height: 50,
@@ -141,20 +141,20 @@ class _SavedPostPageState extends State<SavedPostPage>
               ),
               SingleChildScrollView(
                 child: SavePostList(
-                  filter: Filter(postStatus: ""),
+                  filter: Filter(postStatus: "PENDING"),
                   height: 50,
                 ),
               ),
               SingleChildScrollView(
                 child: SavePostList(
                   height: 50,
-                  filter: Filter(postStatus: ""),
+                  filter: Filter(postStatus: "SOLVED"),
                 ),
               ),
               SingleChildScrollView(
                 child: SavePostList(
                   height: 50,
-                  filter: Filter(postStatus: ""),
+                  filter: Filter(postStatus: "FAILED"),
                 ),
               ),
             ],

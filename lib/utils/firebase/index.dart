@@ -4,6 +4,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:sos/models/notification.dart';
+import 'package:sos/screens/home/screen/post_detail.dart';
+import 'package:sos/services/navigation.dart';
 
 import '../../main.dart';
 import '../../provider/user_provider.dart';
@@ -36,16 +39,15 @@ class FirebaseUtils extends StatefulWidget {
         await UserProvider().setDeviceToken(token);
       }
 
-      // FlutterAppBadger.updateBadgeCount(UserProvider().notification());
       getToken();
       FirebaseMessaging.onBackgroundMessage(
           _firebaseMessagingBackgroundHandler);
       if (!kIsWeb) {
         channel = const AndroidNotificationChannel(
-          'high_importance_channel', // id
-          'High Importance Notifications', // title
-          importance: Importance.high,
-        );
+            'high_importance_channel', // id
+            'High Importance Notifications', // title
+            importance: Importance.high,
+            playSound: true);
 
         flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -73,17 +75,36 @@ class FirebaseUtils extends StatefulWidget {
         // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
         const AndroidInitializationSettings initializationSettingsAndroid =
             AndroidInitializationSettings('@mipmap/ic_launcher');
-        final IOSInitializationSettings initializationSettingsIOS =
-            const IOSInitializationSettings();
-        final MacOSInitializationSettings initializationSettingsMacOS =
-            const MacOSInitializationSettings();
-        final InitializationSettings initializationSettings =
+        const IOSInitializationSettings initializationSettingsIOS =
+            IOSInitializationSettings();
+        const MacOSInitializationSettings initializationSettingsMacOS =
+            MacOSInitializationSettings();
+        const InitializationSettings initializationSettings =
             InitializationSettings(
-                android: initializationSettingsAndroid,
-                iOS: initializationSettingsIOS,
-                macOS: initializationSettingsMacOS);
-        await flutterLocalNotificationsPlugin
-            .initialize(initializationSettings);
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsIOS,
+          macOS: initializationSettingsMacOS,
+        );
+        await flutterLocalNotificationsPlugin.initialize(
+          initializationSettings,
+          onSelectNotification: (payload) {
+            try {
+              Map<String, dynamic> valueMap = json.decode(message.data['data']);
+              Notify notify = Notify.fromJson(valueMap);
+              switch (notify.type) {
+                case "POST":
+                  locator<NavigationService>().pushNamed(
+                      routeName: PostDetailPage.routeName,
+                      arguments:
+                          PostDetailPageArguments(id: notify.id.toString()));
+                  break;
+                default:
+              }
+            } catch (err) {
+              debugPrint("==========error==========> $err");
+            }
+          },
+        );
 
         if (notification != null && android != null && !kIsWeb) {
           flutterLocalNotificationsPlugin.show(
@@ -102,13 +123,20 @@ class FirebaseUtils extends StatefulWidget {
       });
 
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-        String jsonAuthorStr = message.data["data"];
-        Map<String, dynamic> temp = json.decode(jsonAuthorStr);
-
-        // {data: {"navigation_object_type":"SWAP","navigation_object_id":"1bd0fdb0-3def-4b2d-b37a-da1a537401f4"}}
-        debugPrint("*** *** *** *** *** *** *** *** *** *** *** *** ** ");
-        debugPrint('A new onMessageOpenedApp event was published! $temp');
-        debugPrint("*** *** *** *** *** *** *** *** *** *** *** *** *** ");
+        try {
+          Map<String, dynamic> valueMap = json.decode(message.data['data']);
+          Notify notify = Notify.fromJson(valueMap);
+          switch (notify.type) {
+            case "POST":
+              locator<NavigationService>().pushNamed(
+                  routeName: PostDetailPage.routeName,
+                  arguments: PostDetailPageArguments(id: notify.id.toString()));
+              break;
+            default:
+          }
+        } catch (err) {
+          debugPrint("==========error==========> $err");
+        }
       });
     } catch (err) {
       debugPrint(

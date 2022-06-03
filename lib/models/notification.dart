@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_moment/simple_moment.dart';
 part '../parts/notification.dart';
@@ -8,13 +10,16 @@ class Notify {
   String? post;
   String? title;
   String? body;
-  String? noticeStatusDate;
+  String? notifyType;
+  String? notifyStatusDate;
   String? targetType;
+  String? type;
+  String? navigation;
   bool? seen;
 
   String getDate() {
     return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
-            .parseUTC(noticeStatusDate!)
+            .parseUTC(notifyStatusDate!)
             .toLocal()
             .toIso8601String())
         .format("yyyy-MM-dd HH:mm");
@@ -27,8 +32,11 @@ class Notify {
     this.post,
     this.title,
     this.body,
-    this.noticeStatusDate,
+    this.notifyType,
+    this.notifyStatusDate,
     this.targetType,
+    this.navigation,
+    this.type,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$NotifyFromJson(json);

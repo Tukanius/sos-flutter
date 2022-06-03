@@ -22,6 +22,7 @@ import '../../../services/navigation.dart';
 import '../../../widgets/custom_button.dart';
 import '../../profile/screens/my_create_post_page.dart';
 import '../screen/edit_post.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../screen/post_detail.dart';
 
 class PostCard extends StatefulWidget {
@@ -66,6 +67,24 @@ icon(Post? data) {
   }
 }
 
+permissionAsk() async {
+  try {
+    var status = await Permission.location.status;
+    if (status.isDenied) {
+      debugPrint("=====================DENIED============");
+    }
+    if (await Permission.location.isRestricted) {
+      debugPrint("=====================isRestricted============");
+    }
+    if (await Permission.contacts.request().isGranted) {}
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.location,
+      Permission.storage,
+    ].request();
+    debugPrint(statuses[Permission.location].toString());
+  } catch (e) {}
+}
+
 class _PostCardState extends State<PostCard> with AfterLayoutMixin {
   User user = User();
   bool? likeLoading = false;
@@ -94,11 +113,13 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
 
   @override
   void afterFirstLayout(BuildContext context) async {
-    _list = Marker(
-      markerId: const MarkerId("1"),
-      position: LatLng(widget.data!.lat!, widget.data!.lng!),
-    );
-    _marker.add(_list);
+    if (widget.data!.lat != null) {
+      _list = Marker(
+        markerId: const MarkerId("1"),
+        position: LatLng(widget.data!.lat!, widget.data!.lng!),
+      );
+      _marker.add(_list);
+    }
   }
 
   mapDialog(ctx) async {
@@ -119,9 +140,9 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                     markers: Set<Marker>.of(_marker),
                     mapType: MapType.hybrid,
                     initialCameraPosition: CameraPosition(
-                        target: LatLng(widget.data!.lat!, widget.data!.lng!),
-                        zoom: 16,
-                        tilt: 37.0),
+                      target: LatLng(widget.data!.lat!, widget.data!.lng!),
+                      zoom: 17,
+                    ),
                     myLocationEnabled: true,
                   ),
                 ),
@@ -399,96 +420,50 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                 Expanded(
                   child: InkWell(
                     onTap: () async {
-                      await Provider.of<PostProvider>(context, listen: false)
-                          .getLike(widget.data!.id);
+                      setState(() {
+                        likeLoading = true;
+                      });
+                      var res =
+                          await PostApi().like(widget.data!.id.toString());
+                      setState(() {
+                        likeLoading = false;
+                        widget.data!.likeCount = res.likeCount;
+                        widget.data!.liked = res.liked;
+                      });
                     },
                     child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 0.3, color: grey)),
-                        height: 55,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            LikeButton(
-                              size: 35,
-                              isLiked: widget.data!.liked,
-                              circleColor: const CircleColor(
-                                  start: Color(0xff00ddff),
-                                  end: Color(0xff0099cc)),
-                              bubblesColor: const BubblesColor(
-                                dotPrimaryColor: Color(0xff33b5e5),
-                                dotSecondaryColor: Color(0xff0099cc),
-                              ),
-                              likeBuilder: (bool isLiked) {
-                                return likeLoading == false
-                                    ? Icon(
-                                        Icons.favorite,
-                                        color: widget.data!.liked == true
-                                            ? red
-                                            : grey,
-                                        size: 25,
-                                      )
-                                    : const SpinKitCircle(
-                                        size: 25,
-                                        color: orange,
-                                      );
-                              },
-                              onTap: (value) async {
-                                if (user.id != null) {
-                                  if (widget.data!.liked == false) {
-                                    setState(() {
-                                      likeLoading = true;
-                                    });
-                                    try {
-                                      await Provider.of<PostProvider>(context,
-                                              listen: false)
-                                          .getLike(widget.data!.id);
-                                      setState(() {
-                                        widget.data!.liked = true;
-                                        widget.data!.likeCount! + 1;
-                                        likeLoading = false;
-                                      });
-                                    } catch (e) {
-                                      setState(() {
-                                        likeLoading = false;
-                                      });
-                                    }
-                                  } else {
-                                    setState(() {
-                                      likeLoading = true;
-                                    });
-                                    try {
-                                      await PostApi()
-                                          .like(widget.data!.id.toString());
-                                      setState(() {
-                                        widget.data!.liked = false;
-                                        widget.data!.likeCount! - 1;
-
-                                        likeLoading = false;
-                                      });
-                                    } catch (e) {
-                                      setState(() {
-                                        likeLoading = false;
-                                      });
-                                    }
-                                  }
-                                  return widget.data!.liked;
-                                } else {
-                                  locator<DialogService>()
-                                      .showErrorDialogListener("Нэвтрэн үү");
-                                }
-                              },
-                            ),
-                            if (widget.data!.likeCount != 0)
-                              Text("${widget.data!.likeCount}"),
-                          ],
-                        )),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.3, color: grey)),
+                      height: 55,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          likeLoading == false
+                              ? Icon(
+                                  Icons.favorite,
+                                  color:
+                                      widget.data!.liked == true ? red : grey,
+                                  size: 25,
+                                )
+                              : const SpinKitCircle(
+                                  size: 25,
+                                  color: orange,
+                                ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          if (widget.data!.likeCount != 0)
+                            Text("${widget.data!.likeCount}"),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () {
+                    onTap: () async {
                       if (widget.data!.lat != null) {
+                        await permissionAsk();
                         mapDialog(context);
                       } else {
                         dialogService.showErrorDialog(

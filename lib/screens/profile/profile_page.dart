@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
               const SizedBox(
                 height: 20,
               ),
-              Text("${user.firstName.toString()} ${user.lastName.toString()}"),
+              Text("${user.lastName.toString()} ${user.firstName.toString()}"),
               const SizedBox(
                 height: 20,
               ),

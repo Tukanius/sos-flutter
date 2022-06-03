@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
+import 'package:sos/provider/post_provider.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
 import 'package:sos/widgets/colors.dart';
@@ -21,7 +22,7 @@ import '../../../main.dart';
 import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import '../../../services/dialog.dart';
 import '../../../services/navigation.dart';
 
@@ -56,22 +57,30 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   bool? loading = false;
   bool resultImageHasError = false;
 
-  List<Marker> _marker = [];
-  late final Marker _list;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   FormBuilderFieldState<FormBuilderField<dynamic>, dynamic> field =
       FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>();
+
+  final List<Marker> _marker = [];
+  late final Marker _list;
+
+  permissionAsk() async {
+    try {
+      var status = await Permission.location.status;
+      if (status.isDenied) {
+        debugPrint("=====================DENIED============");
+      }
+      if (await Permission.location.isRestricted) {
+        debugPrint("=====================isRestricted============");
+      }
+      if (await Permission.contacts.request().isGranted) {}
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.location,
+        Permission.storage,
+      ].request();
+      debugPrint(statuses[Permission.location].toString());
+    } catch (e) {}
+  }
 
   @override
   void afterFirstLayout(BuildContext context) async {
@@ -79,17 +88,248 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       isLoading = true;
     });
     Post res = await PostApi().getPost(widget.id);
-
     setState(() {
       data = res;
       isLoading = false;
-      _list = Marker(
-        markerId: MarkerId("1"),
-        position: LatLng(res.lat!, res.lng!),
-      );
+      if (data.lat != null) {
+        _list = Marker(
+          markerId: const MarkerId("1"),
+          position: LatLng(res.lat!, res.lng!),
+        );
+        _marker.add(_list);
+      }
     });
+  }
 
-    _marker.add(_list);
+  @override
+  Widget build(BuildContext context) {
+    user = Provider.of<UserProvider>(context, listen: true).user;
+
+    return Scaffold(
+      backgroundColor: white,
+      appBar: AppBar(
+        backgroundColor: white,
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        title: const Text(
+          "Эрсдэлийг дэлгэрэнгүй",
+          style: TextStyle(fontSize: 16, color: dark),
+        ),
+        actions: [
+          data.postStatus == "NEW"
+              ? user.id == data.user!.id
+                  ? PopupMenuButton(
+                      icon: const Icon(
+                        Icons.more_vert,
+                        color: dark,
+                      ),
+                      itemBuilder: (context) {
+                        return [
+                          const PopupMenuItem(
+                            value: 'edit',
+                            child: Text('Засах'),
+                          ),
+                          const PopupMenuItem(
+                            value: 'delete',
+                            child: Text('Устгах'),
+                          )
+                        ];
+                      },
+                      onSelected: (String value) =>
+                          actionPopUpItemSelected(value, data),
+                    )
+                  : const SizedBox()
+              : const SizedBox(),
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(
+                Icons.close,
+                color: dark,
+              ))
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: isLoading == true
+            ? SizedBox(
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: const Center(
+                  child: SpinKitCircle(
+                    size: 30,
+                    color: orange,
+                  ),
+                ),
+              )
+            : Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      children: [
+                        icon(),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    data.sector!.fullName == null
+                                        ? "Эрсдэл"
+                                        : "Эрсдэл",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  postStatus(),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    data.getPostDate(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14),
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children: [
+                      data.resultImage != null
+                          ? BeforeAfter(
+                              imageCornerRadius: 0,
+                              imageHeight:
+                                  MediaQuery.of(context).size.height * 0.45,
+                              imageWidth: MediaQuery.of(context).size.width,
+                              beforeImage: NetworkImage("${data.getImage()}"),
+                              afterImage: NetworkImage("${data.resImage()}"),
+                            )
+                          : Container(
+                              height: MediaQuery.of(context).size.height * 0.45,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    data.getImage(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(15),
+                                  onTap: () async {
+                                    setState(() {
+                                      likeLoading = true;
+                                    });
+                                    var res = await PostApi()
+                                        .like(data.id.toString());
+                                    setState(() {
+                                      likeLoading = false;
+                                      data.likeCount = res.likeCount;
+                                      data.liked = res.liked;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            width: 0.3, color: grey)),
+                                    height: 55,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        likeLoading == false
+                                            ? Icon(
+                                                Icons.favorite,
+                                                color: data.liked == true
+                                                    ? red
+                                                    : grey,
+                                                size: 25,
+                                              )
+                                            : const SpinKitCircle(
+                                                size: 25,
+                                                color: orange,
+                                              ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        if (data.likeCount != 0)
+                                          Text("${data.likeCount}"),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(15),
+                                  onTap: () async {
+                                    await permissionAsk();
+                                    mapDialog(context);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            width: 0.3, color: grey)),
+                                    height: 55,
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        "assets/location.svg",
+                                        color: const Color(0x4ffa7a7a7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  card(),
+                  data.sector!.id == null ? const SizedBox() : pendingCard(),
+                  data.result == null ? const SizedBox() : resultCard(),
+                  if (data.postStatus == "PENDING" &&
+                      user.sector != null &&
+                      data.sector!.id == user.sector!.id)
+                    actionButton()
+                ],
+              ),
+      ),
+    );
   }
 
   onSubmit() async {
@@ -859,271 +1099,6 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
     setState(() {
       data.resultImage = image;
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    user = Provider.of<UserProvider>(context, listen: false).user;
-
-    return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-        backgroundColor: white,
-        elevation: 0.0,
-        automaticallyImplyLeading: false,
-        title: const Text(
-          "Эрсдэлийг дэлгэрэнгүй",
-          style: TextStyle(fontSize: 16, color: dark),
-        ),
-        actions: [
-          data.postStatus == "NEW"
-              ? user.id == data.user!.id
-                  ? PopupMenuButton(
-                      icon: const Icon(
-                        Icons.more_vert,
-                        color: dark,
-                      ),
-                      itemBuilder: (context) {
-                        return [
-                          const PopupMenuItem(
-                            value: 'edit',
-                            child: Text('Засах'),
-                          ),
-                          const PopupMenuItem(
-                            value: 'delete',
-                            child: Text('Устгах'),
-                          )
-                        ];
-                      },
-                      onSelected: (String value) =>
-                          actionPopUpItemSelected(value, data),
-                    )
-                  : const SizedBox()
-              : const SizedBox(),
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.close,
-                color: dark,
-              ))
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: isLoading == true
-            ? SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: const Center(
-                  child: SpinKitCircle(
-                    size: 30,
-                    color: orange,
-                  ),
-                ),
-              )
-            : Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        icon(),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    data.sector!.fullName == null
-                                        ? "Эрсдэл"
-                                        : "Эрсдэл",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  postStatus(),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    data.getPostDate(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14),
-                                  ),
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Column(
-                    children: [
-                      data.resultImage != null
-                          ? BeforeAfter(
-                              imageCornerRadius: 0,
-                              imageHeight:
-                                  MediaQuery.of(context).size.height * 0.45,
-                              imageWidth: MediaQuery.of(context).size.width,
-                              beforeImage: NetworkImage("${data.getImage()}"),
-                              afterImage: NetworkImage("${data.resImage()}"),
-                            )
-                          : Container(
-                              height: MediaQuery.of(context).size.height * 0.45,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    data.getImage(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(15),
-                                  onTap: () async {
-                                    await PostApi().like(data.id.toString());
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            width: 0.3, color: grey)),
-                                    height: 55,
-                                    child: LikeButton(
-                                      size: 35,
-                                      isLiked: data.liked,
-                                      circleColor: const CircleColor(
-                                          start: Color(0xff00ddff),
-                                          end: Color(0xff0099cc)),
-                                      bubblesColor: const BubblesColor(
-                                        dotPrimaryColor: Color(0xff33b5e5),
-                                        dotSecondaryColor: Color(0xff0099cc),
-                                      ),
-                                      likeBuilder: (bool isLiked) {
-                                        return likeLoading == false
-                                            ? Icon(
-                                                Icons.favorite,
-                                                color: data.liked == true
-                                                    ? red
-                                                    : grey,
-                                                size: 25,
-                                              )
-                                            : const SpinKitCircle(
-                                                size: 25,
-                                                color: orange,
-                                              );
-                                      },
-                                      onTap: (value) async {
-                                        if (user.id != null) {
-                                          if (data.liked == false) {
-                                            setState(() {
-                                              likeLoading = true;
-                                            });
-                                            try {
-                                              await PostApi()
-                                                  .like("${data.id}");
-                                              setState(() {
-                                                data.liked = true;
-                                                likeLoading = false;
-                                              });
-                                            } catch (e) {
-                                              setState(() {
-                                                likeLoading = false;
-                                              });
-                                            }
-                                          } else {
-                                            setState(() {
-                                              likeLoading = true;
-                                            });
-                                            try {
-                                              await PostApi()
-                                                  .like(data.id.toString());
-                                              setState(() {
-                                                data.liked = false;
-                                                likeLoading = false;
-                                              });
-                                            } catch (e) {
-                                              setState(() {
-                                                likeLoading = false;
-                                              });
-                                            }
-                                          }
-                                          return data.liked;
-                                        } else {
-                                          locator<DialogService>()
-                                              .showErrorDialogListener(
-                                                  "Нэвтрэн үү");
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(15),
-                                  onTap: () {
-                                    mapDialog(context);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            width: 0.3, color: grey)),
-                                    height: 55,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        "assets/location.svg",
-                                        color: const Color(0x4ffa7a7a7),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  card(),
-                  data.sector!.id == null ? const SizedBox() : pendingCard(),
-                  data.result == null ? const SizedBox() : resultCard(),
-                  if (data.postStatus == "PENDING" &&
-                      user.sector != null &&
-                      data.sector!.id == user.sector!.id)
-                    actionButton()
-                ],
-              ),
-      ),
-    );
   }
 
   card() {

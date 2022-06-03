@@ -8,9 +8,7 @@ import 'package:sos/widgets/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/widgets/custom_button.dart';
-import 'package:geolocator/geolocator.dart';
 import '../../api/post_api.dart';
-import 'package:rxdart/rxdart.dart';
 import '../../components/upload_image/form_upload_image.dart';
 import '../../main.dart';
 import '../../models/post.dart';
@@ -20,6 +18,7 @@ import '../../provider/user_provider.dart';
 import '../../services/navigation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../widgets/form_textfield.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CreatePostPage extends StatefulWidget {
   static const routeName = "/createpostpage";
@@ -40,6 +39,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   double lng = 0;
   double lat = 0;
   Offset position = const Offset(0, 0);
+  bool hasLocation = false;
 
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   final Completer<GoogleMapController> _controller = Completer();
@@ -48,6 +48,24 @@ class _CreatePostPageState extends State<CreatePostPage> {
     target: LatLng(49.468256759865504, 105.96434477716684),
     zoom: 14.4746,
   );
+
+  permissionAsk() async {
+    try {
+      var status = await Permission.location.status;
+      if (status.isDenied) {
+        debugPrint("=====================DENIED============");
+      }
+      if (await Permission.location.isRestricted) {
+        debugPrint("=====================isRestricted============");
+      }
+      if (await Permission.contacts.request().isGranted) {}
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.location,
+        Permission.storage,
+      ].request();
+      debugPrint(statuses[Permission.location].toString());
+    } catch (e) {}
+  }
 
   mapDialog(ctx) async {
     showDialog(
@@ -98,6 +116,9 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   labelText: "Байршил илгээх",
                   textColor: white,
                   onClick: () {
+                    setState(() {
+                      hasLocation = true;
+                    });
                     Navigator.of(context).pop();
                   },
                   width: MediaQuery.of(context).size.width,
@@ -180,11 +201,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
           loading = true;
         });
         Post save = Post.fromJson(fbKey.currentState!.value);
-        // save.lat = position.latitude;
-        // save.lng = position.longitude;
-
-        save.lng = lng;
-        save.lat = lat;
+        if (hasLocation == true) {
+          save.lng = lng;
+          save.lat = lat;
+        }
 
         await PostApi().createPost(save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
@@ -377,13 +397,26 @@ class _CreatePostPageState extends State<CreatePostPage> {
                     ]),
                   ),
                 ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // if (hasLocation == true)
+                //   Container(
+                //     decoration: BoxDecoration(
+                //       color: red,
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     width: MediaQuery.of(context).size.width,
+                //     height: 30,
+                //   ),
                 const SizedBox(
                   height: 25,
                 ),
                 Column(
                   children: [
                     CustomButton(
-                      onClick: () {
+                      onClick: () async {
+                        await permissionAsk();
                         mapDialog(context);
                       },
                       width: MediaQuery.of(context).size.width,
