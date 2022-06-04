@@ -37,6 +37,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   Post? location;
   double? lat;
   double? lng;
+  bool? isLocated;
 
   if (json["sector"] != null) {
     sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
@@ -80,6 +81,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   if (json['imageThumb'] != null) imageThumb = json['imageThumb'];
   if (json["lat"] != null) lat = double.parse('${json["lat"]}');
   if (json["lng"] != null) lng = double.parse('${json["lng"]}');
+  if (json['isLocated'] != null) isLocated = json['isLocated'];
 
   return Post(
     stats: stats,
@@ -118,6 +120,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     lat: lat,
     lng: lng,
     location: location,
+    isLocated: isLocated,
   );
 }
 
@@ -161,6 +164,7 @@ Map<String, dynamic> _$PostToJson(Post instance) {
   if (instance.lat != null) json['lat'] = instance.lat;
   if (instance.lng != null) json['lng'] = instance.lng;
   if (instance.location != null) json['location'] = instance.location;
+  if (instance.isLocated != null) json['isLocated'] = instance.isLocated;
 
   return json;
 }

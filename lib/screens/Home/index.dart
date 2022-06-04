@@ -8,6 +8,7 @@ import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
+import 'package:sos/screens/search/search_page.dart';
 import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -223,11 +224,34 @@ class _HomePageState extends State<HomePage>
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           decoration: BoxDecoration(
                             color: white,
                             borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(SearchPage.routeName);
+                            },
+                            borderRadius: BorderRadius.circular(15),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.manage_search_sharp,
+                                  color: dark,
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  "Хайх...",
+                                  style: TextStyle(fontSize: 12),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(

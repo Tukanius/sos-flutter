@@ -34,8 +34,8 @@ MapModel _$MapModelFromJson(Map<String, dynamic> json) {
   if (json['image'] != null) image = json['image'];
   if (json['imageThumb'] != null) imageThumb = json['imageThumb'];
   if (json['postStatus'] != null) postStatus = json['postStatus'];
-  if (json['lat'] != null) lat = json['lat'];
-  if (json['lng'] != null) lng = json['lng'];
+  if (json["lat"] != null) lat = double.parse('${json["lat"]}');
+  if (json["lng"] != null) lng = double.parse('${json["lng"]}');
 
   return MapModel(
     location: location,

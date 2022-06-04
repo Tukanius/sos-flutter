@@ -3,6 +3,7 @@ import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
+import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -241,16 +242,21 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(15),
                                   onTap: () async {
-                                    setState(() {
-                                      likeLoading = true;
-                                    });
-                                    var res = await PostApi()
-                                        .like(data.id.toString());
-                                    setState(() {
-                                      likeLoading = false;
-                                      data.likeCount = res.likeCount;
-                                      data.liked = res.liked;
-                                    });
+                                    if (user.id == null) {
+                                      dialogService.showErrorDialogListener(
+                                          "Нэвтрэн үү");
+                                    } else {
+                                      setState(() {
+                                        likeLoading = true;
+                                      });
+                                      var res = await PostApi()
+                                          .like(data.id.toString());
+                                      setState(() {
+                                        likeLoading = false;
+                                        data.likeCount = res.likeCount;
+                                        data.liked = res.liked;
+                                      });
+                                    }
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -291,8 +297,13 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(15),
                                   onTap: () async {
-                                    await permissionAsk();
-                                    mapDialog(context);
+                                    if (data.isLocated == true) {
+                                      await permissionAsk();
+                                      mapDialog(context);
+                                    } else {
+                                      dialogService.showErrorDialog(
+                                          "Энэ эрсдэлд байршил өгөөгүй байна.");
+                                    }
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(

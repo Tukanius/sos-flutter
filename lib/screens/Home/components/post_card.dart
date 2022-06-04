@@ -427,16 +427,20 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                 Expanded(
                   child: InkWell(
                     onTap: () async {
-                      setState(() {
-                        likeLoading = true;
-                      });
-                      var res =
-                          await PostApi().like(widget.data!.id.toString());
-                      setState(() {
-                        likeLoading = false;
-                        widget.data!.likeCount = res.likeCount;
-                        widget.data!.liked = res.liked;
-                      });
+                      if (user.id == null) {
+                        dialogService.showErrorDialogListener("Нэвтрэн үү");
+                      } else {
+                        setState(() {
+                          likeLoading = true;
+                        });
+                        var res =
+                            await PostApi().like(widget.data!.id.toString());
+                        setState(() {
+                          likeLoading = false;
+                          widget.data!.likeCount = res.likeCount;
+                          widget.data!.liked = res.liked;
+                        });
+                      }
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -469,7 +473,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                 Expanded(
                   child: InkWell(
                     onTap: () async {
-                      if (widget.data!.location!.lat != null) {
+                      if (widget.data!.isLocated == true) {
                         await permissionAsk();
                         mapDialog(context);
                       } else {
@@ -482,7 +486,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                           border: Border.all(width: 0.3, color: grey)),
                       height: 55,
                       child: Center(
-                        child: widget.data!.location!.lng != null
+                        child: widget.data!.isLocated == true
                             ? SvgPicture.asset(
                                 "assets/location.svg",
                                 color: red,

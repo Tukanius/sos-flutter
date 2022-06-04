@@ -1,3 +1,5 @@
+import '../utils/http_request.dart';
+
 part '../parts/map.dart';
 
 class MapModel {
@@ -17,6 +19,10 @@ class MapModel {
   String? postStatus;
   double? lat;
   double? lng;
+
+  getImage() {
+    return HttpRequest.s3host + imageThumb.toString();
+  }
 
   MapModel({
     this.location,

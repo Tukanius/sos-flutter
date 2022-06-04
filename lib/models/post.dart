@@ -48,6 +48,7 @@ class Post {
   Post? location;
   double? lng;
   double? lat;
+  bool? isLocated;
 
   getImage() {
     return HttpRequest.s3host + image.toString();
@@ -122,6 +123,7 @@ class Post {
     this.location,
     this.lat,
     this.lng,
+    this.isLocated,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

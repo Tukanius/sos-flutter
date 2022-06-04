@@ -27,6 +27,7 @@ import 'package:sos/screens/profile/screens/my_sector_post.dart';
 import 'package:sos/screens/profile/screens/saved_post_page.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:sos/screens/register/register_page.dart';
+import 'package:sos/screens/search/search_page.dart';
 import 'package:sos/screens/splash/index.dart';
 import 'package:sos/services/dialog.dart';
 import 'package:sos/services/navigation.dart';
@@ -127,6 +128,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 case DependingPostPage.routeName:
                   return MaterialPageRoute(builder: (context) {
                     return const DependingPostPage();
+                  });
+                case SearchPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const SearchPage();
                   });
                 // case SuccessPage.routeName:
                 //   SuccessPageArguments arguments =
