@@ -74,13 +74,6 @@ class _HomePageState extends State<HomePage>
         visible = false;
       });
     }
-
-    // setState(() {
-    //   sectorData = data;
-    //   for (var element in sectorData!.response!) {
-    //     response.add(element);
-    //   }
-    // });
   }
 
   onChangeTap(index) async {
@@ -199,25 +192,6 @@ class _HomePageState extends State<HomePage>
               ),
             ),
           ),
-          // const SizedBox(width: 6),
-          // Expanded(
-          //   child: InkWell(
-          //     onTap: () {
-          //       changePage(2);
-          //     },
-          //     child: Container(
-          //       padding: const EdgeInsets.all(6),
-          //       decoration: BoxDecoration(
-          //         border: checkPage(2) == true
-          //             ? Border.all(color: const Color(0x4ff3F4448), width: 2)
-          //             : Border.all(color: white, width: 0),
-          //         borderRadius: BorderRadius.circular(10),
-          //         color: white,
-          //       ),
-          //       child: const Icon(Icons.stacked_bar_chart_rounded),
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );
@@ -244,6 +218,18 @@ class _HomePageState extends State<HomePage>
                   SliverToBoxAdapter(
                     child: Column(
                       children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
                         const SizedBox(
                           height: 10,
                         ),

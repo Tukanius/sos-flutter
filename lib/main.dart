@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sos/components/modal/index.dart';
@@ -13,7 +11,7 @@ import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/forgot/forgot_page.dart';
 import 'package:sos/screens/forgot/forgot_password_change.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
-import 'package:sos/screens/home/screen/map_screen_page.dart';
+import 'package:sos/screens/map/map_screen_page.dart';
 import 'package:sos/screens/home/screen/new_post.dart';
 import 'package:sos/screens/notify/notification_detail_page.dart';
 import 'package:sos/screens/notify/notification_page.dart';
@@ -38,14 +36,8 @@ import 'package:sos/widgets/dialog_manager/dialog_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
-  print('-- main');
-
   WidgetsFlutterBinding.ensureInitialized();
-  print('-- WidgetsFlutterBinding.ensureInitialized');
-
   await Firebase.initializeApp();
-  print('-- main: Firebase.initializeApp');
-
   FirebaseUtils.main();
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => DialogService());
@@ -58,7 +50,6 @@ GetIt locator = GetIt.instance;
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

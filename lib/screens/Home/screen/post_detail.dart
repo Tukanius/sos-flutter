@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
-import 'package:sos/provider/post_provider.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
 import 'package:sos/widgets/colors.dart';
@@ -11,10 +10,8 @@ import 'package:after_layout/after_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:sos/widgets/custom_button.dart';
 import 'package:sos/widgets/form_textfield.dart';
-// import 'package:lottie/lottie.dart';
 import '../../../api/post_api.dart';
 import '../../../components/before_after/index.dart';
-import 'package:like_button/like_button.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../components/upload_image/form_upload_image.dart';
@@ -87,7 +84,6 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       isLoading = true;
     });
     Post res = await PostApi().getPost(widget.id);
-    await Provider.of<UserProvider>(context, listen: false).me(true);
 
     setState(() {
       data = res;

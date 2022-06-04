@@ -88,6 +88,8 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
   bool? isDelete = false;
   bool? isHide = false;
   bool? isLoading = false;
+  bool? loading = false;
+
   int page = 1;
   int limit = 1000;
   Filter filter = Filter();
@@ -110,6 +112,9 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
 
   @override
   void afterFirstLayout(BuildContext context) async {
+    setState(() {
+      loading = true;
+    });
     if (widget.data!.location!.lat != null) {
       _list = Marker(
         markerId: const MarkerId("1"),
@@ -118,6 +123,9 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
       );
       _marker.add(_list);
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   mapDialog(ctx) async {

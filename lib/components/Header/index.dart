@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sos/screens/home/screen/map_screen_page.dart';
+import 'package:sos/screens/map/map_screen_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

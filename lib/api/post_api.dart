@@ -1,3 +1,5 @@
+import 'package:sos/models/map.dart';
+
 import '../models/post.dart';
 import '../models/result.dart';
 import '../utils/http_request.dart';
@@ -45,5 +47,10 @@ class PostApi extends HttpRequest {
 
   assignPost(String? id, Post data) async {
     await put('/post/$id/assign', data: data);
+  }
+
+  Future<Result> mapList(ResultArguments resultArguments) async {
+    var res = await get('/map', data: resultArguments.toJson());
+    return Result.fromJson(res, MapModel.$fromJson);
   }
 }
