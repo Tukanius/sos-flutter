@@ -23,7 +23,6 @@ import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../../services/dialog.dart';
 import '../../../services/navigation.dart';
 
 class PostDetailPageArguments {
@@ -88,13 +87,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       isLoading = true;
     });
     Post res = await PostApi().getPost(widget.id);
+    await Provider.of<UserProvider>(context, listen: false).me(true);
+
     setState(() {
       data = res;
       isLoading = false;
-      if (data.lat != null) {
+      if (data.location!.lat != null) {
         _list = Marker(
           markerId: const MarkerId("1"),
-          position: LatLng(res.lat!, res.lng!),
+          position: LatLng(data.location!.lat!, data.location!.lng!),
         );
         _marker.add(_list);
       }
@@ -157,7 +158,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                 child: const Center(
                   child: SpinKitCircle(
                     size: 30,
-                    color: orange,
+                    color: black,
                   ),
                 ),
               )
@@ -275,7 +276,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                               )
                                             : const SpinKitCircle(
                                                 size: 25,
-                                                color: orange,
+                                                color: black,
                                               ),
                                         const SizedBox(
                                           width: 10,
@@ -486,9 +487,9 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     markers: Set<Marker>.of(_marker),
                     mapType: MapType.hybrid,
                     initialCameraPosition: CameraPosition(
-                        target: LatLng(data.lat!, data.lng!),
-                        zoom: 16,
-                        tilt: 37.0),
+                      target: LatLng(data.location!.lat!, data.location!.lng!),
+                      zoom: 17,
+                    ),
                     myLocationEnabled: true,
                   ),
                 ),

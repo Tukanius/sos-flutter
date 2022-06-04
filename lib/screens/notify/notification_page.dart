@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sos/main.dart';
 import 'package:sos/models/result.dart';
 import 'package:sos/screens/home/screen/post_detail.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:sos/screens/notify/notification_detail_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:after_layout/after_layout.dart';
 
@@ -63,112 +64,129 @@ class _NotificationPageState extends State<NotificationPage>
           ),
         ),
         body: isLoading == true
-            ? const SizedBox()
+            ? const Center(
+                child: SpinKitCircle(
+                  size: 30,
+                  color: black,
+                ),
+              )
             : Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  children: [
-                    if (notifyList.rows!.isEmpty)
-                      Column(
-                        children: [
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          Image.asset(
-                            "assets/empty.png",
-                            height: 250,
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          const Text(
-                            "Хоосон байна",
-                            style: TextStyle(
-                                color: orange,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    for (var i = 0; i < notifyList.rows!.length; i++)
-                      InkWell(
-                        onTap: () {
-                          if (notifyList.rows![i].notifyType == "WEB") {
-                            print("web");
-                          } else {
-                            NotifyApi().getNotify(notifyList.rows![i].id);
-                            Navigator.of(context).pushNamed(
-                              PostDetailPage.routeName,
-                              arguments: PostDetailPageArguments(
-                                  id: notifyList.rows![i].post),
-                            );
-                          }
-                        },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 0.0,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if (notifyList.rows!.isEmpty)
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Image.asset(
+                              "assets/empty.png",
+                              height: 250,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            const Text(
+                              "Хоосон байна",
+                              style: TextStyle(
+                                  color: orange,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      for (var i = 0; i < notifyList.rows!.length; i++)
+                        InkWell(
+                          onTap: () async {
+                            if (notifyList.rows![i].type == "NOTICE") {
+                              Navigator.of(context).pushNamed(
+                                NotificationDetailPage.routeName,
+                                arguments: NotificationDetailPageArguments(
+                                    id: notifyList.rows![i].id),
+                              );
+                            } else {
+                              await NotifyApi()
+                                  .getNotify(notifyList.rows![i].id);
+
+                              Navigator.of(context).pushNamed(
+                                PostDetailPage.routeName,
+                                arguments: PostDetailPageArguments(
+                                    id: notifyList.rows![i].post),
+                              );
+                            }
+                            setState(() {
+                              notifyList.rows![i].isSeen = true;
+                            });
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 0.0,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      if (notifyList.rows![i].isSeen != true)
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 5),
+                                          decoration: BoxDecoration(
+                                            color: orange,
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                          ),
+                                          width: 8,
+                                          height: 8,
+                                        ),
+                                      Expanded(
+                                        child: Text(
                                           notifyList.rows![i].title,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             fontWeight:
-                                                notifyList.rows![i].seen != true
+                                                notifyList.rows![i].isSeen !=
+                                                        true
                                                     ? FontWeight.w700
                                                     : FontWeight.w400,
                                           ),
                                         ),
-                                        if (notifyList.rows![i].seen != true)
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 5),
-                                            decoration: BoxDecoration(
-                                              color: orange,
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                            ),
-                                            width: 8,
-                                            height: 8,
-                                          )
-                                      ],
-                                    ),
-                                    Text(
-                                      notifyList.rows![i].getDate(),
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        notifyList.rows![i].body,
+                                      ),
+                                      Text(
+                                        notifyList.rows![i].getDate(),
                                         style: const TextStyle(fontSize: 12),
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          notifyList.rows![i].body,
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
       ),

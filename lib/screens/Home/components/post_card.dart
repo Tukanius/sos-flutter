@@ -9,15 +9,12 @@ import 'package:sos/models/post.dart';
 import 'package:sos/models/result.dart';
 import 'package:sos/models/user.dart';
 import 'package:progressive_image/progressive_image.dart';
-import 'package:sos/provider/post_provider.dart';
 import 'package:sos/screens/home/index.dart';
 import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/colors.dart';
-import 'package:like_button/like_button.dart';
 import '../../../main.dart';
 import '../../../provider/sector_provider.dart';
 import '../../../provider/user_provider.dart';
-import '../../../services/dialog.dart';
 import '../../../services/navigation.dart';
 import '../../../widgets/custom_button.dart';
 import '../../profile/screens/my_create_post_page.dart';
@@ -113,10 +110,11 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
 
   @override
   void afterFirstLayout(BuildContext context) async {
-    if (widget.data!.lat != null) {
+    if (widget.data!.location!.lat != null) {
       _list = Marker(
         markerId: const MarkerId("1"),
-        position: LatLng(widget.data!.lat!, widget.data!.lng!),
+        position:
+            LatLng(widget.data!.location!.lat!, widget.data!.location!.lng!),
       );
       _marker.add(_list);
     }
@@ -140,7 +138,8 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                     markers: Set<Marker>.of(_marker),
                     mapType: MapType.hybrid,
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(widget.data!.lat!, widget.data!.lng!),
+                      target: LatLng(widget.data!.location!.lat!,
+                          widget.data!.location!.lng!),
                       zoom: 17,
                     ),
                     myLocationEnabled: true,
@@ -462,7 +461,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                 Expanded(
                   child: InkWell(
                     onTap: () async {
-                      if (widget.data!.lat != null) {
+                      if (widget.data!.location!.lat != null) {
                         await permissionAsk();
                         mapDialog(context);
                       } else {
@@ -475,7 +474,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                           border: Border.all(width: 0.3, color: grey)),
                       height: 55,
                       child: Center(
-                        child: widget.data!.lat != null
+                        child: widget.data!.location!.lng != null
                             ? SvgPicture.asset(
                                 "assets/location.svg",
                                 color: red,

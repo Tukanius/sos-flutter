@@ -15,6 +15,7 @@ import 'package:sos/screens/forgot/forgot_password_change.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
 import 'package:sos/screens/home/screen/map_screen_page.dart';
 import 'package:sos/screens/home/screen/new_post.dart';
+import 'package:sos/screens/notify/notification_detail_page.dart';
 import 'package:sos/screens/notify/notification_page.dart';
 import 'package:sos/screens/home/screen/pending_post.dart';
 import 'package:sos/screens/home/screen/post_detail.dart';
@@ -272,6 +273,30 @@ class _MyHomePageState extends State<MyHomePage> {
                   return PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         const NotificationPage(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  );
+
+                case NotificationDetailPage.routeName:
+                  NotificationDetailPageArguments arguments =
+                      settings.arguments as NotificationDetailPageArguments;
+                  return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        NotificationDetailPage(
+                      id: arguments.id,
+                    ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       var begin = const Offset(0.0, 1.0);

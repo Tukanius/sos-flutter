@@ -31,6 +31,7 @@ class User {
   String? email;
   String? deviceToken;
   Sector? sector;
+  int? notification;
 
   String? oldPassword;
   String? code;
@@ -122,6 +123,7 @@ class User {
     this.sector,
     this.redirectUri,
     this.idToken,
+    this.notification,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

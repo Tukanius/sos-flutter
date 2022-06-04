@@ -34,6 +34,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   bool? isRefused;
   String? reportType;
   String? imageThumb;
+  Post? location;
   double? lat;
   double? lng;
 
@@ -53,6 +54,9 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   if (json['rows'] != null) rows = json['rows'];
   if (json["user"] != null) {
     user = User.fromJson(json["user"] as Map<String, dynamic>);
+  }
+  if (json["location"] != null) {
+    location = Post.fromJson(json["location"] as Map<String, dynamic>);
   }
   if (json['likeCount'] != null) likeCount = json['likeCount'];
   if (json['seenCount'] != null) seenCount = json['seenCount'];
@@ -113,6 +117,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     imageThumb: imageThumb,
     lat: lat,
     lng: lng,
+    location: location,
   );
 }
 
@@ -155,6 +160,7 @@ Map<String, dynamic> _$PostToJson(Post instance) {
   if (instance.imageThumb != null) json['imageThumb'] = instance.imageThumb;
   if (instance.lat != null) json['lat'] = instance.lat;
   if (instance.lng != null) json['lng'] = instance.lng;
+  if (instance.location != null) json['location'] = instance.location;
 
   return json;
 }

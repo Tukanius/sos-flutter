@@ -821,18 +821,41 @@ class _HomePageState extends State<HomePage>
                               .pushNamed(NotificationPage.routeName);
                         },
                         child: Container(
-                          width: 32,
-                          height: 32,
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(80),
-                          ),
-                          child: SvgPicture.asset(
-                            "assets/tab/4.svg",
                             width: 32,
                             height: 32,
-                          ),
-                        ),
+                            padding: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(80),
+                            ),
+                            child: Stack(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/tab/4.svg",
+                                  width: 32,
+                                  height: 32,
+                                ),
+                                if (user.notification != 0)
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: red,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                      child: Text(
+                                        user.notification.toString(),
+                                        style: const TextStyle(
+                                            color: white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 11),
+                                      ),
+                                    ),
+                                  )
+                              ],
+                            )),
                       ),
                     ),
                   InkWell(

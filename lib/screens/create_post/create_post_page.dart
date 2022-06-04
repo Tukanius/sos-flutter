@@ -202,8 +202,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
         });
         Post save = Post.fromJson(fbKey.currentState!.value);
         if (hasLocation == true) {
-          save.lng = lng;
-          save.lat = lat;
+          save = Post(
+              location: Post(lat: lat, lng: lng),
+              image: fbKey.currentState!.value["image"],
+              text: fbKey.currentState!.value["text"]);
         }
 
         await PostApi().createPost(save);

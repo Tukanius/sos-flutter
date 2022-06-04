@@ -30,6 +30,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
   String? type;
   String? redirectUri;
   String? idToken;
+  int? notification;
 
   if (json['username'] != null) username = json['username'];
   if (json['id_token'] != null) idToken = json['id_token'];
@@ -63,6 +64,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
   if (json["sector"] != null) {
     sector = Sector.fromJson(json["sector"] as Map<String, dynamic>);
   }
+  if (json["notification"] != null) {
+    notification = int.parse('${json["notification"]}');
+  }
+
   return User(
     username: username,
     password: password,
@@ -93,6 +98,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     type: type,
     redirectUri: redirectUri,
     idToken: idToken,
+    notification: notification,
   );
 }
 
@@ -132,6 +138,9 @@ Map<String, dynamic> _$UserToJson(User instance) {
   if (instance.sector != null) json['sector'] = instance.sector;
   if (instance.redirectUri != null) json['redirect_uri'] = instance.redirectUri;
   if (instance.idToken != null) json['id_token'] = instance.idToken;
+  if (instance.notification != null) {
+    json['notification'] = instance.notification;
+  }
 
   return json;
 }

@@ -45,8 +45,9 @@ class Post {
   bool? isRefused;
   String? reportType;
   String? imageThumb;
-  double? lat;
+  Post? location;
   double? lng;
+  double? lat;
 
   getImage() {
     return HttpRequest.s3host + image.toString();
@@ -118,6 +119,7 @@ class Post {
     this.isRefused,
     this.imageThumb,
     this.reportType,
+    this.location,
     this.lat,
     this.lng,
   });

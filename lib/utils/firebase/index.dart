@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sos/models/notification.dart';
 import 'package:sos/screens/home/screen/post_detail.dart';
+import 'package:sos/screens/notify/notification_detail_page.dart';
+import 'package:sos/screens/notify/notification_page.dart';
 import 'package:sos/services/navigation.dart';
 
 import '../../main.dart';
@@ -91,14 +93,19 @@ class FirebaseUtils extends StatefulWidget {
             try {
               Map<String, dynamic> valueMap = json.decode(message.data['data']);
               Notify notify = Notify.fromJson(valueMap);
-              switch (notify.type) {
-                case "POST":
-                  locator<NavigationService>().pushNamed(
-                      routeName: PostDetailPage.routeName,
-                      arguments:
-                          PostDetailPageArguments(id: notify.id.toString()));
-                  break;
-                default:
+              if (notify.isNavigation == true) {
+                switch (notify.navigation) {
+                  case "POST":
+                    locator<NavigationService>().pushNamed(
+                        routeName: PostDetailPage.routeName,
+                        arguments: PostDetailPageArguments(
+                            id: notify.navigationId.toString()));
+                    break;
+                  default:
+                }
+              } else {
+                locator<NavigationService>()
+                    .pushNamed(routeName: NotificationPage.routeName);
               }
             } catch (err) {
               debugPrint("==========error==========> $err");
@@ -126,13 +133,23 @@ class FirebaseUtils extends StatefulWidget {
         try {
           Map<String, dynamic> valueMap = json.decode(message.data['data']);
           Notify notify = Notify.fromJson(valueMap);
-          switch (notify.type) {
-            case "POST":
-              locator<NavigationService>().pushNamed(
-                  routeName: PostDetailPage.routeName,
-                  arguments: PostDetailPageArguments(id: notify.id.toString()));
-              break;
-            default:
+          print("======================NOTIFY======================");
+          print(notify.toJson());
+          print("===================================================");
+          if (notify.isNavigation == true) {
+            switch (notify.navigation) {
+              case "POST":
+                locator<NavigationService>().pushNamed(
+                    routeName: PostDetailPage.routeName,
+                    arguments: PostDetailPageArguments(
+                        id: notify.navigationId.toString()));
+                break;
+              default:
+            }
+          } else {
+            locator<NavigationService>().pushNamed(
+              routeName: NotificationPage.routeName,
+            );
           }
         } catch (err) {
           debugPrint("==========error==========> $err");

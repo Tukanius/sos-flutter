@@ -205,7 +205,7 @@ class _FormUploadImageState extends State<FormUploadImage> {
                     height: 150.0,
                     alignment: Alignment.center,
                     child: const SpinKitPulse(
-                      color: grey,
+                      color: black,
                     ));
               } else {
                 return const Text("");

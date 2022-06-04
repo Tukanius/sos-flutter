@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_moment/simple_moment.dart';
 part '../parts/notification.dart';
@@ -9,6 +7,7 @@ class Notify {
   String? id;
   String? post;
   String? title;
+  String? user;
   String? body;
   String? notifyType;
   String? notifyStatusDate;
@@ -16,10 +15,22 @@ class Notify {
   String? type;
   String? navigation;
   bool? seen;
+  String? sector;
+  bool? isSeen;
+  String? seenDate;
+  bool? isFireBase;
+  bool? isFireBaseSuccess;
+  String? fireBaseError;
+  bool? status;
+  String? image;
+  String? notificationStatus;
+  String? notificationStatusDate;
+  String? navigationId;
+  bool? isNavigation;
 
   String getDate() {
     return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
-            .parseUTC(notifyStatusDate!)
+            .parseUTC(notificationStatusDate!)
             .toLocal()
             .toIso8601String())
         .format("yyyy-MM-dd HH:mm");
@@ -30,6 +41,7 @@ class Notify {
     this.id,
     this.seenCount,
     this.post,
+    this.user,
     this.title,
     this.body,
     this.notifyType,
@@ -37,6 +49,18 @@ class Notify {
     this.targetType,
     this.navigation,
     this.type,
+    this.sector,
+    this.isSeen,
+    this.seenDate,
+    this.isFireBase,
+    this.isFireBaseSuccess,
+    this.fireBaseError,
+    this.status,
+    this.image,
+    this.notificationStatusDate,
+    this.notificationStatus,
+    this.navigationId,
+    this.isNavigation,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$NotifyFromJson(json);
