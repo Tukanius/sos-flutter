@@ -342,62 +342,65 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ListTile(
-                leading: SvgPicture.asset(
-                  "${icon(widget.data)}",
-                  width: 37,
-                  height: 37,
-                ),
-                title: const Text('Эрсдэл'),
-                subtitle: Text(
-                  '${type(widget.data)}',
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(0.6), fontSize: 12),
-                ),
-                trailing: widget.data!.postStatus == "NEW"
-                    ? user.id == widget.data!.user!.id
-                        ? PopupMenuButton(
-                            icon: const Icon(Icons.more_vert),
-                            itemBuilder: (context) {
-                              return [
-                                const PopupMenuItem(
-                                  value: 'edit',
-                                  child: Text('Засах'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'delete',
-                                  child: Text('Устгах'),
-                                )
-                              ];
-                            },
-                            onSelected: (String value) =>
-                                actionPopUpItemSelected(value, widget.data),
-                          )
-                        : PopupMenuButton(
-                            icon: const Icon(Icons.more_vert),
-                            itemBuilder: (context) {
-                              return [
-                                const PopupMenuItem(
-                                  value: 'hide',
-                                  child: Text('Мэдэгдэх'),
-                                ),
-                              ];
-                            },
-                            onSelected: (String value) =>
-                                actionPopUpItemSelected(value, widget.data),
-                          )
-                    : PopupMenuButton(
-                        icon: const Icon(Icons.more_vert),
-                        itemBuilder: (context) {
-                          return [
-                            const PopupMenuItem(
-                              value: 'hide',
-                              child: Text('Мэдэгдэх'),
-                            ),
-                          ];
-                        },
-                        onSelected: (String value) =>
-                            actionPopUpItemSelected(value, widget.data),
-                      )),
+              leading: SvgPicture.asset(
+                "${icon(widget.data)}",
+                width: 37,
+                height: 37,
+              ),
+              title: const Text('Эрсдэл'),
+              subtitle: Text(
+                '${type(widget.data)}',
+                style: TextStyle(
+                    color: Colors.black.withOpacity(0.6), fontSize: 12),
+              ),
+              trailing: user.id != null
+                  ? widget.data!.postStatus == "NEW"
+                      ? user.id == widget.data!.user!.id
+                          ? PopupMenuButton(
+                              icon: const Icon(Icons.more_vert),
+                              itemBuilder: (context) {
+                                return [
+                                  const PopupMenuItem(
+                                    value: 'edit',
+                                    child: Text('Засах'),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 'delete',
+                                    child: Text('Устгах'),
+                                  )
+                                ];
+                              },
+                              onSelected: (String value) =>
+                                  actionPopUpItemSelected(value, widget.data),
+                            )
+                          : PopupMenuButton(
+                              icon: const Icon(Icons.more_vert),
+                              itemBuilder: (context) {
+                                return [
+                                  const PopupMenuItem(
+                                    value: 'hide',
+                                    child: Text('Мэдэгдэх'),
+                                  ),
+                                ];
+                              },
+                              onSelected: (String value) =>
+                                  actionPopUpItemSelected(value, widget.data),
+                            )
+                      : PopupMenuButton(
+                          icon: const Icon(Icons.more_vert),
+                          itemBuilder: (context) {
+                            return [
+                              const PopupMenuItem(
+                                value: 'hide',
+                                child: Text('Мэдэгдэх'),
+                              ),
+                            ];
+                          },
+                          onSelected: (String value) =>
+                              actionPopUpItemSelected(value, widget.data),
+                        )
+                  : const SizedBox(),
+            ),
             Expanded(
               child: InkWell(
                 onTap: () async {
