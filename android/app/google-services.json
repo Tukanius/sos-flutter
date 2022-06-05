@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:601995328608:android:e3c3a88baf8a532fe6d705",
         "android_client_info": {
-          "package_name": "com.example.sos"
+          "package_name": "com.eresdel.darkhan"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "601995328608-jdmemjg1k9idbmi3f0d4u2ts24oibamu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.sos"
+                "bundle_id": "com.eresdel.darkhan"
               }
             }
           ]

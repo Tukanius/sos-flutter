@@ -1,4 +1,4 @@
-package com.example.sos
+package com.eresdel.darkhan
 
 import io.flutter.embedding.android.FlutterActivity
 
