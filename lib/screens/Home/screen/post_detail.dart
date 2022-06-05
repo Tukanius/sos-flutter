@@ -312,10 +312,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                             width: 0.3, color: grey)),
                                     height: 55,
                                     child: Center(
-                                      child: SvgPicture.asset(
-                                        "assets/location.svg",
-                                        color: const Color(0x4ffa7a7a7),
-                                      ),
+                                      child: data.isLocated == true
+                                          ? SvgPicture.asset(
+                                              "assets/location.svg",
+                                              color: red,
+                                            )
+                                          : SvgPicture.asset(
+                                              "assets/location.svg",
+                                              color: Color(0x4ffa7a7a7),
+                                            ),
                                     ),
                                   ),
                                 ),

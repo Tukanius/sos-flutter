@@ -59,30 +59,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 children: [
                   InkWell(
                     onTap: () {
-                      setState(() {
-                        switchType = "LIST";
-                      });
-                    },
-                    child: AnimatedContainer(
-                      height: 32,
-                      width: 32,
-                      duration: Duration(milliseconds: 200),
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: selectCheck("LIST"),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/list-icon.svg",
-                        color: selectCheckIcon("LIST"),
-                        width: 16,
-                        height: 16,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 7),
-                  InkWell(
-                    onTap: () {
                       // setState(() {
                       //   switchType = "MAP";
                       // });

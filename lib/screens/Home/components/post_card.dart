@@ -253,6 +253,18 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
         });
   }
 
+  reportDialog(ctx, data) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return CustomDialog(
+            data: data,
+            context: ctx,
+          );
+        });
+  }
+
   click(context) async {
     Navigator.of(context).pop();
     Navigator.of(context).pop();
@@ -298,8 +310,9 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
           setState(() {
             isHide = true;
           });
-          await PostApi().reportPost(
-              widget.data!.id.toString(), Post(reportType: "IRRELEVANT"));
+          reportDialog(context, data);
+          // await PostApi().reportPost(
+          //     widget.data!.id.toString(), Post(reportType: "IRRELEVANT"));
           setState(() {
             isHide = false;
           });
@@ -504,6 +517,191 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomDialog extends StatefulWidget {
+  final Post? data;
+  final BuildContext? context;
+  const CustomDialog({Key? key, this.data, this.context}) : super(key: key);
+
+  @override
+  _CustomDialogState createState() => _CustomDialogState();
+}
+
+class _CustomDialogState extends State<CustomDialog> {
+  bool? isDuplicate = false;
+  bool? isReport = false;
+
+  bool canUpload = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              height: 25,
+            ),
+            SvgPicture.asset(
+              "assets/report.svg",
+              height: 80,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Text(
+                  'Админд мэдэгдэх',
+                  style: TextStyle(
+                      color: dark, fontWeight: FontWeight.bold, fontSize: 24),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  "Яагаад нийтлэлийг админд мэдэгдэх болсон?",
+                  style: TextStyle(fontSize: 12),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                InkWell(
+                  onTap: () {
+                    if (isDuplicate == true) {
+                      setState(() {
+                        isDuplicate = false;
+                      });
+                    } else {
+                      setState(() {
+                        isDuplicate = true;
+                        isReport = false;
+                      });
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        activeColor: orange,
+                        value: isDuplicate,
+                        onChanged: (value) {
+                          if (isDuplicate == true) {
+                            setState(() {
+                              isDuplicate = false;
+                            });
+                          } else {
+                            setState(() {
+                              isDuplicate = true;
+                              isReport = false;
+                            });
+                          }
+                        },
+                      ),
+                      const Expanded(
+                        child: Text(
+                          "Эрсдэлтэй хамааралгүй",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    if (isReport == true) {
+                      setState(() {
+                        isReport = false;
+                      });
+                    } else {
+                      setState(() {
+                        isReport = true;
+                        isDuplicate = false;
+                      });
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        activeColor: orange,
+                        value: isReport,
+                        onChanged: (value) {
+                          if (isReport == true) {
+                            setState(() {
+                              isReport = false;
+                            });
+                          } else {
+                            setState(() {
+                              isReport = true;
+                              isDuplicate = false;
+                            });
+                          }
+                        },
+                      ),
+                      const Expanded(
+                        child: Text(
+                          "Давхардсан",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 0.0,
+              primary: orange, // Background color
+            ),
+            onPressed: isDuplicate == true || isReport == true
+                ? () async {
+                    if (isDuplicate == true) {
+                      await PostApi().reportPost(widget.data!.id.toString(),
+                          Post(reportType: "IRRELEVANT"));
+                    } else {
+                      await PostApi().reportPost(widget.data!.id.toString(),
+                          Post(reportType: "DUPLICATED"));
+                    }
+                    Navigator.of(context).pop();
+                    var snackBar = const SnackBar(
+                        content: Text('Админд мэдэгдсэн баярлалаа'));
+                    ScaffoldMessenger.of(widget.context!)
+                        .showSnackBar(snackBar);
+                  }
+                : null,
+            child: const Text('Мэдэгдэх'),
+          ),
+        ),
+        SizedBox(
+          width: 300,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 0.0,
+              primary: dark, //
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {});
+            },
+            child: Text('Болих'),
+          ),
+        ),
+      ],
     );
   }
 }

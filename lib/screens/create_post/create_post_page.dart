@@ -5,6 +5,7 @@ import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/screens/home/index.dart';
 import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/widgets/custom_button.dart';
@@ -416,16 +417,23 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 ),
                 Column(
                   children: [
-                    CustomButton(
-                      onClick: () async {
-                        await permissionAsk();
-                        mapDialog(context);
-                      },
-                      width: MediaQuery.of(context).size.width,
-                      labelText: "Байршил нэмэх",
-                      fontSize: 16,
-                      color: dark,
-                    ),
+                    hasLocation == true
+                        ? CustomButton(
+                            width: MediaQuery.of(context).size.width,
+                            labelText: "Байршил илгээгдсэн",
+                            fontSize: 16,
+                            color: dark,
+                          )
+                        : CustomButton(
+                            onClick: () async {
+                              await permissionAsk();
+                              mapDialog(context);
+                            },
+                            width: MediaQuery.of(context).size.width,
+                            labelText: "Байршил нэмэх",
+                            fontSize: 16,
+                            color: dark,
+                          ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -438,8 +446,20 @@ class _CreatePostPageState extends State<CreatePostPage> {
                     }
                   },
                   width: MediaQuery.of(context).size.width,
-                  labelText: "Илгээх",
-                  fontSize: 16,
+                  customWidget: loading == false
+                      ? const Text(
+                          "Эрсдэл илгээх",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: white,
+                              fontWeight: FontWeight.w600),
+                        )
+                      : const Center(
+                          child: SpinKitCircle(
+                            size: 30,
+                            color: white,
+                          ),
+                        ),
                   color: orange,
                 ),
                 const SizedBox(

@@ -116,76 +116,117 @@ class _SearchPageState extends State<SearchPage> with AfterLayoutMixin {
       ),
       body: SingleChildScrollView(
         child: isLoading == true
-            ? const Center(
-                child: SpinKitPulse(
-                  color: grey,
-                ),
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Center(
+                    child: SpinKitFadingCircle(
+                      color: grey,
+                      size: 30,
+                    ),
+                  )
+                ],
               )
             : Column(
                 children: [
                   const SizedBox(
                     height: 10,
                   ),
-                  for (var i = 0; i < result.rows!.length; i++)
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      height: 50,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
-                      child: Material(
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              PostDetailPage.routeName,
-                              arguments: PostDetailPageArguments(
-                                  id: result.rows![i].id),
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 5, right: 10),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                          result.rows![i].getImage(),
-                                        ),
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
+                  result.rows!.isNotEmpty
+                      ? Column(
+                          children: [
+                            for (var i = 0; i < result.rows!.length; i++)
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  color: white,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "${result.rows![i].text}",
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: dark,
-                                      fontSize: 12,
+                                height: 50,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
+                                child: Material(
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(10),
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                        PostDetailPage.routeName,
+                                        arguments: PostDetailPageArguments(
+                                            id: result.rows![i].id),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 5, right: 10),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    result.rows![i].getImage(),
+                                                  ),
+                                                  fit: BoxFit.cover),
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              "${result.rows![i].text}",
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                color: dark,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          postStatus(result.rows![i].postStatus)
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                postStatus(result.rows![i].postStatus)
-                              ],
-                            ),
+                              ),
+                          ],
+                        )
+                      : SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              Image.asset(
+                                "assets/empty.png",
+                                height: 200,
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              const Text(
+                                "Хоосон байна",
+                                style: TextStyle(
+                                    color: orange,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ),
+                        )
                 ],
               ),
       ),

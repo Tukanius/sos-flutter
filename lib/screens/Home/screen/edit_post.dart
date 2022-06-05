@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/provider/sector_provider.dart';
@@ -5,13 +7,14 @@ import 'package:sos/screens/home/index.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/widgets/custom_button.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 import '../../../api/post_api.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../components/upload_image/form_upload_image.dart';
 import '../../../main.dart';
 import '../../../models/post.dart';
@@ -47,11 +50,21 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   bool? visible = false;
   int page = 1;
+  double lng = 0;
+  double lat = 0;
+  final Completer<GoogleMapController> _controller = Completer();
   int limit = 1000;
+  bool hasLocation = false;
+  CameraPosition? _kGooglePlex;
   Filter filter = Filter();
 
   @override
-  void afterFirstLayout(BuildContext context) {}
+  void afterFirstLayout(BuildContext context) {
+    _kGooglePlex = CameraPosition(
+      target: LatLng(widget.data!.location!.lat!, widget.data!.location!.lng!),
+      zoom: 14.4746,
+    );
+  }
 
   @override
   void initState() {
@@ -61,6 +74,68 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  mapDialog(ctx) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 500,
+                      child: GoogleMap(
+                        mapType: MapType.hybrid,
+                        initialCameraPosition: _kGooglePlex!,
+                        myLocationEnabled: true,
+                        onCameraMove: (cameraPosition) => setState(() {
+                          lat = cameraPosition.target.latitude;
+                          lng = cameraPosition.target.longitude;
+                        }),
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                        },
+                      ),
+                    ),
+                    Positioned.fill(
+                      bottom: 20,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Lottie.asset(
+                          'assets/pin.json',
+                          height: 50,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                CustomButton(
+                  color: orange,
+                  labelText: "Байршил илгээх",
+                  textColor: white,
+                  onClick: () {
+                    setState(() {
+                      hasLocation = true;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  width: MediaQuery.of(context).size.width,
+                )
+              ],
+            ),
+          );
+        });
   }
 
   show(ctx) async {
@@ -138,8 +213,14 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
           loading = true;
         });
         Post save = Post.fromJson(fbKey.currentState!.value);
-        print(save.toJson());
+        if (hasLocation == true) {
+          save = Post(
+              location: Post(lat: lat, lng: lng),
+              image: fbKey.currentState!.value["image"],
+              text: fbKey.currentState!.value["text"]);
+        }
         save.image = widget.data!.image;
+
         await PostApi().editPost(widget.data!.id, save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
         show(context);
@@ -326,14 +407,45 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                   height: 25,
                 ),
                 CustomButton(
+                  onClick: () async {
+                    mapDialog(context);
+                  },
+                  width: MediaQuery.of(context).size.width,
+                  customWidget: const Text(
+                    "Байршил засах",
+                    style: TextStyle(
+                      color: white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  color: dark,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomButton(
                   onClick: () {
                     if (loading == false) {
                       imageHasError == false ? onSubmit() : {};
                     }
                   },
                   width: MediaQuery.of(context).size.width,
-                  labelText: "Илгээх",
-                  fontSize: 16,
+                  customWidget: loading == true
+                      ? const Center(
+                          child: SpinKitCircle(
+                            size: 30,
+                            color: white,
+                          ),
+                        )
+                      : const Text(
+                          "Эрсдэл илгээх",
+                          style: TextStyle(
+                            color: white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                   color: orange,
                 ),
                 const SizedBox(
