@@ -61,9 +61,32 @@ class UserProvider extends ChangeNotifier {
     return res;
   }
 
+  otpSocial(User data) async {
+    User res = await AuthApi().otpSocial(data);
+    await setAccessToken(res.accessToken);
+    return res;
+  }
+
   setAccessToken(String? token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (token != null) prefs.setString("ACCESS_TOKEN", token);
+  }
+
+  setSessionScope(String? sessionScope) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (sessionScope != null) prefs.setString("SESSION_SCOPE", sessionScope);
+  }
+
+  static Future<String?> getSessionScope() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sessionScope = prefs.getString("SESSION_SCOPE");
+
+    return sessionScope;
+  }
+
+  clearSessionScopen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("SESSION_SCOPE");
   }
 
   clearAccessToken() async {

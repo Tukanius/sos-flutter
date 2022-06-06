@@ -79,8 +79,11 @@ class _LoginPageState extends State<LoginPage>
           setState(() {
             loading = false;
           });
-        }).catchError((err) {});
+        }).catchError((err) {
+          debugPrint(err.toString());
+        });
       }).catchError((err) {
+        debugPrint(err.toString());
         setState(() {
           loading = false;
         });

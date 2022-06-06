@@ -29,6 +29,11 @@ class AuthApi extends HttpRequest {
     return User.fromJson(res);
   }
 
+  Future<User> otpSocial(User user) async {
+    var res = await post('/otp/social', data: user);
+    return User.fromJson(res);
+  }
+
   update(User user) async {
     await put('/user', data: user.toJson());
   }
@@ -46,5 +51,6 @@ class AuthApi extends HttpRequest {
   Future<void> socialLogin(User data) async {
     var res = await post('/auth/social', data: data.toJson());
     UserProvider().setAccessToken(res["accessToken"]);
+    UserProvider().setSessionScope(res["sessionScope"]);
   }
 }

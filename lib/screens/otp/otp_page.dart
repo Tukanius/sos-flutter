@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sos/main.dart';
 import 'package:sos/provider/user_provider.dart';
+import 'package:sos/screens/splash/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import '../../api/auth_api.dart';
 import '../../models/user.dart';
 import 'package:provider/provider.dart';
+import '../../services/navigation.dart';
 import '../../utils/http_handler.dart';
 
 class OtpVerifyPageArguments {
@@ -180,6 +183,70 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
         });
   }
 
+  otpshow(ctx) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(top: 75),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.only(top: 90, left: 20, right: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text(
+                        'Амжилттай',
+                        style: TextStyle(
+                            color: dark,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Text(
+                        'Таны бүртгэл амжилттай үүслээ.',
+                        textAlign: TextAlign.center,
+                      ),
+                      ButtonBar(
+                        buttonMinWidth: 100,
+                        alignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TextButton(
+                            child: const Text(
+                              "Нэвтрэх",
+                              style: TextStyle(color: dark),
+                            ),
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              await UserProvider().clearSessionScopen();
+                              locator<NavigationService>()
+                                  .restorablePopAndPushNamed(
+                                      routeName: SplashPage.routeName);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Lottie.asset('assets/success.json', height: 150, repeat: false),
+              ],
+            ),
+          );
+        });
+  }
+
   onVerify() async {
     otpCode = controller.text;
     try {
@@ -192,6 +259,7 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
           break;
 
         default:
+          otpshow(context);
       }
     } on HttpHandler catch (_) {
       controller.text = "";

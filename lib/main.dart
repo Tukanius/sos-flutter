@@ -11,6 +11,7 @@ import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/forgot/forgot_page.dart';
 import 'package:sos/screens/forgot/forgot_password_change.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
+import 'package:sos/screens/login/phone_ask.dart';
 import 'package:sos/screens/map/map_screen_page.dart';
 import 'package:sos/screens/home/screen/new_post.dart';
 import 'package:sos/screens/notify/notification_detail_page.dart';
@@ -36,7 +37,14 @@ import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/dialog_manager/dialog_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+// checkPermission() async {
+//   var notification = await Permission.notification.status;
+
+//   if (notification.isGranted == false) await Permission.notification.request();
+// }
+
 Future<void> main() async {
+  // checkPermission();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseUtils.main();
@@ -132,6 +140,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 case SearchPage.routeName:
                   return MaterialPageRoute(builder: (context) {
                     return const SearchPage();
+                  });
+                case PhoneAskPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const PhoneAskPage();
                   });
                 // case SuccessPage.routeName:
                 //   SuccessPageArguments arguments =

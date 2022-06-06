@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SosDarkhan.mn</string>
-    <string name="facebook_app_id">991625551494669</string>
-    <string name="fb_login_protocol_scheme">fb991625551494669</string>
-    <string name="facebook_client_token">0d233e77872481d123930a5bbaf1babf</string>
+    <string name="app_name">Darkhan SOS</string>
+    <string name="facebook_app_id">383174190296542</string>
+    <string name="fb_login_protocol_scheme">fb383174190296542</string>
+    <string name="facebook_client_token">2a983361ce52a031b51d553d56fe0a14</string>
 </resources>    
+

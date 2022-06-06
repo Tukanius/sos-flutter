@@ -94,7 +94,20 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
               const SizedBox(
                 height: 20,
               ),
-              Text("${user.lastName.toString()} ${user.firstName.toString()}"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  user.lastName != null
+                      ? Text(user.lastName.toString())
+                      : const SizedBox(),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  user.firstName != null
+                      ? Text(user.firstName.toString())
+                      : const SizedBox(),
+                ],
+              ),
               const SizedBox(
                 height: 20,
               ),

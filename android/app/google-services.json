@@ -1,37 +1,45 @@
 {
   "project_info": {
-    "project_number": "601995328608",
-    "project_id": "sos-project-d0698",
-    "storage_bucket": "sos-project-d0698.appspot.com"
+    "project_number": "273002303620",
+    "project_id": "esos-351811",
+    "storage_bucket": "esos-351811.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:601995328608:android:e3c3a88baf8a532fe6d705",
+        "mobilesdk_app_id": "1:273002303620:android:5bd9766de4631cede4b2d1",
         "android_client_info": {
           "package_name": "com.eresdel.darkhan"
         }
       },
       "oauth_client": [
         {
-          "client_id": "601995328608-jntbi52jbqn0cc1iu340nsmkotddao96.apps.googleusercontent.com",
+          "client_id": "273002303620-kp42v36318r8o27p3fvv4i8of8b33eb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eresdel.darkhan",
+            "certificate_hash": "84cdcf731c5d038de179711def2a5a41422f10a5"
+          }
+        },
+        {
+          "client_id": "273002303620-svii8nnikhg22qkman7hh7qblahruogj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAtnldx4s7HDef_10xoxuhL0NZXAQmvWp0"
+          "current_key": "AIzaSyDeESj4VCrHypXDm9y5EhCadIEIPrVYUm0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "601995328608-jntbi52jbqn0cc1iu340nsmkotddao96.apps.googleusercontent.com",
+              "client_id": "273002303620-lsnv0cp8f8qm2rf6s2iv4i3ogc4e54ms.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "601995328608-jdmemjg1k9idbmi3f0d4u2ts24oibamu.apps.googleusercontent.com",
+              "client_id": "273002303620-opqhfdh1ji8d2024a7m08908tiuhh68c.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.eresdel.darkhan"
