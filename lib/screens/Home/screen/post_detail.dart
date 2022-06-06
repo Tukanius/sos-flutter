@@ -70,7 +70,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       if (await Permission.location.isRestricted) {
         debugPrint("=====================isRestricted============");
       }
-      if (await Permission.contacts.request().isGranted) {}
+      if (await Permission.location.request().isGranted) {}
       Map<Permission, PermissionStatus> statuses = await [
         Permission.location,
         Permission.storage,
