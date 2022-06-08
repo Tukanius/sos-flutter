@@ -50,8 +50,8 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   bool? visible = false;
   int page = 1;
-  double lng = 0;
-  double lat = 0;
+  double lat = 49.468256759865504;
+  double lng = 105.96434477716684;
   final Completer<GoogleMapController> _controller = Completer();
   int limit = 1000;
   bool hasLocation = false;
@@ -61,7 +61,10 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
   @override
   void afterFirstLayout(BuildContext context) {
     _kGooglePlex = CameraPosition(
-      target: LatLng(widget.data!.location!.lat!, widget.data!.location!.lng!),
+      target: LatLng(
+        widget.data!.location!.lat != 0.0 ? widget.data!.location!.lat! : lat,
+        widget.data!.location!.lng != 0.0 ? widget.data!.location!.lng! : lng,
+      ),
       zoom: 14.4746,
     );
   }
@@ -220,7 +223,6 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
               text: fbKey.currentState!.value["text"]);
         }
         save.image = widget.data!.image;
-
         await PostApi().editPost(widget.data!.id, save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
         show(context);
@@ -406,21 +408,28 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                 const SizedBox(
                   height: 25,
                 ),
-                CustomButton(
-                  onClick: () async {
-                    mapDialog(context);
-                  },
-                  width: MediaQuery.of(context).size.width,
-                  customWidget: const Text(
-                    "Байршил засах",
-                    style: TextStyle(
-                      color: white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  color: dark,
-                ),
+                hasLocation == true
+                    ? CustomButton(
+                        width: MediaQuery.of(context).size.width,
+                        labelText: "Байршил илгээгдсэн",
+                        fontSize: 16,
+                        color: dark,
+                      )
+                    : CustomButton(
+                        onClick: () async {
+                          mapDialog(context);
+                        },
+                        width: MediaQuery.of(context).size.width,
+                        customWidget: const Text(
+                          "Байршил засах",
+                          style: TextStyle(
+                            color: white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        color: dark,
+                      ),
                 const SizedBox(
                   height: 10,
                 ),
