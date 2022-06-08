@@ -29,7 +29,15 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.601995328608-jdmemjg1k9idbmi3f0d4u2ts24oibamu</string>
+				<string>fb991625551494669</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.273002303620-opqhfdh1ji8d2024a7m08908tiuhh68c</string>
 			</array>
 		</dict>
 	</array>
@@ -38,9 +46,9 @@
 	<key>FacebookAppID</key>
 	<string>991625551494669</string>
 	<key>FacebookClientToken</key>
-	<string>CLIENT-TOKEN</string>
+	<string>b458fbc0718920c4f14db5a2e0347f92</string>
 	<key>FacebookDisplayName</key>
-	<string>SosDarkhan.mn</string>
+	<string>Darkhan sos</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -61,12 +69,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Please grant camera access</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Allow Contact Access For Details
-Allow Contact Access For Details
-Allow Contact Access For Details
-Allow Contact Access For Details
-Allow Contact Access For Details
-</string>
+	<string>Allow Contact Access For Details</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>xxx uses the local network to connect with devices around you.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

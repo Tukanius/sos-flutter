@@ -60,10 +60,10 @@ class _LoginPageState extends State<LoginPage>
 
   googleLogin() async {
     try {
-      GoogleSignIn googleSignIn = GoogleSignIn();
       setState(() {
         loading = true;
       });
+      GoogleSignIn googleSignIn = GoogleSignIn();
       googleSignIn.signIn().then((result) {
         result!.authentication.then((googleKey) async {
           await AuthApi().socialLogin(
