@@ -692,7 +692,7 @@ class _CustomDialogState extends State<CustomDialog> {
           ),
         ),
         SizedBox(
-          width: 300,
+          width: MediaQuery.of(context).size.width,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               elevation: 0.0,
