@@ -10,12 +10,12 @@ import 'http_handler.dart';
 import '../main.dart';
 
 class HttpRequest {
-  // static const host = 'http://dev-sos.zto.mn';
-  static const host = 'http://192.168.1.17:6002';
+  static const host = 'http://dev-sos.zto.mn';
+  // static const host = 'https://192.168.1.17:6002';
   // static const host = 'http://192.168.1.13:6002';
 
-  static const s3host = 'http://192.168.1.17:6002/s3';
-  // static const s3host = 'http://dev-sos-admin.zto.mn/s3';
+  // static const s3host = 'https://192.168.1.17:6002/s3';
+  static const s3host = 'http://dev-sos-admin.zto.mn/s3';
   static const version = '/web';
 
   static const uri = host;
