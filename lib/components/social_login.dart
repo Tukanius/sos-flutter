@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../api/auth_api.dart';
 import '../main.dart';
@@ -29,22 +28,6 @@ class _SocialLoginState extends State<SocialLogin> {
       "https://accounts.google.com/o/oauth2/v2/auth?client_id=$googleClientId&redirect_uri=$googleRedirectUri&scope=email%openid'&response_type=code&auth_type=rerequest&display=popup";
   @override
   Widget build(BuildContext context) {
-    return WebView(
-      initialUrl: widget.type == "FACEBOOK" ? facebookLoginUri : googleLoginUri,
-      navigationDelegate: (request) async {
-        if (Uri.parse(request.url).queryParameters['code'] != null) {
-          await AuthApi().socialLogin(
-            User(
-                type: "FACEBOOK",
-                code: Uri.parse(request.url).queryParameters['code'],
-                redirectUri: fbRedirectUri),
-          );
-          Navigator.of(context).pop();
-          locator<NavigationService>()
-              .pushReplacementNamed(routeName: SplashPage.routeName);
-        }
-        return NavigationDecision.navigate;
-      },
-    );
+    return Container();
   }
 }
