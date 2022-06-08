@@ -65,21 +65,22 @@ icon(Post? data) {
 }
 
 permissionAsk() async {
-  try {
-    var status = await Permission.location.status;
-    if (status.isDenied) {
-      debugPrint("=====================DENIED============");
-    }
-    if (await Permission.location.isRestricted) {
-      debugPrint("=====================isRestricted============");
-    }
-    if (await Permission.contacts.request().isGranted) {}
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.location,
-      Permission.storage,
-    ].request();
-    debugPrint(statuses[Permission.location].toString());
-  } catch (e) {}
+  await Permission.location.request();
+  // try {
+  //   var status = await Permission.location.status;
+  //   if (status.isDenied) {
+  //     debugPrint("=====================DENIED============");
+  //   }
+  //   if (await Permission.location.isRestricted) {
+  //     debugPrint("=====================isRestricted============");
+  //   }
+  //   if (await Permission.contacts.request().isGranted) {}
+  //   Map<Permission, PermissionStatus> statuses = await [
+  //     Permission.location,
+  //     Permission.storage,
+  //   ].request();
+  //   debugPrint(statuses[Permission.location].toString());
+  // } catch (e) {}
 }
 
 class _PostCardState extends State<PostCard> with AfterLayoutMixin {
