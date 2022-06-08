@@ -35,7 +35,7 @@ class _PhoneAskPageState extends State<PhoneAskPage> {
         var res = await Provider.of<UserProvider>(context, listen: false)
             .otpSocial(user);
         Navigator.of(context).pushNamed(OtpVerifyPage.routeName,
-            arguments: OtpVerifyPageArguments(data: res));
+            arguments: OtpVerifyPageArguments(data: res, type: "SOCIAL"));
       } catch (err) {
         debugPrint(err.toString());
       }

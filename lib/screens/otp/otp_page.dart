@@ -250,14 +250,18 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
   onVerify() async {
     otpCode = controller.text;
     try {
-      await Provider.of<UserProvider>(context, listen: false)
-          .verifyOtp(User(code: otpCode, phone: widget.phone));
+      if (widget.type == "SOCIAL") {
+        await Provider.of<UserProvider>(context, listen: false)
+            .otpSocial(User(code: otpCode));
+      } else {
+        await Provider.of<UserProvider>(context, listen: false)
+            .verifyOtp(User(code: otpCode, phone: widget.phone));
+      }
 
       switch (widget.type) {
         case 'REGISTER':
           show(context);
           break;
-
         default:
           otpshow(context);
       }
