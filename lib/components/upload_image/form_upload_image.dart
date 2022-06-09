@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sos/api/general_api.dart';
@@ -35,6 +36,7 @@ class FormUploadImage extends StatefulWidget {
 
 class _FormUploadImageState extends State<FormUploadImage> {
   bool loading = false;
+  Uint8List? result;
 
   final ImagePicker _picker = ImagePicker();
   @override
@@ -44,7 +46,9 @@ class _FormUploadImageState extends State<FormUploadImage> {
 
   pickImage(ImageSource imageSource) async {
     if (Navigator.of(context).canPop()) Navigator.of(context).pop();
-    XFile? file = await _picker.pickImage(source: imageSource);
+    XFile? file = await _picker.pickImage(
+        source: imageSource, imageQuality: 40, maxHeight: 1024);
+
     if (file != null) {
       setState(() {
         loading = true;
@@ -164,53 +168,49 @@ class _FormUploadImageState extends State<FormUploadImage> {
           child: Stack(children: [
             InkWell(
               onTap: () {
-                changeImage();
+                if (loading == false) {
+                  changeImage();
+                }
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: const Color(0x4ffEBEDF1),
+                  color: const Color(0x4ffebedf1),
                   border: Border.all(
                     color: widget.hasError == true ? red : transparent,
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/image.png"),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      "Энд зургаа оруулна.",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      "Хэмжээ: 1MB, Зурагны төрөл: PNG, JPG.",
-                      style: TextStyle(color: Color(0x4ff9F9F9F), fontSize: 12),
-                    ),
-                  ],
-                ),
+                child: loading == false
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/image.png"),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "Энд зургаа оруулна.",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "Хэмжээ: 1MB, Зурагны төрөл: PNG, JPG.",
+                            style: TextStyle(
+                                color: Color(0x4ff9F9F9F), fontSize: 12),
+                          ),
+                        ],
+                      )
+                    : const SpinKitCircle(
+                        size: 25,
+                        color: black,
+                      ),
               ),
             ),
-            ((() {
-              if (loading == true) {
-                return Container(
-                    height: 150.0,
-                    alignment: Alignment.center,
-                    child: const SpinKitPulse(
-                      color: black,
-                    ));
-              } else {
-                return const Text("");
-              }
-            }())),
           ]),
         ),
       ),
