@@ -91,7 +91,7 @@ class UserProvider extends ChangeNotifier {
 
   clearAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove("ACCESS_TOKEN");
+    await prefs.remove("ACCESS_TOKEN");
   }
 
   static Future<String?> getAccessToken() async {

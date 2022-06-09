@@ -48,7 +48,6 @@ class HttpRequest {
       dio.interceptors.add(CookieManager(cookieJar));
 
       var token = await UserProvider.getAccessToken();
-      // var deviceToken = await UserProvider.getDeviceToken();
 
       dio.options.headers = {
         'authorization': 'Bearer $token',
@@ -60,8 +59,6 @@ class HttpRequest {
     } catch (err) {
       debugPrint(err.toString());
     }
-    // final Connectivity _connectivity = Connectivity();
-    // ConnectivityResult result = ConnectivityResult.none;
 
     if (method != 'GET') {
       debugPrint('body: $data');

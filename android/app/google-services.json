@@ -7,18 +7,26 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:273002303620:android:5bd9766de4631cede4b2d1",
+        "mobilesdk_app_id": "1:273002303620:android:9e94e49b51507900e4b2d1",
         "android_client_info": {
           "package_name": "com.eresdel.darkhan"
         }
       },
       "oauth_client": [
         {
-          "client_id": "273002303620-kp42v36318r8o27p3fvv4i8of8b33eb3.apps.googleusercontent.com",
+          "client_id": "273002303620-4ql43p01ln7sls8vqrg2nt9c16aarpm7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.eresdel.darkhan",
             "certificate_hash": "84cdcf731c5d038de179711def2a5a41422f10a5"
+          }
+        },
+        {
+          "client_id": "273002303620-7n5n1nkg9u2qp4prr3ibfpki9s3lhoug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eresdel.darkhan",
+            "certificate_hash": "05144e5685446bb27248916262feeb630a3df712"
           }
         },
         {
