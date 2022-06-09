@@ -32,7 +32,8 @@ class _UploadAvatarState extends State<UploadAvatar> {
   pickImage(ImageSource imageSource) async {
     if (Navigator.of(context).canPop()) Navigator.of(context).pop();
 
-    XFile? file = await _picker.pickImage(source: imageSource);
+    XFile? file =
+        await _picker.pickImage(source: imageSource, imageQuality: 25);
 
     if (file != null) {
       setState(() {
