@@ -92,7 +92,7 @@ class _MySectorPostState extends State<MySectorPost>
                             width: 20,
                             height: 20,
                           ),
-                          text: "Хувиарлагдаагүй",
+                          text: "Хуваарлигдаагүй",
                         ),
                         Tab(
                           icon: SvgPicture.asset(
