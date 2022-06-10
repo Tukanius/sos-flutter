@@ -35,6 +35,19 @@ class FirebaseUtils extends StatefulWidget {
 
   static main() async {
     debugPrint("******************FIREBASE CONNECTION******************");
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
 
     try {
       getToken() async {
