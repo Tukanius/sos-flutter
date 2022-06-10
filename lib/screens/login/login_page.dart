@@ -40,11 +40,7 @@ class _LoginPageState extends State<LoginPage>
   @override
   void afterFirstLayout(BuildContext context) async {
     String? username = await UserProvider().getUsername();
-
-    if (username == null) {
-      setState(() {
-        username = username = "";
-      });
+    if (username == null || username == "") {
       setState(() {
         saveIsUsername = false;
       });
@@ -54,7 +50,7 @@ class _LoginPageState extends State<LoginPage>
       });
     }
     setState(() {
-      usernameController.text = username.toString();
+      usernameController.text = username!;
     });
   }
 
@@ -282,7 +278,9 @@ class _LoginPageState extends State<LoginPage>
               CustomButton(
                 width: double.infinity,
                 onClick: () {
-                  onSubmit();
+                  if (isSubmit == false) {
+                    onSubmit();
+                  }
                 },
                 color: orange,
                 fontSize: 16,
@@ -333,7 +331,9 @@ class _LoginPageState extends State<LoginPage>
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
-                        facebookLogin();
+                        if (loading == false) {
+                          facebookLogin();
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -355,7 +355,9 @@ class _LoginPageState extends State<LoginPage>
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
-                        googleLogin();
+                        if (loading == false) {
+                          googleLogin();
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),

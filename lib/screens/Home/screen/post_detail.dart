@@ -15,6 +15,7 @@ import '../../../api/post_api.dart';
 import '../../../components/before_after/index.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import '../../../components/not_found_page.dart';
 import '../../../components/upload_image/form_upload_image.dart';
 import '../../../main.dart';
 import '../../../provider/sector_provider.dart';
@@ -161,191 +162,203 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     ),
                   ),
                 )
-              : Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        children: [
-                          icon(),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data.sector!.fullName == null
-                                          ? "Эрсдэл"
-                                          : "Эрсдэл",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    postStatus(),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      data.getPostDate(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14),
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Column(
+              : data.postStatus == null
+                  ? const NotFoundPage()
+                  : Column(
                       children: [
-                        data.resultImage != null
-                            ? BeforeAfter(
-                                imageCornerRadius: 0,
-                                imageHeight:
-                                    MediaQuery.of(context).size.height * 0.45,
-                                imageWidth: MediaQuery.of(context).size.width,
-                                beforeImage: NetworkImage("${data.getImage()}"),
-                                afterImage: NetworkImage("${data.resImage()}"),
-                              )
-                            : Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.45,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                      data.getImage(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            children: [
+                              icon(),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data.sector!.fullName == null
+                                              ? "Эрсдэл"
+                                              : "Эрсдэл",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        postStatus(),
+                                      ],
                                     ),
-                                  ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          data.getPostDate(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
-                        Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(15),
-                                    onTap: () async {
-                                      if (user.id == null) {
-                                        dialogService.showErrorDialogListener(
-                                            "Нэвтрэн үү");
-                                      } else {
-                                        setState(() {
-                                          likeLoading = true;
-                                        });
-                                        var res = await PostApi()
-                                            .like(data.id.toString());
-                                        setState(() {
-                                          likeLoading = false;
-                                          data.likeCount = res.likeCount;
-                                          data.liked = res.liked;
-                                        });
-                                      }
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          border: Border.all(
-                                              width: 0.3, color: grey)),
-                                      height: 55,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          likeLoading == false
-                                              ? Icon(
-                                                  Icons.favorite,
-                                                  color: data.liked == true
-                                                      ? red
-                                                      : grey,
-                                                  size: 25,
-                                                )
-                                              : const SpinKitCircle(
-                                                  size: 25,
-                                                  color: black,
-                                                ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          if (data.likeCount != 0)
-                                            Text("${data.likeCount}"),
-                                        ],
+                        Column(
+                          children: [
+                            data.resultImage != null
+                                ? BeforeAfter(
+                                    imageCornerRadius: 0,
+                                    imageHeight:
+                                        MediaQuery.of(context).size.height *
+                                            0.45,
+                                    imageWidth:
+                                        MediaQuery.of(context).size.width,
+                                    beforeImage:
+                                        NetworkImage("${data.getImage()}"),
+                                    afterImage:
+                                        NetworkImage("${data.resImage()}"),
+                                  )
+                                : Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.45,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                          data.getImage(),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(15),
-                                    onTap: () async {
-                                      if (data.isLocated == true) {
-                                        await permissionAsk();
-                                        mapDialog(context);
-                                      } else {
-                                        dialogService.showErrorDialog(
-                                            "Энэ эрсдэлд байршил өгөөгүй байна.");
-                                      }
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          border: Border.all(
-                                              width: 0.3, color: grey)),
-                                      height: 55,
-                                      child: Center(
-                                        child: data.isLocated == true
-                                            ? SvgPicture.asset(
-                                                "assets/location.svg",
-                                                color: red,
-                                              )
-                                            : SvgPicture.asset(
-                                                "assets/location.svg",
-                                                color: Color(0x4ffa7a7a7),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(15),
+                                        onTap: () async {
+                                          if (user.id == null) {
+                                            dialogService
+                                                .showErrorDialogListener(
+                                                    "Нэвтрэн үү");
+                                          } else {
+                                            setState(() {
+                                              likeLoading = true;
+                                            });
+                                            var res = await PostApi()
+                                                .like(data.id.toString());
+                                            setState(() {
+                                              likeLoading = false;
+                                              data.likeCount = res.likeCount;
+                                              data.liked = res.liked;
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              border: Border.all(
+                                                  width: 0.3, color: grey)),
+                                          height: 55,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              likeLoading == false
+                                                  ? Icon(
+                                                      Icons.favorite,
+                                                      color: data.liked == true
+                                                          ? red
+                                                          : grey,
+                                                      size: 25,
+                                                    )
+                                                  : const SpinKitCircle(
+                                                      size: 25,
+                                                      color: black,
+                                                    ),
+                                              const SizedBox(
+                                                width: 10,
                                               ),
+                                              if (data.likeCount != 0)
+                                                Text("${data.likeCount}"),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            )),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(15),
+                                        onTap: () async {
+                                          if (data.isLocated == true) {
+                                            await permissionAsk();
+                                            mapDialog(context);
+                                          } else {
+                                            dialogService.showErrorDialog(
+                                                "Энэ эрсдэлд байршил өгөөгүй байна.");
+                                          }
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              border: Border.all(
+                                                  width: 0.3, color: grey)),
+                                          height: 55,
+                                          child: Center(
+                                            child: data.isLocated == true
+                                                ? SvgPicture.asset(
+                                                    "assets/location.svg",
+                                                    color: red,
+                                                  )
+                                                : SvgPicture.asset(
+                                                    "assets/location.svg",
+                                                    color: Color(0x4ffa7a7a7),
+                                                  ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        if (data.postStatus == "PENDING" &&
+                            user.sector != null &&
+                            data.sector!.id == user.sector!.id)
+                          actionButton(),
+                        data.result == null ? const SizedBox() : resultCard(),
+                        data.sector!.id == null
+                            ? const SizedBox()
+                            : pendingCard(),
+                        card(),
                       ],
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    card(),
-                    data.sector!.id == null ? const SizedBox() : pendingCard(),
-                    data.result == null ? const SizedBox() : resultCard(),
-                    if (data.postStatus == "PENDING" &&
-                        user.sector != null &&
-                        data.sector!.id == user.sector!.id)
-                      actionButton()
-                  ],
-                ),
         ),
       ),
     );
@@ -1075,7 +1088,6 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     height: 80,
                   ),
                 )
-                // Lottie.asset('assets/garbage.json', height: 150, repeat: false),
               ],
             ),
           );

@@ -349,6 +349,8 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                               borderRadius: BorderRadius.circular(80),
                               onTap: () {
                                 setState(() {
+                                  fbKey.currentState!.fields["image"]!
+                                      .didChange("");
                                   visible = true;
                                   image = null;
                                 });
@@ -371,6 +373,19 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                       ),
                 const SizedBox(
                   height: 5,
+                ),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    imageHasError == true
+                        ? const Text(
+                            "Зураг заавал оруулна",
+                            style: TextStyle(color: red, fontSize: 12),
+                          )
+                        : const SizedBox(),
+                  ],
                 ),
                 const SizedBox(
                   height: 10,

@@ -9,7 +9,6 @@ import 'package:sos/widgets/colors.dart';
 import 'package:after_layout/after_layout.dart';
 import '../../../models/result.dart';
 import '../../../provider/user_provider.dart';
-import 'components/page1.dart';
 
 class SavedPostPage extends StatefulWidget {
   static const routeName = "/savedpostpage";

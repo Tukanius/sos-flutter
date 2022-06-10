@@ -26,7 +26,6 @@ class _MapScreenPageState extends State<MapScreenPage> with AfterLayoutMixin {
   int limit = 1000;
 
   final List<Marker> _marker = [];
-  late final Marker _list;
 
   @override
   void afterFirstLayout(BuildContext context) async {
@@ -126,7 +125,7 @@ class _MapScreenPageState extends State<MapScreenPage> with AfterLayoutMixin {
                   SizedBox(
                     height: 15,
                   ),
-                  Text("LOADING..."),
+                  Text("Эрсдэлийг шалгаж байна"),
                 ],
               ),
             )

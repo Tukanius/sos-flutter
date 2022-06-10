@@ -333,6 +333,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                 setState(() {
                                   visible = false;
                                   resultImage = "";
+                                  fbKey.currentState!.fields["image"]!
+                                      .didChange("");
                                 });
                               },
                               child: Container(

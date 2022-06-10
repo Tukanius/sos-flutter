@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sos/models/notification.dart';
 import 'package:sos/screens/home/screen/post_detail.dart';
-import 'package:sos/screens/notify/notification_detail_page.dart';
 import 'package:sos/screens/notify/notification_page.dart';
 import 'package:sos/services/navigation.dart';
 
@@ -62,10 +61,11 @@ class FirebaseUtils extends StatefulWidget {
           _firebaseMessagingBackgroundHandler);
       if (!kIsWeb) {
         channel = const AndroidNotificationChannel(
-            'high_importance_channel', // id
-            'High Importance Notifications', // title
-            importance: Importance.high,
-            playSound: true);
+          'high_importance_channel',
+          'High Importance Notifications',
+          importance: Importance.high,
+          playSound: true,
+        );
 
         flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -87,10 +87,8 @@ class FirebaseUtils extends StatefulWidget {
         AndroidNotification? android = message.notification?.android;
         debugPrint("+++++ +++++ +++++ON MESSAGE CHANGE+++++ +++++ +++++");
         debugPrint(message.data.toString());
-
         FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
             FlutterLocalNotificationsPlugin();
-        // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
         const AndroidInitializationSettings initializationSettingsAndroid =
             AndroidInitializationSettings('@mipmap/ic_launcher');
         const IOSInitializationSettings initializationSettingsIOS =
@@ -124,7 +122,7 @@ class FirebaseUtils extends StatefulWidget {
                     .pushNamed(routeName: NotificationPage.routeName);
               }
             } catch (err) {
-              debugPrint("==========error==========> $err");
+              debugPrint("==========on message listen error==========> $err");
             }
           },
         );
@@ -149,9 +147,6 @@ class FirebaseUtils extends StatefulWidget {
         try {
           Map<String, dynamic> valueMap = json.decode(message.data['data']);
           Notify notify = Notify.fromJson(valueMap);
-          print("======================NOTIFY======================");
-          print(notify.toJson());
-          print("===================================================");
           if (notify.isNavigation == true) {
             switch (notify.navigation) {
               case "POST":
@@ -168,7 +163,7 @@ class FirebaseUtils extends StatefulWidget {
             );
           }
         } catch (err) {
-          debugPrint("==========error==========> $err");
+          debugPrint("==========open app error==========> $err");
         }
       });
     } catch (err) {
