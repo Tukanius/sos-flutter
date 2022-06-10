@@ -5,8 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sos/screens/notify/notification_detail_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:provider/provider.dart';
 
 import '../../api/notify_api.dart';
+import '../../provider/user_provider.dart';
 
 class NotificationPage extends StatefulWidget {
   static const routeName = "/notificationpage";
@@ -28,6 +30,8 @@ class _NotificationPageState extends State<NotificationPage>
       isLoading = true;
     });
     await notify(page, limit);
+    await Provider.of<UserProvider>(context, listen: false).me(true);
+
     setState(() {
       isLoading = false;
     });

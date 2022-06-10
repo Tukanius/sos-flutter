@@ -387,19 +387,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                               onSelected: (String value) =>
                                   actionPopUpItemSelected(value, widget.data),
                             )
-                      : PopupMenuButton(
-                          icon: const Icon(Icons.more_vert),
-                          itemBuilder: (context) {
-                            return [
-                              const PopupMenuItem(
-                                value: 'hide',
-                                child: Text('Мэдэгдэх'),
-                              ),
-                            ];
-                          },
-                          onSelected: (String value) =>
-                              actionPopUpItemSelected(value, widget.data),
-                        )
+                      : const SizedBox()
                   : const SizedBox(),
             ),
             Expanded(
