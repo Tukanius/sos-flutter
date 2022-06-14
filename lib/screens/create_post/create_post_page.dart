@@ -37,8 +37,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
   bool loading = false;
   bool visible = false;
   bool isMap = false;
-  double lng = 0;
-  double lat = 0;
+  double lng = 105.96434477716684;
+  double lat = 49.468256759865504;
   Offset position = const Offset(0, 0);
   bool hasLocation = false;
 

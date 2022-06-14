@@ -109,6 +109,14 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                 ],
               ),
               const SizedBox(
+                height: 5,
+              ),
+              user.phone != null
+                  ? Text(
+                      user.phone.toString(),
+                    )
+                  : const SizedBox(),
+              const SizedBox(
                 height: 20,
               ),
               GestureDetector(

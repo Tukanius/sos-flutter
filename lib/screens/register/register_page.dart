@@ -26,21 +26,19 @@ class _RegisterPageState extends State<RegisterPage> {
   onSubmit() async {
     final form = user.fbKey.currentState;
     if (form?.saveAndValidate() ?? false) {
-      setState(() {
-        isLoading = true;
-      });
       try {
+        setState(() {
+          isLoading = true;
+        });
         User data = User.fromJson(form!.value);
         User code = await Provider.of<UserProvider>(context, listen: false)
             .register(data);
+        setState(() {
+          isLoading = false;
+        });
         Navigator.of(context).pushNamed(OtpVerifyPage.routeName,
             arguments: OtpVerifyPageArguments(
                 type: "REGISTER", data: code, phone: data.phone));
-        setState(
-          () {
-            isLoading = false;
-          },
-        );
       } on HttpHandler catch (err) {
         debugPrint(err.toString());
         setState(() {

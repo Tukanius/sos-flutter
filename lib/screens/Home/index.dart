@@ -8,6 +8,7 @@ import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/profile_page.dart';
+import 'package:sos/screens/profile/screens/components/page_change_controller.dart';
 import 'package:sos/screens/search/search_page.dart';
 import 'package:sos/utils/http_request.dart';
 import 'package:sos/widgets/colors.dart';
@@ -24,7 +25,7 @@ import '../../../models/result.dart';
 import '../../../models/sector.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:skeletons/skeletons.dart';
-
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../notify/notification_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,6 +52,11 @@ class _HomePageState extends State<HomePage>
   Filter filter = Filter(postStatus: "NEW");
   Sector data = Sector();
   String? avatar;
+  String? sectorId;
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  ValueNotifier sectorIdNotifier = ValueNotifier("");
+  PageChangeController pageChangeController = PageChangeController();
 
   @override
   void initState() {
@@ -84,21 +90,26 @@ class _HomePageState extends State<HomePage>
     switch (index) {
       case 0:
         setState(() {
+          filter.sector = sectorId;
           filter.postStatus = "NEW";
         });
+
         break;
       case 1:
         setState(() {
+          filter.sector = sectorId;
           filter.postStatus = "PENDING";
         });
         break;
       case 2:
         setState(() {
+          filter.sector = sectorId;
           filter.postStatus = "SOLVED";
         });
         break;
       case 3:
         setState(() {
+          filter.sector = sectorId;
           filter.postStatus = "FAILED";
         });
         break;
@@ -121,13 +132,6 @@ class _HomePageState extends State<HomePage>
       return false;
     }
   }
-
-  Map<String, double> dataMap = {
-    "Flutter": 5,
-    "React": 3,
-    "Xamarin": 2,
-    "Ionic": 2,
-  };
 
   final colorList = <Color>[
     red,
@@ -310,6 +314,23 @@ class _HomePageState extends State<HomePage>
                                                         context,
                                                         listen: false)
                                                     .sectorGet(value);
+
+                                                if (value != null) {
+                                                  setState(() {
+                                                    sectorId = value.toString();
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    sectorId = null;
+                                                  });
+                                                }
+
+                                                onChangeTap(
+                                                    tabController.index);
+
+                                                pageChangeController
+                                                    .changeVariable(
+                                                        sectorId.toString());
                                               },
                                               decoration: InputDecoration(
                                                 filled: true,
@@ -630,15 +651,6 @@ class _HomePageState extends State<HomePage>
                                               )
                                       ],
                                     )
-                                    // Row(
-                                    //   mainAxisAlignment:
-                                    //       MainAxisAlignment.spaceBetween,
-                                    //   children: response
-                                    //       .map((Sector e) => ChartNumberCard(
-                                    //             dashboard: e,
-                                    //           ))
-                                    //       .toList(),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -658,21 +670,25 @@ class _HomePageState extends State<HomePage>
                   SingleChildScrollView(
                     child: Page1(
                       filter: filter,
+                      pageChangeController: pageChangeController,
                     ),
                   ),
                   SingleChildScrollView(
                     child: Page1(
                       filter: filter,
+                      pageChangeController: pageChangeController,
                     ),
                   ),
                   SingleChildScrollView(
                     child: Page1(
                       filter: filter,
+                      pageChangeController: pageChangeController,
                     ),
                   ),
                   SingleChildScrollView(
                     child: Page1(
                       filter: filter,
+                      pageChangeController: pageChangeController,
                     ),
                   ),
                 ],

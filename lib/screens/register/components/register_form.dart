@@ -73,16 +73,11 @@ class _RegisterFormState extends State<RegisterForm> {
               hintText: "Утасны дугаараа оруулна уу",
               fillColor: white,
             ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Заавал оруулна';
+            validators: FormBuilderValidators.compose([
+              (value) {
+                return validatePhone(value.toString(), context);
               }
-              if (value.trim().length < 8) {
-                return 'Утасны дугаараа оруулна уу';
-              }
-              // Return null if the entered password is valid
-              return null;
-            },
+            ]),
           ),
           const SizedBox(
             height: 15,
@@ -270,6 +265,19 @@ String? validatePassword(String value, context) {
   } else {
     if (!regex.hasMatch(value)) {
       return 'Нууц үг тохирохгүй байна';
+    } else {
+      return null;
+    }
+  }
+}
+
+String? validatePhone(String value, context) {
+  RegExp regex = RegExp(r'[(9|8]{1}[0-9]{7}$');
+  if (value.isEmpty) {
+    return 'Утасны дугаараа оруулна уу';
+  } else {
+    if (!regex.hasMatch(value)) {
+      return 'Утасны дугаараа шалгана уу';
     } else {
       return null;
     }

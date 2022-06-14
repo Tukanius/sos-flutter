@@ -573,7 +573,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     });
                   },
                   child: const Text(
-                    "Буцаах",
+                    "Цуцлах",
                     style: TextStyle(
                       color: dark,
                       fontSize: 12,
@@ -616,7 +616,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                 });
               },
               child: const Text(
-                "Цуцалсан",
+                "Буцаах",
                 style: TextStyle(
                   color: dark,
                   fontSize: 12,
@@ -1141,38 +1141,47 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
           bottom: BorderSide(color: grey, width: 0.5),
         ),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
-          Container(
-            height: 15,
-            width: 15,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(180),
-              color: red,
-            ),
-          ),
-          const SizedBox(width: 7),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 15,
+                width: 15,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(180),
+                  color: red,
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              const Text(
+                "Эрсдэл:",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(width: 7),
+              Expanded(
+                child: Text(
                   "${data.text}",
                   style: const TextStyle(fontSize: 12),
                 ),
-                const SizedBox(height: 7),
-                Row(
-                  children: [
-                    Text(
-                      data.getPostDate(),
-                      style: const TextStyle(fontSize: 12, color: greyDark),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                data.getPostDate(),
+                style: const TextStyle(fontSize: 12, color: greyDark),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -1187,33 +1196,44 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
           bottom: BorderSide(color: grey, width: 0.5),
         ),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
-          Container(
-            height: 15,
-            width: 15,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(180),
-              color: orange,
-            ),
-          ),
-          const SizedBox(width: 7),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 15,
+                width: 15,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(180),
+                  color: orange,
+                ),
+              ),
+              const SizedBox(width: 5),
+              const Text(
+                "Хариуцсан:",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(width: 7),
+              Expanded(
+                child: Text(
                   "${data.sector!.fullName}-д хуваарилагдсан",
                   style: const TextStyle(fontSize: 12),
                 ),
-                const SizedBox(height: 7),
-                Text(
-                  data.repliedDate == null ? "" : data.getReplyDate(),
-                  style: const TextStyle(fontSize: 12, color: greyDark),
-                ),
-              ],
-            ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                data.repliedDate == null ? "" : data.getReplyDate(),
+                style: const TextStyle(fontSize: 12, color: greyDark),
+              ),
+            ],
           )
         ],
       ),
@@ -1222,35 +1242,60 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
 
   resultCard() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      padding: const EdgeInsets.only(bottom: 10),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: grey, width: 0.5),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 15,
-            width: 15,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(180),
-              color: data.postStatus == "SOLVED" ? green : grey,
-            ),
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsets.only(bottom: 10),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: grey, width: 0.5),
           ),
-          const SizedBox(width: 7),
-          Expanded(
-            child: Column(
+        ),
+        child: Column(
+          children: [
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  data.result.toString(),
-                  style: const TextStyle(fontSize: 12),
+                Container(
+                  height: 15,
+                  width: 15,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(180),
+                    color: data.postStatus == "SOLVED" ? green : grey,
+                  ),
                 ),
+                const SizedBox(width: 7),
+                data.postStatus == "SOLVED"
+                    ? const Text(
+                        "Шийдэл:",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : const Text(
+                        "Буцаалт:",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: Text(
+                    data.result.toString(),
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 const SizedBox(height: 7),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     data.resultDate == null
                         ? const SizedBox()
@@ -1268,19 +1313,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                         color: greyDark,
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        "${data.sector!.fullName}",
-                        style: const TextStyle(fontSize: 12, color: greyDark),
-                      ),
-                    )
+                    Text(
+                      "${data.sector!.fullName}",
+                      style: const TextStyle(fontSize: 12, color: greyDark),
+                    ),
                   ],
                 ),
               ],
             ),
-          )
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }

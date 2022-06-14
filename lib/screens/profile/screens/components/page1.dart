@@ -1,6 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/screens/home/components/post_card.dart';
+import 'package:sos/screens/profile/screens/components/page_change_controller.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,13 +14,17 @@ class Page1 extends StatefulWidget {
   final Filter? filter;
   final double? height;
   final String? type;
-  const Page1({
-    Key? key,
-    this.name,
-    this.filter,
-    this.height,
-    this.type,
-  }) : super(key: key);
+  final bool? loading;
+  final PageChangeController? pageChangeController;
+  const Page1(
+      {Key? key,
+      this.name,
+      this.filter,
+      this.height,
+      this.type,
+      this.loading,
+      this.pageChangeController})
+      : super(key: key);
 
   @override
   State<Page1> createState() => _Page1State();
@@ -30,12 +35,19 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
   int page = 1;
   int limit = 1000;
   Result? warningPost = Result(count: 0, rows: []);
-
   @override
   void initState() {
+    if (widget.pageChangeController != null) {
+      widget.pageChangeController?.addListener(() async {
+        print("+==========SETSTATE DATA=========+");
+        await post(page, limit);
+      });
+    }
+
     setState(() {
       loading = true;
     });
+
     super.initState();
   }
 
@@ -50,6 +62,10 @@ class _Page1State extends State<Page1> with AfterLayoutMixin {
   }
 
   post(int page, int limit) async {
+    print("+++++++++++=>>>>> ${widget.filter?.sector}");
+    setState(() {
+      loading = true;
+    });
     Offset offset = Offset(limit: limit, page: page);
     Result res = await PostApi()
         .list(ResultArguments(filter: widget.filter, offset: offset));

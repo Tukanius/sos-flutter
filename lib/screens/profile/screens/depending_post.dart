@@ -122,6 +122,7 @@ class _DependingPostPageState extends State<DependingPostPage>
             children: [
               SingleChildScrollView(
                 child: Page1(
+                  type: "MYPOST",
                   name: "Page 2",
                   filter: Filter(
                     sector: user.sector!.id,
@@ -133,6 +134,7 @@ class _DependingPostPageState extends State<DependingPostPage>
               ),
               SingleChildScrollView(
                 child: Page1(
+                  type: "MYPOST",
                   name: "Page 3",
                   height: 50,
                   filter: Filter(
@@ -144,6 +146,7 @@ class _DependingPostPageState extends State<DependingPostPage>
               ),
               SingleChildScrollView(
                 child: Page1(
+                  type: "MYPOST",
                   name: "Page 4",
                   height: 50,
                   filter: Filter(
