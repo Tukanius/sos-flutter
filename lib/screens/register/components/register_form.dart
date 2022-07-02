@@ -24,6 +24,9 @@ class _RegisterFormState extends State<RegisterForm> {
   bool _isVisible = true;
   bool _isVisible1 = true;
   bool isSubmit = false;
+  bool _isPasswordEightCharacters = false;
+  bool _hasUptext = false;
+  bool _hasPasswordOneNumber = false;
 
   @override
   void dispose() {
@@ -39,6 +42,23 @@ class _RegisterFormState extends State<RegisterForm> {
   void toggleConfirmPassword() {
     setState(() {
       showconfirmPassword = !showconfirmPassword;
+    });
+  }
+
+  onPasswordChanged(String password) {
+    final numericRegex = RegExp(r'[0-9]');
+    final characterRegex = RegExp(r'(?=.*?[!@#\$&*~])');
+    final upTextRegex = RegExp(r'(?=.*[A-Z])');
+
+    setState(() {
+      _hasUptext = false;
+      if (upTextRegex.hasMatch(password)) _hasUptext = true;
+
+      _hasPasswordOneNumber = false;
+      if (numericRegex.hasMatch(password)) _hasPasswordOneNumber = true;
+
+      _isPasswordEightCharacters = false;
+      if (password.length >= 8) _isPasswordEightCharacters = true;
     });
   }
 
@@ -114,6 +134,7 @@ class _RegisterFormState extends State<RegisterForm> {
           FormTextField(
             name: "firstName",
             textCapitalization: TextCapitalization.none,
+            onChanged: (password) => onPasswordChanged(password),
             inputAction: TextInputAction.next,
             inputFormatters: [
               FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: false)
@@ -178,6 +199,111 @@ class _RegisterFormState extends State<RegisterForm> {
                 return validatePassword(value.toString(), context);
               }
             ]),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 10, top: 10),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 500),
+                      width: 15,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          color: _isPasswordEightCharacters
+                              ? Colors.green
+                              : Colors.transparent,
+                          border: _isPasswordEightCharacters
+                              ? Border.all(color: Colors.transparent)
+                              : Border.all(color: Colors.grey.shade400),
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Center(
+                        child: Icon(
+                          Icons.check,
+                          color:
+                              _isPasswordEightCharacters ? Colors.white : dark,
+                          size: 12,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      "Багадаа 8 үсэг тоо тэмдэгт байх хэрэгтэй.",
+                      style: TextStyle(fontSize: 12),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 7,
+                ),
+                Row(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 500),
+                      width: 15,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          color: _hasPasswordOneNumber
+                              ? Colors.green
+                              : Colors.transparent,
+                          border: _hasPasswordOneNumber
+                              ? Border.all(color: Colors.transparent)
+                              : Border.all(color: Colors.grey.shade400),
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Center(
+                        child: Icon(
+                          Icons.check,
+                          color: _hasPasswordOneNumber ? Colors.white : dark,
+                          size: 12,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      "Багадаа 1 тоо байх хэрэгтэй.",
+                      style: TextStyle(fontSize: 12),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 7,
+                ),
+                Row(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 500),
+                      width: 15,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          color: _hasUptext ? Colors.green : Colors.transparent,
+                          border: _hasUptext
+                              ? Border.all(color: Colors.transparent)
+                              : Border.all(color: Colors.grey.shade400),
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Center(
+                        child: Icon(
+                          Icons.check,
+                          color: _hasUptext ? Colors.white : dark,
+                          size: 12,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text(
+                      "Багадаа 1 том үсэг байх хэрэгтэй.",
+                      style: TextStyle(fontSize: 12),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
           const SizedBox(
             height: 15,
@@ -258,13 +384,12 @@ class _RegisterFormState extends State<RegisterForm> {
 }
 
 String? validatePassword(String value, context) {
-  RegExp regex =
-      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~?]).{8,}$');
+  RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
   if (value.isEmpty) {
     return 'Нууц үгээ оруулна уу';
   } else {
     if (!regex.hasMatch(value)) {
-      return 'Нууц үг тохирохгүй байна';
+      return 'Доорх шаардлагыг хангасан нууц үг үүсгэнэ үү';
     } else {
       return null;
     }

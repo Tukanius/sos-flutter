@@ -195,6 +195,13 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          const Text(
+                            'Дахин код авах',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.0,
+                                color: greyDark),
+                          ),
                           Text(
                             '0${intToTimeLeft(_counter)} ',
                             style: const TextStyle(
@@ -226,7 +233,7 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
                               children: const [
                                 Icon(
                                   Icons.refresh,
-                                  color: Colors.black,
+                                  color: Colors.orange,
                                 ),
                                 Text(
                                   "Код дахин авах",
@@ -277,116 +284,6 @@ class _ForgotPasswordChangeState extends State<ForgotPasswordChange>
                       highlightAnimationEndColor: Colors.white12,
                       keyboardType: TextInputType.number,
                     ),
-                    // const SizedBox(
-                    //   height: 25,
-                    // ),
-                    // FormTextField(
-                    //   name: "password",
-                    //   inputType: TextInputType.text,
-                    //   inputAction: TextInputAction.next,
-                    //   obscureText: _isVisible,
-                    //   decoration: InputDecoration(
-                    //     suffixIcon: IconButton(
-                    //       onPressed: () {
-                    //         setState(() {
-                    //           _isVisible = !_isVisible;
-                    //         });
-                    //       },
-                    //       icon: _isVisible
-                    //           ? const Icon(
-                    //               Icons.visibility_off,
-                    //               color: Colors.black,
-                    //             )
-                    //           : const Icon(
-                    //               Icons.visibility,
-                    //               color: Colors.grey,
-                    //             ),
-                    //     ),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       borderSide: BorderSide.none,
-                    //     ),
-                    //     contentPadding: const EdgeInsets.symmetric(
-                    //         horizontal: 15, vertical: 15),
-                    //     filled: true,
-                    //     hintStyle: const TextStyle(
-                    //         color: Colors.black54, fontSize: 14),
-                    //     hintText: "Шинэ нууц үг",
-                    //     fillColor: white,
-                    //   ),
-                    //   validators: FormBuilderValidators.compose([
-                    //     (value) {
-                    //       return validatePassword(value.toString(), context);
-                    //     }
-                    //   ]),
-                    // ),
-                    // const SizedBox(
-                    //   height: 15,
-                    // ),
-                    // FormTextField(
-                    //   name: "password_verify",
-                    //   inputType: TextInputType.text,
-                    //   inputAction: TextInputAction.done,
-                    //   obscureText: _isVisible1,
-                    //   decoration: InputDecoration(
-                    //     suffixIcon: IconButton(
-                    //       onPressed: () {
-                    //         setState(() {
-                    //           _isVisible1 = !_isVisible1;
-                    //         });
-                    //       },
-                    //       icon: _isVisible1
-                    //           ? const Icon(
-                    //               Icons.visibility_off,
-                    //               color: Colors.black,
-                    //             )
-                    //           : const Icon(
-                    //               Icons.visibility,
-                    //               color: Colors.grey,
-                    //             ),
-                    //     ),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       borderSide: BorderSide.none,
-                    //     ),
-                    //     contentPadding: const EdgeInsets.symmetric(
-                    //         horizontal: 15, vertical: 15),
-                    //     filled: true,
-                    //     hintStyle: const TextStyle(
-                    //       color: Colors.black54,
-                    //       fontSize: 14,
-                    //     ),
-                    //     hintText: "Шинэ нууц үгээ давтан оруулна уу",
-                    //     fillColor: white,
-                    //   ),
-                    //   validators: FormBuilderValidators.compose([
-                    //     FormBuilderValidators.required(
-                    //         errorText: "Шинэ нууц үгээ давтан оруулна уу"),
-                    //     (value) {
-                    //       final String pVal = widget.data!.fbKey.currentState
-                    //           ?.fields['password']?.value;
-                    //       return pVal != value
-                    //           ? 'Оруулсан нууц үгтэй таарахгүй байна'
-                    //           : null;
-                    //     }
-                    //   ]),
-                    // ),
-                    // const SizedBox(
-                    //   height: 25,
-                    // ),
-                    // CustomButton(
-                    //   width: MediaQuery.of(context).size.width,
-                    //   onClick: () {
-                    //     if (isLoading == false) {
-                    //       onVerify();
-                    //     }
-                    //   },
-                    //   color: orange,
-                    //   customWidget: const Text(
-                    //     "Солих",
-                    //     style: TextStyle(color: black, fontSize: 16),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

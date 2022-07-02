@@ -258,7 +258,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                           if (user.id == null) {
                                             dialogService
                                                 .showErrorDialogListener(
-                                                    "Нэвтрэн үү");
+                                                    "Нэвтэрнэ үү");
                                           } else {
                                             setState(() {
                                               likeLoading = true;

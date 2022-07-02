@@ -317,6 +317,13 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        const Text(
+                          'Дахин код авах',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0,
+                              color: greyDark),
+                        ),
                         Text(
                           '0${intToTimeLeft(_counter)} ',
                           style: const TextStyle(
@@ -348,7 +355,7 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
                             children: const [
                               Icon(
                                 Icons.refresh,
-                                color: Colors.black,
+                                color: orange,
                               ),
                               Text(
                                 "Код дахин авах",

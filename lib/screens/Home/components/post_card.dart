@@ -318,7 +318,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
             isHide = false;
           });
         } catch (e) {
-          dialogService.showErrorDialog("Нэвтрэн үү!");
+          dialogService.showErrorDialog("Нэвтэрнэ үү!");
           setState(() {
             isHide = false;
           });
@@ -337,7 +337,13 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
         borderRadius: BorderRadius.circular(15),
       ),
       clipBehavior: Clip.antiAlias,
-      child: SizedBox(
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(
+              color: boderColor(),
+              width: 2,
+            )),
         height: 500,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -396,12 +402,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                   Navigator.of(context).pushNamed(PostDetailPage.routeName,
                       arguments: PostDetailPageArguments(id: widget.data!.id!));
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: boderColor(),
-                    width: 2,
-                  )),
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: ProgressiveImage.custom(
                     placeholderBuilder: (BuildContext context) => _customWidget,
@@ -433,7 +434,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                   child: InkWell(
                     onTap: () async {
                       if (user.id == null) {
-                        dialogService.showErrorDialogListener("Нэвтрэн үү");
+                        dialogService.showErrorDialogListener("Нэвтэрнэ үү");
                       } else {
                         setState(() {
                           likeLoading = true;

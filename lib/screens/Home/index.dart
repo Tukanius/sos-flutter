@@ -93,7 +93,6 @@ class _HomePageState extends State<HomePage>
           filter.sector = sectorId;
           filter.postStatus = "NEW";
         });
-
         break;
       case 1:
         setState(() {
@@ -667,29 +666,21 @@ class _HomePageState extends State<HomePage>
                 physics: const NeverScrollableScrollPhysics(),
                 dragStartBehavior: DragStartBehavior.start,
                 children: [
-                  SingleChildScrollView(
-                    child: Page1(
-                      filter: filter,
-                      pageChangeController: pageChangeController,
-                    ),
+                  Page1(
+                    filter: filter,
+                    pageChangeController: pageChangeController,
                   ),
-                  SingleChildScrollView(
-                    child: Page1(
-                      filter: filter,
-                      pageChangeController: pageChangeController,
-                    ),
+                  Page1(
+                    filter: filter,
+                    pageChangeController: pageChangeController,
                   ),
-                  SingleChildScrollView(
-                    child: Page1(
-                      filter: filter,
-                      pageChangeController: pageChangeController,
-                    ),
+                  Page1(
+                    filter: filter,
+                    pageChangeController: pageChangeController,
                   ),
-                  SingleChildScrollView(
-                    child: Page1(
-                      filter: filter,
-                      pageChangeController: pageChangeController,
-                    ),
+                  Page1(
+                    filter: filter,
+                    pageChangeController: pageChangeController,
                   ),
                 ],
               ),
