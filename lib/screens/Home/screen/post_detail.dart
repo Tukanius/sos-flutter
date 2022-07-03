@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
@@ -166,56 +168,6 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   ? const NotFoundPage()
                   : Column(
                       children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(
-                            children: [
-                              icon(),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          data.sector!.fullName == null
-                                              ? "Эрсдэл"
-                                              : "Эрсдэл",
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        postStatus(),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          data.getPostDate(),
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 14),
-                                        ),
-                                        const SizedBox(
-                                          width: 15,
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         Column(
                           children: [
                             data.resultImage != null
@@ -244,119 +196,60 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                     ),
                                   ),
                             const SizedBox(
-                              height: 20,
+                              height: 15,
                             ),
                             Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(15),
-                                        onTap: () async {
-                                          if (user.id == null) {
-                                            dialogService
-                                                .showErrorDialogListener(
-                                                    "Нэвтэрнэ үү");
-                                          } else {
-                                            setState(() {
-                                              likeLoading = true;
-                                            });
-                                            var res = await PostApi()
-                                                .like(data.id.toString());
-                                            setState(() {
-                                              likeLoading = false;
-                                              data.likeCount = res.likeCount;
-                                              data.liked = res.liked;
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              border: Border.all(
-                                                  width: 0.3, color: grey)),
-                                          height: 55,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              likeLoading == false
-                                                  ? Icon(
-                                                      Icons.favorite,
-                                                      color: data.liked == true
-                                                          ? red
-                                                          : grey,
-                                                      size: 25,
-                                                    )
-                                                  : const SpinKitCircle(
-                                                      size: 25,
-                                                      color: black,
-                                                    ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              if (data.likeCount != 0)
-                                                Text("${data.likeCount}"),
-                                            ],
-                                          ),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              decoration: BoxDecoration(
+                                  color: color(),
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: Row(
+                                children: [
+                                  icon(),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data.sector!.fullName == null
+                                                  ? "Эрсдэл"
+                                                  : "Эрсдэл",
+                                              style: const TextStyle(
+                                                  color: white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            postStatus(),
+                                          ],
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(15),
-                                        onTap: () async {
-                                          if (data.isLocated == true) {
-                                            await permissionAsk();
-                                            mapDialog(context);
-                                          } else {
-                                            dialogService.showErrorDialog(
-                                                "Энэ эрсдэлд байршил өгөөгүй байна.");
-                                          }
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              border: Border.all(
-                                                  width: 0.3, color: grey)),
-                                          height: 55,
-                                          child: Center(
-                                            child: data.isLocated == true
-                                                ? SvgPicture.asset(
-                                                    "assets/location.svg",
-                                                    color: red,
-                                                  )
-                                                : SvgPicture.asset(
-                                                    "assets/location.svg",
-                                                    color: Color(0x4ffa7a7a7),
-                                                  ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(
-                          height: 25,
+                          height: 10,
                         ),
                         if (data.postStatus == "PENDING" &&
                             user.sector != null &&
                             data.sector!.id == user.sector!.id)
                           actionButton(),
-                        data.result == null ? const SizedBox() : resultCard(),
+                        card(),
                         data.sector!.id == null
                             ? const SizedBox()
                             : pendingCard(),
-                        card(),
+                        data.result == null ? const SizedBox() : resultCard(),
                       ],
                     ),
         ),
@@ -449,22 +342,22 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       case "NEW":
         return const Text(
           "Шинэ",
-          style: TextStyle(color: red),
+          style: TextStyle(color: white),
         );
       case "PENDING":
         return const Text(
           "Хүлээгдэж байгаа",
-          style: TextStyle(color: orange),
+          style: TextStyle(color: white),
         );
       case "SOLVED":
         return const Text(
           "Шийдэгдсэн",
-          style: TextStyle(color: Color(0x4ff34a853)),
+          style: TextStyle(color: white),
         );
       case "FAILED":
         return const Text(
           "Цуцалсан",
-          style: TextStyle(color: grey),
+          style: TextStyle(color: white),
         );
       default:
     }
@@ -496,6 +389,20 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
           width: 37,
           height: 37,
         );
+      default:
+    }
+  }
+
+  color() {
+    switch (data.postStatus) {
+      case "NEW":
+        return red;
+      case "PENDING":
+        return orange;
+      case "SOLVED":
+        return green;
+      case "FAILED":
+        return grey;
       default:
     }
   }
@@ -1134,54 +1041,45 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
 
   card() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      padding: const EdgeInsets.only(bottom: 10),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: grey, width: 0.5),
-        ),
+      margin: const EdgeInsets.only(right: 15, left: 15),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: red, width: 1),
       ),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 15,
-                width: 15,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(180),
-                  color: red,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Эрсдэл",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: red),
+                  ),
+                  Text(
+                    data.getPostDate(),
+                    style: const TextStyle(
+                      color: greyDark,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
-                width: 5,
+                height: 10,
               ),
-              const Text(
-                "Эрсдэл:",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(width: 7),
-              Expanded(
-                child: Text(
-                  "${data.text}",
-                  style: const TextStyle(fontSize: 12),
-                ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
               Text(
-                data.getPostDate(),
-                style: const TextStyle(fontSize: 12, color: greyDark),
+                data.text.toString(),
+                style: const TextStyle(fontSize: 12),
               ),
             ],
-          ),
+          ))
         ],
       ),
     );
@@ -1189,52 +1087,50 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
 
   pendingCard() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      padding: const EdgeInsets.only(bottom: 10),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: grey, width: 0.5),
-        ),
+      margin: const EdgeInsets.only(
+        right: 15,
+        left: 15,
+        top: 10,
       ),
-      child: Column(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: orange, width: 1),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 15,
-                width: 15,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(180),
-                  color: orange,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Хариуцсан:",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, color: orange),
+                  ),
+                  Text(
+                    data.getPostDate(),
+                    style: const TextStyle(
+                      color: greyDark,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 5),
-              const Text(
-                "Хариуцсан:",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              const SizedBox(
+                height: 10,
               ),
-              const SizedBox(width: 7),
-              Expanded(
-                child: Text(
-                  "${data.sector!.fullName}-д хуваарилагдсан",
-                  style: const TextStyle(fontSize: 12),
-                ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
               Text(
-                data.repliedDate == null ? "" : data.getReplyDate(),
-                style: const TextStyle(fontSize: 12, color: greyDark),
+                "${data.sector!.fullName}-д хуваарилагдсан",
+                style: const TextStyle(fontSize: 12),
               ),
             ],
-          )
+          ))
         ],
       ),
     );
@@ -1242,82 +1138,53 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
 
   resultCard() {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        padding: const EdgeInsets.only(bottom: 10),
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: grey, width: 0.5),
-          ),
+        margin: const EdgeInsets.only(
+          right: 15,
+          left: 15,
+          top: 10,
+          bottom: 25,
+        ),
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: color(), width: 1),
         ),
         child: Column(
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(180),
-                    color: data.postStatus == "SOLVED" ? green : grey,
-                  ),
-                ),
-                const SizedBox(width: 7),
                 data.postStatus == "SOLVED"
                     ? const Text(
-                        "Шийдэл:",
+                        "Шийдэл",
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontWeight: FontWeight.bold, color: green),
                       )
                     : const Text(
-                        "Буцаалт:",
+                        "Буцаалт",
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontWeight: FontWeight.bold, color: greyDark),
                       ),
-                const SizedBox(width: 7),
+                Text(
+                  data.getPostDate(),
+                  style: const TextStyle(
+                    color: greyDark,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
                 Expanded(
                   child: Text(
                     data.result.toString(),
                     style: const TextStyle(fontSize: 12),
                   ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 7),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    data.resultDate == null
-                        ? const SizedBox()
-                        : Text(
-                            data.getResultDate(),
-                            style:
-                                const TextStyle(fontSize: 12, color: greyDark),
-                          ),
-                    Container(
-                      height: 6,
-                      width: 6,
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(180),
-                        color: greyDark,
-                      ),
-                    ),
-                    Text(
-                      "${data.sector!.fullName}",
-                      style: const TextStyle(fontSize: 12, color: greyDark),
-                    ),
-                  ],
                 ),
               ],
             ),

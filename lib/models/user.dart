@@ -32,6 +32,10 @@ class User {
   String? deviceToken;
   Sector? sector;
   int? notification;
+  int? referToMe;
+  int? mine;
+  int? mySector;
+  int? allSectorTask;
 
   String? oldPassword;
   String? code;
@@ -124,6 +128,10 @@ class User {
     this.redirectUri,
     this.idToken,
     this.notification,
+    this.referToMe,
+    this.mySector,
+    this.mine,
+    this.allSectorTask,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

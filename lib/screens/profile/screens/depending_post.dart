@@ -120,7 +120,8 @@ class _DependingPostPageState extends State<DependingPostPage>
             controller: tabController,
             dragStartBehavior: DragStartBehavior.start,
             children: [
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 50),
                 child: Page1(
                   type: "MYPOST",
                   name: "Page 2",
@@ -132,7 +133,8 @@ class _DependingPostPageState extends State<DependingPostPage>
                   height: 50,
                 ),
               ),
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 50),
                 child: Page1(
                   type: "MYPOST",
                   name: "Page 3",
@@ -144,7 +146,8 @@ class _DependingPostPageState extends State<DependingPostPage>
                   ),
                 ),
               ),
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 50),
                 child: Page1(
                   type: "MYPOST",
                   name: "Page 4",

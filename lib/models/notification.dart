@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:simple_moment/simple_moment.dart';
+
+import '../utils/http_request.dart';
 part '../parts/notification.dart';
 
 class Notify {
@@ -27,6 +29,10 @@ class Notify {
   String? notificationStatusDate;
   String? navigationId;
   bool? isNavigation;
+
+  getImage() {
+    return HttpRequest.s3host + image.toString();
+  }
 
   String getDate() {
     return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")

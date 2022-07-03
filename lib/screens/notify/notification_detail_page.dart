@@ -77,6 +77,9 @@ class _NotificationDetailPageState extends State<NotificationDetailPage>
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Text(
                     data!.getDate().toString(),
                     style: const TextStyle(fontSize: 12),
@@ -84,19 +87,25 @@ class _NotificationDetailPageState extends State<NotificationDetailPage>
                   const SizedBox(
                     height: 10,
                   ),
-                  if (data!.image != "" && data!.image != null)
-                    Container(
-                      height: 300,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            data!.image.toString(),
+                  data!.image == null
+                      ? const SizedBox()
+                      : Container(
+                          height: 300,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                  data!.getImage(),
+                                ),
+                                fit: BoxFit.cover),
                           ),
+                          width: MediaQuery.of(context).size.width,
                         ),
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                    ),
+                  data!.image == null
+                      ? const SizedBox()
+                      : const SizedBox(
+                          height: 10,
+                        ),
                   Text(data!.body.toString()),
                 ],
               ),

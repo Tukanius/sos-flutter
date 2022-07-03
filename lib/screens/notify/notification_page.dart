@@ -132,57 +132,74 @@ class _NotificationPageState extends State<NotificationPage>
                             child: Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 10),
-                              child: Column(
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      if (notifyList.rows![i].isSeen != true)
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 5),
+                                  notifyList.rows![i].image == null
+                                      ? const SizedBox()
+                                      : Container(
+                                          width: 70,
+                                          height: 70,
                                           decoration: BoxDecoration(
-                                            color: orange,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                notifyList.rows![i].getImage(),
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
                                             borderRadius:
-                                                BorderRadius.circular(100),
-                                          ),
-                                          width: 8,
-                                          height: 8,
-                                        ),
-                                      Expanded(
-                                        child: Text(
-                                          notifyList.rows![i].title,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontWeight:
-                                                notifyList.rows![i].isSeen !=
-                                                        true
-                                                    ? FontWeight.w700
-                                                    : FontWeight.w400,
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
-                                      ),
-                                      Text(
-                                        notifyList.rows![i].getDate(),
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
                                   const SizedBox(
-                                    height: 5,
+                                    width: 10,
                                   ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          notifyList.rows![i].body,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                "${notifyList.rows![i].title}",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                            if (notifyList.rows![i].isSeen ==
+                                                false)
+                                              Container(
+                                                width: 10,
+                                                height: 10,
+                                                decoration: BoxDecoration(
+                                                    color: orange,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100)),
+                                              )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          "${notifyList.rows![i].getDate()}",
                                           style: const TextStyle(fontSize: 12),
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          "${notifyList.rows![i].body}",
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
                                   )
                                 ],
                               ),

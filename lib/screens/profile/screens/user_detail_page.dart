@@ -130,7 +130,60 @@ class _UserDetailPageState extends State<UserDetailPage> {
                 onChange: onChange,
               ),
               const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  user.lastName != null
+                      ? Text(user.lastName.toString())
+                      : const SizedBox(),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  user.firstName != null
+                      ? Text(user.firstName.toString())
+                      : const SizedBox(),
+                ],
+              ),
+              user.email == null
+                  ? const SizedBox()
+                  : Text(user.email.toString()),
+              const SizedBox(
                 height: 20,
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: [
+                    Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        color: white,
+                        image: DecorationImage(
+                            image: NetworkImage(user.sector!.getAvatar())),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      user.sector!.fullName.toString(),
+                      style: const TextStyle(color: dark, fontSize: 16),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               UserDetailForm(
                 user: user,

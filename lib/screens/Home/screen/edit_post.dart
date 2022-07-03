@@ -396,6 +396,7 @@ class _EditPostPageState extends State<EditPostPage> with AfterLayoutMixin {
                     name: "text",
                     inputType: TextInputType.text,
                     initialValue: widget.data!.text.toString(),
+                    maxLenght: 2000,
                     inputAction: TextInputAction.done,
                     maxLines: null,
                     autoFocus: true,

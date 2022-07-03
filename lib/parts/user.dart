@@ -31,6 +31,15 @@ User _$UserFromJson(Map<String, dynamic> json) {
   String? redirectUri;
   String? idToken;
   int? notification;
+  int? referToMe;
+  int? mine;
+  int? mySector;
+  int? allSectorTask;
+
+  if (json['referToMe'] != null) referToMe = json['referToMe'];
+  if (json['mine'] != null) mine = json['mine'];
+  if (json['mySector'] != null) mySector = json['mySector'];
+  if (json['allSectorTask'] != null) allSectorTask = json['allSectorTask'];
 
   if (json['username'] != null) username = json['username'];
   if (json['id_token'] != null) idToken = json['id_token'];
@@ -99,11 +108,22 @@ User _$UserFromJson(Map<String, dynamic> json) {
     redirectUri: redirectUri,
     idToken: idToken,
     notification: notification,
+    referToMe: referToMe,
+    mine: mine,
+    mySector: mySector,
+    allSectorTask: allSectorTask,
   );
 }
 
 Map<String, dynamic> _$UserToJson(User instance) {
   Map<String, dynamic> json = {};
+
+  if (instance.referToMe != null) json['referToMe'] = instance.referToMe;
+  if (instance.mine != null) json['mine'] = instance.mine;
+  if (instance.mySector != null) json['mySector'] = instance.mySector;
+  if (instance.allSectorTask != null) {
+    json['allSectorTask'] = instance.allSectorTask;
+  }
 
   if (instance.username != null) json['username'] = instance.username;
   if (instance.type != null) json['type'] = instance.type;

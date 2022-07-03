@@ -111,7 +111,8 @@ class _MySectorPostState extends State<MySectorPost>
             controller: tabController,
             dragStartBehavior: DragStartBehavior.start,
             children: [
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 80),
                 child: Page1(
                   name: "Бүгд",
                   height: 80,
@@ -122,7 +123,8 @@ class _MySectorPostState extends State<MySectorPost>
                   ),
                 ),
               ),
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 80),
                 child: Page1(
                   name: "Бүгд",
                   filter: Filter(

@@ -295,6 +295,26 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                             ],
                           ),
                         ),
+                        Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: red,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${user.mySector}",
+                              style: const TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
                         const Icon(Icons.keyboard_arrow_right)
                       ],
                     ),
@@ -342,6 +362,26 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                               )
                             ],
                           ),
+                        ),
+                        Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: red,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${user.referToMe}",
+                              style: const TextStyle(
+                                color: white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
                         ),
                         const Icon(Icons.keyboard_arrow_right)
                       ],

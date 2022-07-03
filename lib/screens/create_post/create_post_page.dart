@@ -37,8 +37,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
   bool loading = false;
   bool visible = false;
   bool isMap = false;
-  double lng = 105.96434477716684;
-  double lat = 49.468256759865504;
+  late double lng;
+  late double lat;
   Offset position = const Offset(0, 0);
   bool hasLocation = false;
 
@@ -86,7 +86,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
                       height: 500,
                       child: GoogleMap(
                         mapType: MapType.hybrid,
-                        initialCameraPosition: _kGooglePlex,
+                        initialCameraPosition: isMap == false
+                            ? _kGooglePlex
+                            : CameraPosition(
+                                target: LatLng(lat, lng),
+                                zoom: 14.4746,
+                              ),
                         myLocationEnabled: true,
                         onCameraMove: (cameraPosition) => setState(() {
                           lat = cameraPosition.target.latitude;
@@ -119,6 +124,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   onClick: () {
                     setState(() {
                       hasLocation = true;
+                      isMap = true;
                     });
                     Navigator.of(context).pop();
                   },
@@ -378,6 +384,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   child: FormTextField(
                     name: "text",
                     inputType: TextInputType.text,
+                    maxLenght: 2000,
                     inputAction: TextInputAction.done,
                     maxLines: null,
                     autoFocus: true,
@@ -402,29 +409,41 @@ class _CreatePostPageState extends State<CreatePostPage> {
                     ]),
                   ),
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                // if (hasLocation == true)
-                //   Container(
-                //     decoration: BoxDecoration(
-                //       color: red,
-                //       borderRadius: BorderRadius.circular(10),
-                //     ),
-                //     width: MediaQuery.of(context).size.width,
-                //     height: 30,
-                //   ),
                 const SizedBox(
                   height: 25,
                 ),
                 Column(
                   children: [
                     hasLocation == true
-                        ? CustomButton(
-                            width: MediaQuery.of(context).size.width,
-                            labelText: "Байршил илгээгдсэн",
-                            fontSize: 16,
-                            color: dark,
+                        ? Row(
+                            children: [
+                              const Expanded(
+                                child: CustomButton(
+                                  labelText: "Байршил илгээгдсэн",
+                                  fontSize: 16,
+                                  color: dark,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  mapDialog(context);
+                                },
+                                child: Container(
+                                  height: 45,
+                                  width: 45,
+                                  child: const Icon(
+                                    Icons.edit_location_sharp,
+                                    color: white,
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: dark,
+                                      borderRadius: BorderRadius.circular(15)),
+                                ),
+                              ),
+                            ],
                           )
                         : CustomButton(
                             onClick: () async {

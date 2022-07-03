@@ -129,7 +129,8 @@ class _MyCreatePostPageState extends State<MyCreatePostPage>
             controller: tabController,
             dragStartBehavior: DragStartBehavior.start,
             children: [
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 50),
                 child: Page1(
                   name: "Page 1",
                   filter: Filter(
@@ -140,21 +141,24 @@ class _MyCreatePostPageState extends State<MyCreatePostPage>
                   height: 50,
                 ),
               ),
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 50),
                 child: Page1(
                   name: "Page 2",
                   filter: Filter(user: user.id, postStatus: "PENDING"),
                   height: 50,
                 ),
               ),
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 50),
                 child: Page1(
                   name: "Page 3",
                   height: 50,
                   filter: Filter(user: user.id, postStatus: "SOLVED"),
                 ),
               ),
-              SingleChildScrollView(
+              Container(
+                margin: const EdgeInsets.only(top: 50),
                 child: Page1(
                   name: "Page 4",
                   height: 50,
