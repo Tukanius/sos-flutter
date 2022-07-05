@@ -37,12 +37,6 @@ class HttpRequest {
     debugPrint('+++++++++++++++++++++++++++++++++++++++++++++++++++ ');
 
     try {
-      var deviceToken = await UserProvider.getDeviceToken();
-      debugPrint(
-          '++++++++++++++++++++++deviceToken+++++++++++++++++++++++++++++ ');
-      debugPrint(deviceToken);
-      debugPrint(
-          '+++++++++++++++++++++++deviceToken++++++++++++++++++++++++++++ ');
       Directory dir = await getTemporaryDirectory();
       CookieJar cookieJar =
           PersistCookieJar(storage: FileStorage(dir.path), ignoreExpires: true);
@@ -50,6 +44,14 @@ class HttpRequest {
       dio.interceptors.add(CookieManager(cookieJar));
 
       var token = await UserProvider.getAccessToken();
+
+      var deviceToken = await UserProvider.getDeviceToken();
+
+      debugPrint(
+          '++++++++++++++++++++++deviceToken+++++++++++++++++++++++++++++ ');
+      debugPrint(deviceToken);
+      debugPrint(
+          '+++++++++++++++++++++++deviceToken++++++++++++++++++++++++++++ ');
 
       dio.options.headers = {
         'authorization': 'Bearer $token',

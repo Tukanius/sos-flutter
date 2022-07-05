@@ -318,7 +318,7 @@ class _OtpVerifyPageState extends State<OtpVerifyPage>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          'Дахин код авах',
+                          'Дахин код авах ',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14.0,

@@ -134,7 +134,6 @@ class _RegisterFormState extends State<RegisterForm> {
           FormTextField(
             name: "firstName",
             textCapitalization: TextCapitalization.none,
-            onChanged: (password) => onPasswordChanged(password),
             inputAction: TextInputAction.next,
             inputFormatters: [
               FilteringTextInputFormatter(RegExp(r'[0-9]'), allow: false)
@@ -165,6 +164,7 @@ class _RegisterFormState extends State<RegisterForm> {
             name: "password",
             inputType: TextInputType.text,
             inputAction: TextInputAction.next,
+            onChanged: (password) => onPasswordChanged(password),
             obscureText: _isVisible,
             decoration: InputDecoration(
               suffixIcon: IconButton(
