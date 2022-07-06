@@ -146,42 +146,45 @@ class _UserDetailPageState extends State<UserDetailPage> {
                       : const SizedBox(),
                 ],
               ),
-              user.email == null
-                  ? const SizedBox()
-                  : Text(user.email.toString()),
+              // user.email == null
+              //     ? const SizedBox()
+              //     : Text(user.email.toString()),
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  children: [
-                    Container(
-                      height: 80,
-                      width: 80,
+              user.sector == null
+                  ? Container()
+                  : Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
                       decoration: BoxDecoration(
                         color: white,
-                        image: DecorationImage(
-                            image: NetworkImage(user.sector!.getAvatar())),
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              color: white,
+                              image: DecorationImage(
+                                  image:
+                                      NetworkImage(user.sector!.getAvatar())),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            user.sector!.fullName.toString(),
+                            style: const TextStyle(color: dark, fontSize: 16),
+                          )
+                        ],
+                      ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      user.sector!.fullName.toString(),
-                      style: const TextStyle(color: dark, fontSize: 16),
-                    )
-                  ],
-                ),
-              ),
               const SizedBox(
                 height: 10,
               ),
