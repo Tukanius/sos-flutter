@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/components/header/index.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:sos/models/general.dart';
+import 'package:sos/provider/general_provider.dart';
 import 'package:sos/provider/sector_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
@@ -25,7 +27,6 @@ import '../../../models/result.dart';
 import '../../../models/sector.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:skeletons/skeletons.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../notify/notification_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -52,9 +53,8 @@ class _HomePageState extends State<HomePage>
   Filter filter = Filter(postStatus: "NEW");
   Sector data = Sector();
   String? avatar;
+  General? general = General();
   String? sectorId;
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
   ValueNotifier sectorIdNotifier = ValueNotifier("");
   PageChangeController pageChangeController = PageChangeController();
 
@@ -80,6 +80,76 @@ class _HomePageState extends State<HomePage>
       setState(() {
         visible = false;
       });
+    }
+    print("========================general=============================");
+    print(general!.version);
+    print(general!.toJson());
+    print("========================general=============================");
+    if (general!.version != "1.0.0") {
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(top: 75),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding:
+                        const EdgeInsets.only(top: 90, left: 20, right: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Text(
+                          'UPDATE',
+                          style: TextStyle(
+                              color: dark,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const Text(
+                          'Та аппликейшн-аа шинэчлэн үү.',
+                          textAlign: TextAlign.center,
+                        ),
+                        ButtonBar(
+                          buttonMinWidth: 100,
+                          alignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            TextButton(
+                              child: const Text(
+                                "Ойлголоо",
+                                style: TextStyle(color: dark),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                // Navigator.of(context).pop();
+                                // locator<NavigationService>()
+                                //     .restorablePopAndPushNamed(
+                                //   routeName: HomePage.routeName,
+                                // );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Lottie.asset('assets/update.json',
+                      height: 150, repeat: false),
+                ],
+              ),
+            );
+          });
     }
   }
 
@@ -154,7 +224,7 @@ class _HomePageState extends State<HomePage>
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Color(0x4ffEBEDF1),
+        color: Color(0x4ffebedf1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,6 +277,7 @@ class _HomePageState extends State<HomePage>
     sectorData = Provider.of<SectorProvider>(context, listen: true).sectorData;
     response = Provider.of<SectorProvider>(context, listen: true).response;
     avatar = Provider.of<SectorProvider>(context, listen: true).avatar;
+    general = Provider.of<GeneralProvider>(context, listen: true).general;
 
     return WillPopScope(
         child: Scaffold(

@@ -8,7 +8,9 @@ General _$GeneralFromJson(Map<String, dynamic> json) {
   String? code;
   String? name;
   String? url;
+  String? version;
 
+  if (json['version'] != null) version = json['version'];
   if (json['s3host'] != null) s3host = json['s3host'];
   if (json['url'] != null) url = json['url'];
   if (json['code'] != null) code = json['code'];
@@ -34,6 +36,7 @@ General _$GeneralFromJson(Map<String, dynamic> json) {
     code: code,
     name: name,
     url: url,
+    version: version,
   );
 }
 
@@ -47,6 +50,7 @@ Map<String, dynamic> _$GeneralToJson(General instance) {
   if (instance.code != null) json['code'] = instance.code;
   if (instance.name != null) json['name'] = instance.name;
   if (instance.url != null) json['url'] = instance.url;
+  if (instance.version != null) json['version'] = instance.version;
 
   return json;
 }

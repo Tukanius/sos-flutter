@@ -11,6 +11,7 @@ class General {
   String? code;
   String? name;
   String? url;
+  String? version;
 
   General({
     this.s3host,
@@ -20,6 +21,7 @@ class General {
     this.code,
     this.name,
     this.url,
+    this.version,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$GeneralFromJson(json);
