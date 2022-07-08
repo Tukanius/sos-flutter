@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage>
     print(general!.version);
     print(general!.toJson());
     print("========================general=============================");
-    if (general!.version == "1.0.0") {
+    if (general!.version != "1.0.0") {
       showDialog(
           barrierDismissible: false,
           context: context,
@@ -130,17 +130,21 @@ class _HomePageState extends State<HomePage>
                           children: <Widget>[
                             TextButton(
                               child: const Text(
-                                "Ойлголоо",
+                                "Шинэчлэх",
                                 style: TextStyle(color: dark),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 _launchUrl();
-                                // Navigator.of(context).pop();
-                                // locator<NavigationService>()
-                                //     .restorablePopAndPushNamed(
-                                //   routeName: HomePage.routeName,
-                                // );
+                              },
+                            ),
+                            TextButton(
+                              child: const Text(
+                                "Алгасах",
+                                style: TextStyle(color: dark),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
                               },
                             ),
                           ],
