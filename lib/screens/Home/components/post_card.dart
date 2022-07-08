@@ -12,6 +12,7 @@ import 'package:sos/models/result.dart';
 import 'package:sos/models/user.dart';
 import 'package:progressive_image/progressive_image.dart';
 import 'package:sos/screens/home/index.dart';
+import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/colors.dart';
 import '../../../main.dart';
@@ -311,13 +312,11 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
             isHide = true;
           });
           reportDialog(context, data);
-          // await PostApi().reportPost(
-          //     widget.data!.id.toString(), Post(reportType: "IRRELEVANT"));
           setState(() {
             isHide = false;
           });
         } catch (e) {
-          dialogService.showErrorDialog("Нэвтэрнэ үү!");
+          Navigator.of(context).pushNamed(LoginPage.routeName);
           setState(() {
             isHide = false;
           });
@@ -441,8 +440,8 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                         child: InkWell(
                           onTap: () async {
                             if (user.id == null) {
-                              dialogService
-                                  .showErrorDialogListener("Нэвтэрнэ үү");
+                              Navigator.of(context)
+                                  .pushNamed(LoginPage.routeName);
                             } else {
                               setState(() {
                                 likeLoading = true;
@@ -508,7 +507,7 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                                     )
                                   : SvgPicture.asset(
                                       "assets/location.svg",
-                                      color: Color(0x4ffa7a7a7),
+                                      color: Color(0x4FFA7A7A7),
                                     ),
                             ),
                           ),
