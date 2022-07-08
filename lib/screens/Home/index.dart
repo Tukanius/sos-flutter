@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sos/components/header/index.dart';
@@ -27,6 +29,7 @@ import '../../../models/result.dart';
 import '../../../models/sector.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../notify/notification_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -85,7 +88,7 @@ class _HomePageState extends State<HomePage>
     print(general!.version);
     print(general!.toJson());
     print("========================general=============================");
-    if (general!.version != "1.0.0") {
+    if (general!.version == "1.0.0") {
       showDialog(
           barrierDismissible: false,
           context: context,
@@ -118,7 +121,7 @@ class _HomePageState extends State<HomePage>
                           height: 16,
                         ),
                         const Text(
-                          'Та аппликейшн-аа шинэчлэн үү.',
+                          'Та аппликейшн-аа шинэчилнэ үү.',
                           textAlign: TextAlign.center,
                         ),
                         ButtonBar(
@@ -132,6 +135,7 @@ class _HomePageState extends State<HomePage>
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop();
+                                _launchUrl();
                                 // Navigator.of(context).pop();
                                 // locator<NavigationService>()
                                 //     .restorablePopAndPushNamed(
@@ -150,6 +154,17 @@ class _HomePageState extends State<HomePage>
               ),
             );
           });
+    }
+  }
+
+  final Uri _url = Uri.parse('https://play.google.com/store/apps');
+  final Uri _url2 = Uri.parse('https://www.apple.com/app-store/');
+
+  void _launchUrl() async {
+    if (Platform.isAndroid) {
+      await launchUrl(_url);
+    } else if (Platform.isIOS) {
+      await launchUrl(_url2);
     }
   }
 
