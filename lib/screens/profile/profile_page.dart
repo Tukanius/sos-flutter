@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:sos/api/user_api.dart';
 import 'package:sos/models/user.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Splash/index.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:sos/utils/http_handler.dart';
+import '../../utils/firebase/index.dart';
+import '../../widgets/form_textfield.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/screens/profile/screens/depending_post.dart';
 import 'package:sos/screens/profile/screens/my_create_post_page.dart';
@@ -26,6 +32,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
   User user = User();
+  bool isSubmit = false;
+  TextEditingController passwordController = TextEditingController();
+
   @override
   void afterFirstLayout(BuildContext context) async {
     await Provider.of<UserProvider>(context, listen: false).me(false);
@@ -36,6 +45,98 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const SplashPage()),
         (Route<dynamic> route) => false);
+  }
+
+  removeAccount() async {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          height: 230,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Бүртгэл устгах',
+                    style: TextStyle(
+                      color: dark,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              FormTextField(
+                name: "password",
+                inputAction: TextInputAction.next,
+                obscureText: true,
+                controller: passwordController,
+                textCapitalization: TextCapitalization.none,
+                decoration: InputDecoration(
+                  enabled: true,
+                  prefixIconColor: primaryGreen,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  disabledBorder: InputBorder.none,
+                  filled: true,
+                  hintStyle:
+                      const TextStyle(color: Colors.black54, fontSize: 14),
+                  hintText: "Нууц үг",
+                  fillColor: white,
+                ),
+                validators: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'Нууц үгээ оруулна уу.')
+                ]),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              CustomButton(
+                width: double.infinity,
+                onClick: () {
+                  if (isSubmit == false) {
+                    onSubmit();
+                  }
+                },
+                color: red,
+                fontSize: 16,
+                textColor: white,
+                labelText: "Устгах",
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  onSubmit() async {
+    if (passwordController.value.text != "") {
+      try {
+        setState(() {
+          isSubmit = true;
+        });
+        await UserApi().removeAccount(User(password: passwordController.text));
+        logout();
+      } catch (err) {
+        setState(() {
+          isSubmit = false;
+        });
+      }
+    }
   }
 
   @override
@@ -403,6 +504,28 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                 onClick: () async {
                   logout();
                 },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              CustomButton(
+                width: MediaQuery.of(context).size.width,
+                customWidget: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Бүртгэл устгах",
+                      style: TextStyle(color: red, fontSize: 16),
+                    ),
+                  ],
+                ),
+                color: white,
+                onClick: () async {
+                  removeAccount();
+                },
+              ),
+              const SizedBox(
+                height: 30,
               ),
             ],
           ),

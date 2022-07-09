@@ -17,6 +17,10 @@ class UserApi extends HttpRequest {
     return User.fromJson(res).avatar;
   }
 
+  removeAccount(User user) async {
+    await post('/user/status', data: user);
+  }
+
   Future<User> changePassword(User user) async {
     var data = await post('/user/password', data: user.toJson());
     User res = User.fromJson(data);

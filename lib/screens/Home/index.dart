@@ -84,11 +84,7 @@ class _HomePageState extends State<HomePage>
         visible = false;
       });
     }
-    print("========================general=============================");
-    print(general!.version);
-    print(general!.toJson());
-    print("========================general=============================");
-    if (general!.version == "1.0.0") {
+    if (general!.version != "1.0.0") {
       showDialog(
           barrierDismissible: false,
           context: context,
