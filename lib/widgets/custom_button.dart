@@ -20,7 +20,7 @@ class CustomButton extends StatefulWidget {
     this.labelText = "",
     this.color,
     this.textColor = Colors.white,
-    this.height = 45,
+    this.height = 48,
     this.fontSize = 12,
     this.borderColor = Colors.transparent,
     this.radius = 10,

@@ -419,7 +419,8 @@ class _HomePageState extends State<HomePage>
                                               },
                                               decoration: InputDecoration(
                                                 filled: true,
-                                                fillColor: Color(0x4ffEBEDF1),
+                                                fillColor:
+                                                    const Color(0xFFEBEDF1),
                                                 contentPadding:
                                                     const EdgeInsets.symmetric(
                                                         vertical: 12,

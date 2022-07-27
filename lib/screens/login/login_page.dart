@@ -160,6 +160,13 @@ class _LoginPageState extends State<LoginPage>
               const SizedBox(
                 height: 30,
               ),
+              Image.asset(
+                "assets/icon/darkhan.png",
+                height: 100,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
               Text(
                 "Дархан хотод тавтай морил".toUpperCase().toString(),
                 style:

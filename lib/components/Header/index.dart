@@ -13,8 +13,8 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(60);
 }
 
-Color selectColor = Color(0x4ff3f4448);
-Color unSelectColor = Color(0x4ffEBEDF1);
+Color selectColor = const Color(0xff3f4448);
+Color unSelectColor = const Color(0xffEBEDF1);
 
 class _CustomAppBarState extends State<CustomAppBar> {
   String switchType = "LIST";
