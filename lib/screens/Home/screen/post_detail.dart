@@ -113,7 +113,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
         elevation: 0.0,
         automaticallyImplyLeading: false,
         title: const Text(
-          "Эрсдэлийг дэлгэрэнгүй",
+          "Эрсдэлийн дэлгэрэнгүй",
           style: TextStyle(fontSize: 16, color: dark),
         ),
         actions: [
