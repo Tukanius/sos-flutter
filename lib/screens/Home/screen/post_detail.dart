@@ -237,12 +237,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                         ],
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       if (data.postStatus == "PENDING" &&
                           user.sector != null &&
                           data.sector!.id == user.sector!.id)
                         actionButton(),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       card(),
                       data.sector!.id == null
                           ? const SizedBox()
@@ -455,6 +458,10 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
             children: [
               Expanded(
                 child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.green),
+                  ),
                   onPressed: () {
                     setState(() {
                       isConfirm = true;
@@ -463,14 +470,21 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   child: const Text(
                     "Шийдвэрлэсэн",
                     style: TextStyle(
-                      color: dark,
+                      color: white,
                       fontSize: 12,
                     ),
                   ),
                 ),
               ),
+              const SizedBox(
+                width: 10,
+              ),
               Expanded(
                 child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.red),
+                  ),
                   onPressed: () {
                     setState(() {
                       isFailed = true;
@@ -479,7 +493,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   child: const Text(
                     "Цуцлах",
                     style: TextStyle(
-                      color: dark,
+                      color: white,
                       fontSize: 12,
                     ),
                   ),
@@ -496,39 +510,52 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
         }
       }
     } else if (data.sectorUser == null && isReturn == false) {
-      return Row(
-        children: [
-          Expanded(
-            child: TextButton(
-              onPressed: () {
-                addAssign(context, data);
-              },
-              child: const Text(
-                "Хүлээн авах",
-                style: TextStyle(
-                  color: green,
-                  fontSize: 12,
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.green),
+                ),
+                onPressed: () {
+                  addAssign(context, data);
+                },
+                child: const Text(
+                  "Хүлээн авах",
+                  style: TextStyle(
+                    color: white,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  isReturn = true;
-                });
-              },
-              child: const Text(
-                "Буцаах",
-                style: TextStyle(
-                  color: dark,
-                  fontSize: 12,
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                ),
+                onPressed: () {
+                  setState(() {
+                    isReturn = true;
+                  });
+                },
+                child: const Text(
+                  "Буцаах",
+                  style: TextStyle(
+                    color: white,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     } else if (isReturn == true) {
       return hasReturn();
@@ -640,6 +667,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
 
   hasConfirm() {
     return Container(
+      margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: FormBuilder(
         key: fbKey,
@@ -797,6 +825,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
 
   hasFailed() {
     return Container(
+      margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: FormBuilder(
         key: fbKey,
