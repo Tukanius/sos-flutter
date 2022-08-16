@@ -28,6 +28,7 @@ import 'package:sos/screens/profile/screens/my_sector_post.dart';
 import 'package:sos/screens/profile/screens/saved_post_page.dart';
 import 'package:sos/screens/profile/screens/user_detail_page.dart';
 import 'package:sos/screens/register/register_page.dart';
+import 'package:sos/screens/register/term_and_condition_page.dart';
 import 'package:sos/screens/search/search_page.dart';
 import 'package:sos/screens/splash/index.dart';
 import 'package:sos/services/dialog.dart';
@@ -108,6 +109,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 case SplashPage.routeName:
                   return MaterialPageRoute(builder: (context) {
                     return const SplashPage();
+                  });
+                case TermAndConditionPage.routeName:
+                  return MaterialPageRoute(builder: (context) {
+                    return const TermAndConditionPage();
                   });
                 case RegisterPage.routeName:
                   return MaterialPageRoute(builder: (context) {

@@ -27,6 +27,9 @@ class _RegisterFormState extends State<RegisterForm> {
   bool _isPasswordEightCharacters = false;
   bool _hasUptext = false;
   bool _hasPasswordOneNumber = false;
+  bool ternAndCondition = false;
+  bool isError = false;
+  ScrollController scrollController = ScrollController();
 
   @override
   void dispose() {
@@ -45,9 +48,100 @@ class _RegisterFormState extends State<RegisterForm> {
     });
   }
 
+  @override
+  void initState() {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (isTop) {
+          print('At the top');
+        } else {
+          print('At the bottom');
+        }
+      }
+    });
+    super.initState();
+  }
+
+  onClick() async {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      enableDrag: false,
+      context: context,
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.95,
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0.1,
+              backgroundColor: white,
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              title: const Text(
+                "Үйлчилгээний нөхцөл",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: dark,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: dark,
+                  ),
+                ),
+              ],
+            ),
+            body: SingleChildScrollView(
+              controller: scrollController,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      "Бид Meta-д ямар мэдээлэл цуглуулж, хэрхэн ашиглаж, хуваалцаж байгааг ойлгохыг хүсч байна. Тиймээс бид таныг манай Нууцлалын бодлогыг уншихыг зөвлөж байна. Энэ нь танд Мета бүтээгдэхүүнийг өөрт тохирсон байдлаар ашиглахад тусална. Нууцлалын бодлогод бид мэдээллийг хэрхэн цуглуулах, ашиглах, хуваалцах, хадгалах, шилжүүлэх талаар тайлбарладаг. Мөн бид танд эрхээ мэдэгдэнэ. Бодлогын хэсэг бүр нь бидний дадлагыг ойлгоход хялбар болгох үүднээс тустай жишээнүүд болон энгийн хэллэгийг агуулдаг. Мөн бид таны сонирхсон нууцлалын сэдвүүдийн талаар илүү ихийг мэдэх боломжтой эх сурвалжуудын холбоосыг нэмсэн. Та өөрийн нууцлалыг хэрхэн хянахаа мэддэг байх нь бидний хувьд чухал тул бид таны ашигладаг Мета Бүтээгдэхүүний тохиргооноос мэдээллээ хаанаас удирдах боломжтойг харуулах болно. Та туршлагаа бүрдүүлж чадна. Доорх бодлогыг бүрэн эхээр нь уншина уу.",
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: CustomButton(
+                        width: MediaQuery.of(context).size.width,
+                        onClick: () {
+                          setState(() {
+                            ternAndCondition = true;
+                            isError = false;
+                          });
+                          Navigator.of(context).pop();
+                        },
+                        color: orange,
+                        customWidget: const Text(
+                          "Зөвшөөрөх",
+                          style: TextStyle(color: black, fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   onPasswordChanged(String password) {
     final numericRegex = RegExp(r'[0-9]');
-    final characterRegex = RegExp(r'(?=.*?[!@#\$&*~])');
     final upTextRegex = RegExp(r'(?=.*[A-Z])');
 
     setState(() {
@@ -359,12 +453,77 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(
             height: 15,
           ),
+          InkWell(
+            onTap: () {
+              onClick();
+
+              // setState(() {
+              //   ternAndCondition = !ternAndCondition;
+              // });
+            },
+            child: Row(
+              children: [
+                Icon(
+                  ternAndCondition == true
+                      ? Icons.check_circle
+                      : Icons.circle_outlined,
+                  color: isError == true ? red : orange,
+                  size: 20.0,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Үйлчилгээний нөхцөл зөвшөөрөх',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isError == true ? red : black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    onClick();
+                  },
+                  child: Text(""),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
           Center(
             child: CustomButton(
               width: MediaQuery.of(context).size.width,
               onClick: () {
-                if (widget.isLoading == false) {
-                  widget.onSubmit!();
+                if (ternAndCondition == true) {
+                  setState(() {
+                    isError = false;
+                  });
+                } else {
+                  setState(() {
+                    isError = true;
+                  });
+                }
+                if (isError == false) {
+                  print("========ternAndCondition=========");
+                  if (widget.isLoading == false) {
+                    print("========ONSUBMIT=========");
+                    widget.onSubmit!();
+                    setState(() {
+                      isError = false;
+                    });
+                    print("========isError=========");
+                  } else {
+                    setState(() {
+                      isError = true;
+                    });
+                    print("========isError2=========");
+                  }
                 }
               },
               color: orange,
