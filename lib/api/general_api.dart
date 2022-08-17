@@ -1,3 +1,5 @@
+import 'package:sos/models/about.dart';
+
 import '../models/general.dart';
 import '../utils/http_request.dart';
 import 'dart:async';
@@ -17,5 +19,10 @@ class GeneralApi extends HttpRequest {
     });
     var res = await post('/general/upload/image', data: formData);
     return General.fromJson(res).url;
+  }
+
+  Future<About> getAbout() async {
+    var res = await get('/about');
+    return About.fromJson(res as Map<String, dynamic>);
   }
 }

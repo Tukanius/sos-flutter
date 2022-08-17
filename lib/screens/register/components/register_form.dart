@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:sos/api/general_api.dart';
+import 'package:sos/models/about.dart';
 import '../../../../models/user.dart';
 import '../../../../widgets/colors.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/form_textfield.dart';
+import 'package:after_layout/after_layout.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class RegisterForm extends StatefulWidget {
   final Function? onSubmit;
@@ -18,7 +22,7 @@ class RegisterForm extends StatefulWidget {
   _RegisterFormState createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _RegisterFormState extends State<RegisterForm> with AfterLayoutMixin {
   bool showPassword = true;
   bool showconfirmPassword = true;
   bool _isVisible = true;
@@ -30,6 +34,12 @@ class _RegisterFormState extends State<RegisterForm> {
   bool ternAndCondition = false;
   bool isError = false;
   ScrollController scrollController = ScrollController();
+  About about = About();
+
+  @override
+  void afterFirstLayout(BuildContext context) async {
+    about = await GeneralApi().getAbout();
+  }
 
   @override
   void dispose() {
@@ -106,10 +116,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Text(
-                      "Бид Meta-д ямар мэдээлэл цуглуулж, хэрхэн ашиглаж, хуваалцаж байгааг ойлгохыг хүсч байна. Тиймээс бид таныг манай Нууцлалын бодлогыг уншихыг зөвлөж байна. Энэ нь танд Мета бүтээгдэхүүнийг өөрт тохирсон байдлаар ашиглахад тусална. Нууцлалын бодлогод бид мэдээллийг хэрхэн цуглуулах, ашиглах, хуваалцах, хадгалах, шилжүүлэх талаар тайлбарладаг. Мөн бид танд эрхээ мэдэгдэнэ. Бодлогын хэсэг бүр нь бидний дадлагыг ойлгоход хялбар болгох үүднээс тустай жишээнүүд болон энгийн хэллэгийг агуулдаг. Мөн бид таны сонирхсон нууцлалын сэдвүүдийн талаар илүү ихийг мэдэх боломжтой эх сурвалжуудын холбоосыг нэмсэн. Та өөрийн нууцлалыг хэрхэн хянахаа мэддэг байх нь бидний хувьд чухал тул бид таны ашигладаг Мета Бүтээгдэхүүний тохиргооноос мэдээллээ хаанаас удирдах боломжтойг харуулах болно. Та туршлагаа бүрдүүлж чадна. Доорх бодлогыг бүрэн эхээр нь уншина уу.",
-                      style: TextStyle(fontSize: 13),
-                    ),
+                    Html(data: about.terms),
                     const SizedBox(
                       height: 10,
                     ),
@@ -129,6 +136,9 @@ class _RegisterFormState extends State<RegisterForm> {
                           style: TextStyle(color: black, fontSize: 16),
                         ),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),
