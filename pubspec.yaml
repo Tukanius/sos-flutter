@@ -97,7 +97,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/darkhan.png"
+  image_path: "assets/icon/darkhan.jpg"
 
 # The following section is specific to Flutter.
 flutter:
