@@ -116,29 +116,8 @@ class _RegisterFormState extends State<RegisterForm> with AfterLayoutMixin {
                     const SizedBox(
                       height: 10,
                     ),
-                    Html(data: about.terms),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                      child: CustomButton(
-                        width: MediaQuery.of(context).size.width,
-                        onClick: () {
-                          setState(() {
-                            ternAndCondition = true;
-                            isError = false;
-                          });
-                          Navigator.of(context).pop();
-                        },
-                        color: orange,
-                        customWidget: const Text(
-                          "Зөвшөөрөх",
-                          style: TextStyle(color: black, fontSize: 16),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
+                    Html(
+                      data: about.terms,
                     ),
                   ],
                 ),
@@ -463,44 +442,48 @@ class _RegisterFormState extends State<RegisterForm> with AfterLayoutMixin {
           const SizedBox(
             height: 15,
           ),
-          InkWell(
-            onTap: () {
-              onClick();
-
-              // setState(() {
-              //   ternAndCondition = !ternAndCondition;
-              // });
-            },
-            child: Row(
-              children: [
-                Icon(
-                  ternAndCondition == true
-                      ? Icons.check_circle
-                      : Icons.circle_outlined,
-                  color: isError == true ? red : orange,
-                  size: 20.0,
+          Theme(
+            data: Theme.of(context).copyWith(
+              unselectedWidgetColor: orange,
+            ),
+            child: FormBuilderCheckbox(
+              key: const ValueKey(4),
+              name: 'accept_terms',
+              checkColor: primaryColor,
+              activeColor: orange,
+              controlAffinity: ListTileControlAffinity.leading,
+              initialValue: false,
+              onChanged: (value) {
+                setState(() {
+                  ternAndCondition = !ternAndCondition;
+                });
+              },
+              title: RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Та',
+                      style: TextStyle(color: dark),
+                    ),
+                    WidgetSpan(
+                      child: InkWell(
+                        onTap: () {
+                          onClick();
+                        },
+                        child: const Text(
+                          ' ЭНД ',
+                          style: TextStyle(color: orange),
+                        ),
+                      ),
+                    ),
+                    const TextSpan(
+                      text:
+                          'дарж үйлчилгээний нөхцөлтэй танилцаад зөвшөөрч буй бол чагтлана уу.',
+                      style: TextStyle(color: dark),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Үйлчилгээний нөхцөл зөвшөөрөх',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: isError == true ? red : black,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                const SizedBox(
-                  width: 3,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    onClick();
-                  },
-                  child: Text(""),
-                ),
-              ],
+              ),
             ),
           ),
           const SizedBox(
