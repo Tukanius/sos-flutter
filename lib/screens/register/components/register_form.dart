@@ -35,6 +35,7 @@ class _RegisterFormState extends State<RegisterForm> with AfterLayoutMixin {
   bool isError = false;
   ScrollController scrollController = ScrollController();
   About about = About();
+  String? pVal;
 
   @override
   void afterFirstLayout(BuildContext context) async {
@@ -431,11 +432,12 @@ class _RegisterFormState extends State<RegisterForm> with AfterLayoutMixin {
               FormBuilderValidators.required(
                   errorText: "Нууц үгээ давтан оруулна уу"),
               (value) {
-                final String pVal =
-                    user.fbKey.currentState?.fields['password']?.value;
-                return pVal != value
-                    ? 'Оруулсан нууц үгтэй таарахгүй байна'
-                    : null;
+                pVal = user.fbKey.currentState?.fields['password']?.value;
+                return pVal == null
+                    ? ""
+                    : pVal != value
+                        ? 'Оруулсан нууц үгтэй таарахгүй байна'
+                        : null;
               }
             ]),
           ),
