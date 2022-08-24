@@ -329,58 +329,58 @@ class _LoginPageState extends State<LoginPage>
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 35,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                        if (loading == false) {
-                          facebookLogin();
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 2, color: white),
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/facebook.svg",
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                        if (loading == false) {
-                          googleLogin();
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 2, color: white),
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/google.svg",
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // const SizedBox(
+              //   height: 35,
+              // ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: InkWell(
+              //         borderRadius: BorderRadius.circular(10),
+              //         onTap: () {
+              //           if (loading == false) {
+              //             facebookLogin();
+              //           }
+              //         },
+              //         child: Container(
+              //           padding: const EdgeInsets.symmetric(vertical: 10),
+              //           height: 50,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(10),
+              //             border: Border.all(width: 2, color: white),
+              //           ),
+              //           child: SvgPicture.asset(
+              //             "assets/facebook.svg",
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     const SizedBox(
+              //       width: 10,
+              //     ),
+              //     Expanded(
+              //       child: InkWell(
+              //         borderRadius: BorderRadius.circular(10),
+              //         onTap: () {
+              //           if (loading == false) {
+              //             googleLogin();
+              //           }
+              //         },
+              //         child: Container(
+              //           padding: const EdgeInsets.symmetric(vertical: 10),
+              //           height: 50,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(10),
+              //             border: Border.all(width: 2, color: white),
+              //           ),
+              //           child: SvgPicture.asset(
+              //             "assets/google.svg",
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               const SizedBox(
                 height: 30,
               ),
