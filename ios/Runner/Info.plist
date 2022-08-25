@@ -63,8 +63,15 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app need to access your calendar events
+</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Хэрэглэгчийн профайл зургийг оруулах болон санал хүсэлтэд хавсаргах зураг илгээхийн тулд  камерын зөвшөөрөл авах шаардлагатай.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow Contact Access For Details</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>xxx uses the local network to connect with devices around you.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Та эрсдэл мэдээллэхийн тулд өөрийн байршилийг хуваалцах шаардлагатай ба таны байршилийн мэдээлэл зөвхөн пост оруулахад ашиглагдана</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -95,7 +102,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
 </dict>
 </plist>
