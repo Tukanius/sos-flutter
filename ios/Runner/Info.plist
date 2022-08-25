@@ -67,7 +67,7 @@
 	<string>This app need to access your calendar events
 </string>
 	<key>NSCameraUsageDescription</key>
-	<string>Please grant camera access</string>
+	<string>Хэрэглэгчийн профайл зургийг оруулах болон санал хүсэлтэд хавсаргах зураг илгээхийн тулд  камерын зөвшөөрөл авах шаардлагатай.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Allow Contact Access For Details</string>
 	<key>NSLocalNetworkUsageDescription</key>
@@ -75,13 +75,13 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open and in the background.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when in the background.</string>
+	<string>Энэ үйлдлийг хийхийн тулд таны байршлыг авах шаардлагатай</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App needs location permission to work</string>
+	<string>Энэ үйлдлийг хийхийн тулд таны байршлыг авах шаардлагатай</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Please grant microphone access</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please grant photo gallery access</string>
+	<string>Хэрэглэгчийн профайл зураг оруулах болон санал хүсэлт илгээхдээ хавсралт зураг илгээхийн тулд зургийн цомогт орох зөвшөөрөл авах шаардлагатай.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
