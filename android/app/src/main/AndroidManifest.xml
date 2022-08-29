@@ -9,6 +9,11 @@
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 
+        <service
+            android:name="${applicationName}"
+            android:foregroundServiceType="location">
+        </service>
+
         <meta-data 
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
