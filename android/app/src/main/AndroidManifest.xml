@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.eresdel.darkhan">
+    package="com.ersdel.darkhan">
 
         <uses-permission android:name="android.permission.INTERNET" />
         <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
         
    <application
-        android:label="Эрсдэл мэдээллэх систем"
+        android:label="Ersdel Darkhan"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 
