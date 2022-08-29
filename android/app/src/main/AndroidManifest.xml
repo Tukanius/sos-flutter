@@ -9,11 +9,6 @@
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 
-        <service
-            android:name="${applicationName}"
-            android:foregroundServiceType="location">
-        </service>
-
         <meta-data 
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
@@ -37,7 +32,11 @@
                 </intent-filter>
             </activity>
 
-       
+        <service
+            android:name="${applicationName}"
+            android:foregroundServiceType="location">
+            <!-- Any inner elements would go here. -->
+        </service>
         <activity
             android:name=".MainActivity"
             android:exported="true"
