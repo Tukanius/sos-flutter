@@ -1,4 +1,4 @@
-package com.eresdel.darkhan
+package com.ersdel.darkhan
 
 import io.flutter.embedding.android.FlutterActivity
 

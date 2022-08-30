@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>273002303620-opqhfdh1ji8d2024a7m08908tiuhh68c.apps.googleusercontent.com</string>
+	<string>273002303620-55idv8emr9dpq2i2sb6b3g2te5ihmbqn.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.273002303620-opqhfdh1ji8d2024a7m08908tiuhh68c</string>
+	<string>com.googleusercontent.apps.273002303620-55idv8emr9dpq2i2sb6b3g2te5ihmbqn</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>273002303620-76a3lejp56ojj2qc4pr6anvn1vff9k0d.apps.googleusercontent.com</string>
+	<string>273002303620-49lbhamiq3vptoo4sl3fadjk71op81bu.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDFZ60EWGCO_snuXHD2kzyPl2ARffp1Wgk</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.eresdel.darkhan</string>
+	<string>com.ersdel.darkhan</string>
 	<key>PROJECT_ID</key>
 	<string>esos-351811</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:273002303620:ios:8c497807a789222ce4b2d1</string>
+	<string>1:273002303620:ios:fec3a70e608587b3e4b2d1</string>
 </dict>
 </plist>

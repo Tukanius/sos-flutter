@@ -7,6 +7,50 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:273002303620:android:4f1e379d8b0842eae4b2d1",
+        "android_client_info": {
+          "package_name": "com.edar.urgudul"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273002303620-49lbhamiq3vptoo4sl3fadjk71op81bu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edar.urgudul",
+            "certificate_hash": "ca7e49aa98cd3f49f396353065fc80a6872d32cd"
+          }
+        },
+        {
+          "client_id": "273002303620-svii8nnikhg22qkman7hh7qblahruogj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeESj4VCrHypXDm9y5EhCadIEIPrVYUm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273002303620-d8enckr80kabt7t3547q6ac3d7slbqnj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "273002303620-55idv8emr9dpq2i2sb6b3g2te5ihmbqn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ersdel.darkhan"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:273002303620:android:9e94e49b51507900e4b2d1",
         "android_client_info": {
           "package_name": "com.eresdel.darkhan"
@@ -14,7 +58,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "273002303620-4ql43p01ln7sls8vqrg2nt9c16aarpm7.apps.googleusercontent.com",
+          "client_id": "273002303620-76a3lejp56ojj2qc4pr6anvn1vff9k0d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.eresdel.darkhan",
@@ -22,7 +66,7 @@
           }
         },
         {
-          "client_id": "273002303620-7n5n1nkg9u2qp4prr3ibfpki9s3lhoug.apps.googleusercontent.com",
+          "client_id": "273002303620-tb5m4j6fu0p7022n4n0e9695kdkgsd26.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.eresdel.darkhan",
@@ -43,14 +87,50 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "273002303620-lsnv0cp8f8qm2rf6s2iv4i3ogc4e54ms.apps.googleusercontent.com",
+              "client_id": "273002303620-d8enckr80kabt7t3547q6ac3d7slbqnj.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "273002303620-opqhfdh1ji8d2024a7m08908tiuhh68c.apps.googleusercontent.com",
+              "client_id": "273002303620-55idv8emr9dpq2i2sb6b3g2te5ihmbqn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.eresdel.darkhan"
+                "bundle_id": "com.ersdel.darkhan"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273002303620:android:37ddd4e85adca687e4b2d1",
+        "android_client_info": {
+          "package_name": "com.ersdel.darkhan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273002303620-svii8nnikhg22qkman7hh7qblahruogj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeESj4VCrHypXDm9y5EhCadIEIPrVYUm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273002303620-d8enckr80kabt7t3547q6ac3d7slbqnj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "273002303620-55idv8emr9dpq2i2sb6b3g2te5ihmbqn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ersdel.darkhan"
               }
             }
           ]

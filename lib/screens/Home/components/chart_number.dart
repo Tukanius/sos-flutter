@@ -29,7 +29,7 @@ class _ChartNumberCardState extends State<ChartNumberCard>
     switch (widget.dashboard!.statusString) {
       case "Хүлээгдэж буй":
         return red;
-      case "Хянагдаж буй":
+      case "Хуваарилагдсан":
         return orange;
       case "Шийдвэрлэгдсэн":
         return const Color(0xff34A853);
@@ -43,7 +43,7 @@ class _ChartNumberCardState extends State<ChartNumberCard>
     switch (widget.dashboard!.statusString) {
       case "Хүлээгдэж буй":
         return widget.tabController.index = 0;
-      case "Хянагдаж буй":
+      case "Хуваарилагдсан":
         return widget.tabController.index = 1;
       case "Шийдвэрлэгдсэн":
         return widget.tabController.index = 2;
