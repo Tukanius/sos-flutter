@@ -44,7 +44,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       centerTitle: false,
       title: Image.asset(
         "assets/header-logo.png",
-        height: 40,
+        width: MediaQuery.of(context).size.width * 0.6,
       ),
       actions: [
         Row(

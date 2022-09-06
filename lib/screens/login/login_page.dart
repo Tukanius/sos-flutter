@@ -161,8 +161,8 @@ class _LoginPageState extends State<LoginPage>
                 height: 30,
               ),
               Image.asset(
-                "assets/icon/darkhan.png",
-                height: 100,
+                "assets/icon.png",
+                height: 70,
               ),
               const SizedBox(
                 height: 30,
