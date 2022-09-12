@@ -297,38 +297,38 @@ class _LoginPageState extends State<LoginPage>
               const SizedBox(
                 height: 30,
               ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 35,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      decoration: const BoxDecoration(gradient: gradientDark1),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "Нэвтрэх боломжууд",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      decoration: const BoxDecoration(gradient: gradientDark2),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 35,
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     const SizedBox(
+              //       width: 35,
+              //     ),
+              //     Expanded(
+              //       child: Container(
+              //         height: 1,
+              //         decoration: const BoxDecoration(gradient: gradientDark1),
+              //       ),
+              //     ),
+              //     const SizedBox(
+              //       width: 10,
+              //     ),
+              //     const Text(
+              //       "Нэвтрэх боломжууд",
+              //       style: TextStyle(fontSize: 12),
+              //     ),
+              //     const SizedBox(
+              //       width: 10,
+              //     ),
+              //     Expanded(
+              //       child: Container(
+              //         height: 1,
+              //         decoration: const BoxDecoration(gradient: gradientDark2),
+              //       ),
+              //     ),
+              //     const SizedBox(
+              //       width: 35,
+              //     ),
+              //   ],
+              // ),
               // const SizedBox(
               //   height: 35,
               // ),
@@ -381,9 +381,9 @@ class _LoginPageState extends State<LoginPage>
               //     ),
               //   ],
               // ),
-              const SizedBox(
-                height: 30,
-              ),
+              // const SizedBox(
+              //   height: 30,
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

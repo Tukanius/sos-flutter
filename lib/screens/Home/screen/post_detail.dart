@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:sos/models/post.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/screens/Home/index.dart';
 import 'package:sos/screens/home/screen/edit_post.dart';
-import 'package:sos/utils/firebase/index.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -201,6 +198,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                             margin: const EdgeInsets.symmetric(horizontal: 15),
                             decoration: BoxDecoration(
                                 color: color(),
+                                border: Border.all(color: borderColor()),
                                 borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 10),
@@ -222,7 +220,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                                                 ? "Эрсдэл"
                                                 : "Эрсдэл",
                                             style: const TextStyle(
-                                                color: white,
+                                                color: black,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           postStatus(),
@@ -342,22 +340,22 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
       case "NEW":
         return const Text(
           "Шинэ",
-          style: TextStyle(color: white),
+          style: TextStyle(color: black, fontSize: 12),
         );
       case "PENDING":
         return const Text(
           "Хүлээгдэж байгаа",
-          style: TextStyle(color: white),
+          style: TextStyle(color: black, fontSize: 12),
         );
       case "SOLVED":
         return const Text(
           "Шийдэгдсэн",
-          style: TextStyle(color: white),
+          style: TextStyle(color: black, fontSize: 12),
         );
       case "FAILED":
         return const Text(
           "Цуцалсан",
-          style: TextStyle(color: white),
+          style: TextStyle(color: black, fontSize: 12),
         );
       default:
     }
@@ -394,6 +392,20 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
   }
 
   color() {
+    switch (data.postStatus) {
+      case "NEW":
+        return red.withOpacity(0.3);
+      case "PENDING":
+        return orange.withOpacity(0.3);
+      case "SOLVED":
+        return green.withOpacity(0.3);
+      case "FAILED":
+        return grey.withOpacity(0.3);
+      default:
+    }
+  }
+
+  borderColor() {
     switch (data.postStatus) {
       case "NEW":
         return red;
@@ -460,15 +472,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                 child: TextButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.green),
+                        MaterialStateProperty.all<Color>(Colors.red),
                   ),
                   onPressed: () {
                     setState(() {
-                      isConfirm = true;
+                      isFailed = true;
                     });
                   },
                   child: const Text(
-                    "Шийдвэрлэсэн",
+                    "Цуцлах",
                     style: TextStyle(
                       color: white,
                       fontSize: 12,
@@ -483,15 +495,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                 child: TextButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red),
+                        MaterialStateProperty.all<Color>(Colors.green),
                   ),
                   onPressed: () {
                     setState(() {
-                      isFailed = true;
+                      isConfirm = true;
                     });
                   },
                   child: const Text(
-                    "Цуцлах",
+                    "Шийдвэрлэх",
                     style: TextStyle(
                       color: white,
                       fontSize: 12,
@@ -517,14 +529,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
             Expanded(
               child: TextButton(
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.green),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                 ),
                 onPressed: () {
-                  addAssign(context, data);
+                  setState(() {
+                    isReturn = true;
+                  });
                 },
                 child: const Text(
-                  "Хүлээн авах",
+                  "Буцаах",
                   style: TextStyle(
                     color: white,
                     fontSize: 12,
@@ -538,15 +551,14 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
             Expanded(
               child: TextButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.green),
                 ),
                 onPressed: () {
-                  setState(() {
-                    isReturn = true;
-                  });
+                  addAssign(context, data);
                 },
                 child: const Text(
-                  "Буцаах",
+                  "Хүлээн авах",
                   style: TextStyle(
                     color: white,
                     fontSize: 12,
@@ -812,7 +824,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
               width: MediaQuery.of(context).size.width,
               labelText: "Илгээх",
               fontSize: 16,
-              color: orange,
+              color: green,
             ),
             const SizedBox(
               height: 25,
@@ -932,8 +944,8 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                   onSubmit();
                 }
               },
-              labelText: "Илгээх",
-              color: orange,
+              labelText: "Буцаах",
+              color: red,
               fontSize: 16,
             ),
             const SizedBox(

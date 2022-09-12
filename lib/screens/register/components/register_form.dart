@@ -284,111 +284,6 @@ class _RegisterFormState extends State<RegisterForm> with AfterLayoutMixin {
               }
             ]),
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 10, top: 10),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 500),
-                      width: 15,
-                      height: 15,
-                      decoration: BoxDecoration(
-                          color: _isPasswordEightCharacters
-                              ? Colors.green
-                              : Colors.transparent,
-                          border: _isPasswordEightCharacters
-                              ? Border.all(color: Colors.transparent)
-                              : Border.all(color: Colors.grey.shade400),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Center(
-                        child: Icon(
-                          Icons.check,
-                          color:
-                              _isPasswordEightCharacters ? Colors.white : dark,
-                          size: 12,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Text(
-                      "Багадаа 8 үсэг тоо тэмдэгт байх хэрэгтэй.",
-                      style: TextStyle(fontSize: 12),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                Row(
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 500),
-                      width: 15,
-                      height: 15,
-                      decoration: BoxDecoration(
-                          color: _hasPasswordOneNumber
-                              ? Colors.green
-                              : Colors.transparent,
-                          border: _hasPasswordOneNumber
-                              ? Border.all(color: Colors.transparent)
-                              : Border.all(color: Colors.grey.shade400),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Center(
-                        child: Icon(
-                          Icons.check,
-                          color: _hasPasswordOneNumber ? Colors.white : dark,
-                          size: 12,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Text(
-                      "Багадаа 1 тоо байх хэрэгтэй.",
-                      style: TextStyle(fontSize: 12),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                Row(
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 500),
-                      width: 15,
-                      height: 15,
-                      decoration: BoxDecoration(
-                          color: _hasUptext ? Colors.green : Colors.transparent,
-                          border: _hasUptext
-                              ? Border.all(color: Colors.transparent)
-                              : Border.all(color: Colors.grey.shade400),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Center(
-                        child: Icon(
-                          Icons.check,
-                          color: _hasUptext ? Colors.white : dark,
-                          size: 12,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Text(
-                      "Багадаа 1 том үсэг байх хэрэгтэй.",
-                      style: TextStyle(fontSize: 12),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
           const SizedBox(
             height: 15,
           ),
@@ -538,12 +433,12 @@ class _RegisterFormState extends State<RegisterForm> with AfterLayoutMixin {
 }
 
 String? validatePassword(String value, context) {
-  RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+  RegExp regex = RegExp(r'^.{6,20}$');
   if (value.isEmpty) {
     return 'Нууц үгээ оруулна уу';
   } else {
     if (!regex.hasMatch(value)) {
-      return 'Доорх шаардлагыг хангасан нууц үг үүсгэнэ үү';
+      return 'Нууц үг нь дор хаяж 6 тэмдэгтээс бүрдэх ёстой';
     } else {
       return null;
     }

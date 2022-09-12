@@ -41,6 +41,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   late double lat;
   Offset position = const Offset(0, 0);
   bool hasLocation = false;
+  bool isLocationError = false;
 
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   final Completer<GoogleMapController> _controller = Completer();
@@ -125,6 +126,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                     setState(() {
                       hasLocation = true;
                       isMap = true;
+                      isLocationError = false;
                     });
                     Navigator.of(context).pop();
                   },
@@ -413,6 +415,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   height: 25,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     hasLocation == true
                         ? Row(
@@ -455,6 +458,14 @@ class _CreatePostPageState extends State<CreatePostPage> {
                             fontSize: 16,
                             color: dark,
                           ),
+                    if (isLocationError == true)
+                      Container(
+                        padding: const EdgeInsets.only(left: 10, top: 5),
+                        child: const Text(
+                          "Байршил оруулна уу",
+                          style: TextStyle(color: red, fontSize: 12),
+                        ),
+                      ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -463,6 +474,11 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 CustomButton(
                   onClick: () {
                     if (loading == false) {
+                      if (hasLocation == false) {
+                        setState(() {
+                          isLocationError = true;
+                        });
+                      }
                       onSubmit();
                     }
                   },
