@@ -26,7 +26,8 @@ class PostApi extends HttpRequest {
   }
 
   createPost(Post data) async {
-    await post('/post', data: data, handler: true);
+    var res = await post('/post', data: data.toJson(), handler: true);
+    return res;
   }
 
   reportPost(String id, Post data) async {

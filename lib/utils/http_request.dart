@@ -11,9 +11,9 @@ import '../main.dart';
 
 class HttpRequest {
   static const host = 'https://ersdel.e-darkhan.mn';
-  // static const host = 'http://192.168.1.17:6002';
+  // static const host = 'http://192.168.1.220:6002';
 
-  // static const s3host = 'http://192.168.1.17:6002/s3';
+  // static const s3host = 'http://192.168.1.220:6002/s3';
 
   static const s3host = 'https://ersdel.e-darkhan.mn/s3';
   static const version = '/web';

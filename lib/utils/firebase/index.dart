@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -91,40 +93,40 @@ class FirebaseUtils extends StatefulWidget {
             FlutterLocalNotificationsPlugin();
         const AndroidInitializationSettings initializationSettingsAndroid =
             AndroidInitializationSettings('@mipmap/ic_launcher');
-        const IOSInitializationSettings initializationSettingsIOS =
-            IOSInitializationSettings();
-        const MacOSInitializationSettings initializationSettingsMacOS =
-            MacOSInitializationSettings();
+        // const Initialization initializationSettingsIOS =
+        //     IOSInitializationSettings();
+        // const MacOSInitializationSettings initializationSettingsMacOS =
+        //     MacOSInitializationSettings();
         const InitializationSettings initializationSettings =
             InitializationSettings(
           android: initializationSettingsAndroid,
-          iOS: initializationSettingsIOS,
-          macOS: initializationSettingsMacOS,
+          // iOS: initializationSettingsIOS,
+          // macOS: initializationSettingsMacOS,
         );
         await flutterLocalNotificationsPlugin.initialize(
           initializationSettings,
-          onSelectNotification: (payload) {
-            try {
-              Map<String, dynamic> valueMap = json.decode(message.data['data']);
-              Notify notify = Notify.fromJson(valueMap);
-              if (notify.isNavigation == true) {
-                switch (notify.navigation) {
-                  case "POST":
-                    locator<NavigationService>().pushNamed(
-                        routeName: PostDetailPage.routeName,
-                        arguments: PostDetailPageArguments(
-                            id: notify.navigationId.toString()));
-                    break;
-                  default:
-                }
-              } else {
-                locator<NavigationService>()
-                    .pushNamed(routeName: NotificationPage.routeName);
-              }
-            } catch (err) {
-              debugPrint("==========on message listen error==========> $err");
-            }
-          },
+          // onSelectNotification: (payload) {
+          //   try {
+          //     Map<String, dynamic> valueMap = json.decode(message.data['data']);
+          //     Notify notify = Notify.fromJson(valueMap);
+          //     if (notify.isNavigation == true) {
+          //       switch (notify.navigation) {
+          //         case "POST":
+          //           locator<NavigationService>().pushNamed(
+          //               routeName: PostDetailPage.routeName,
+          //               arguments: PostDetailPageArguments(
+          //                   id: notify.navigationId.toString()));
+          //           break;
+          //         default:
+          //       }
+          //     } else {
+          //       locator<NavigationService>()
+          //           .pushNamed(routeName: NotificationPage.routeName);
+          //     }
+          //   } catch (err) {
+          //     debugPrint("==========on message listen error==========> $err");
+          //   }
+          // },
         );
 
         if (notification != null && android != null && !kIsWeb) {

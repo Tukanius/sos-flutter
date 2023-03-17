@@ -35,7 +35,10 @@ class _UploadImageState extends State<UploadImage> {
 
   pickImage(ImageSource imageSource) async {
     if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+    print("==================FILE==================");
     XFile? file = await _picker.pickImage(source: imageSource);
+    print(file);
+    print("========================================");
     if (file != null) {
       setState(() {
         loading = true;

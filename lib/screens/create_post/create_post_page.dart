@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sos/models/user.dart';
@@ -219,9 +221,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
         await PostApi().createPost(save);
         await Provider.of<SectorProvider>(context, listen: false).sector();
-
         show(context);
-        // Navigator.of(context).restorablePopAndPushNamed((HomePage.routeName));
+
         setState(() {
           loading = false;
         });
