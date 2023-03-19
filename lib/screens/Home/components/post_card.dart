@@ -352,29 +352,11 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                       width: 37,
                       height: 37,
                     ),
-                    title: Text(
+                    title: const Text('Эрсдэл'),
+                    subtitle: Text(
                       '${type(widget.data)}',
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Эрсдэл',
-                          style: TextStyle(
-                              color: Colors.black.withOpacity(0.6),
-                              fontSize: 12),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(),
-                          child: Text(
-                            '2023-03-17',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                          ),
-                        ),
-                      ],
+                      style: TextStyle(
+                          color: Colors.black.withOpacity(0.6), fontSize: 12),
                     ),
                     trailing: user.id != null
                         ? widget.data!.postStatus == "NEW"

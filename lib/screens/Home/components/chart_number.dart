@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:sos/models/sector.dart';
 import 'package:sos/widgets/colors.dart';
 
@@ -7,7 +8,6 @@ class ChartNumberCard extends StatefulWidget {
   final TabController tabController;
   final Function onChangeTap;
   final ScrollController scrollController;
-
   const ChartNumberCard({
     Key? key,
     this.dashboard,
@@ -21,8 +21,9 @@ class ChartNumberCard extends StatefulWidget {
 }
 
 class _ChartNumberCardState extends State<ChartNumberCard>
-    with SingleTickerProviderStateMixin {
-  int? tabIndex;
+    with AfterLayoutMixin {
+  @override
+  void afterFirstLayout(BuildContext context) {}
 
   color() {
     switch (widget.dashboard!.statusString) {
@@ -57,9 +58,6 @@ class _ChartNumberCardState extends State<ChartNumberCard>
     return InkWell(
       onTap: () {
         click();
-        setState(() {
-          tabIndex = widget.tabController.index;
-        });
         widget.onChangeTap(widget.tabController.index);
         widget.scrollController.animateTo(0.0,
             duration: const Duration(milliseconds: 500), curve: Curves.ease);
@@ -71,10 +69,6 @@ class _ChartNumberCardState extends State<ChartNumberCard>
             height: 50,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(17),
-              border: Border.all(
-                  color: widget.tabController.index == tabIndex
-                      ? black
-                      : Colors.transparent),
               color: color(),
             ),
             child: Center(
@@ -85,9 +79,7 @@ class _ChartNumberCardState extends State<ChartNumberCard>
               ),
             ),
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           Text(
             widget.dashboard!.statusString.toString(),
             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 10),
