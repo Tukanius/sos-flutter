@@ -400,19 +400,15 @@ class _RegisterFormState extends State<RegisterForm> with AfterLayoutMixin {
                   });
                 }
                 if (isError == false) {
-                  print("========ternAndCondition=========");
                   if (widget.isLoading == false) {
-                    print("========ONSUBMIT=========");
                     widget.onSubmit!();
                     setState(() {
                       isError = false;
                     });
-                    print("========isError=========");
                   } else {
                     setState(() {
                       isError = true;
                     });
-                    print("========isError2=========");
                   }
                 }
               },

@@ -118,8 +118,6 @@ class _FormUploadImageState extends State<FormUploadImage> {
 
   @override
   Widget build(BuildContext context) {
-    User? user = widget.user;
-
     if (widget.isIdCard == true) {
       return Column(children: [
         Center(

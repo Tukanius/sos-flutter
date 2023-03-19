@@ -24,6 +24,7 @@ import '../../profile/screens/my_create_post_page.dart';
 import '../screen/edit_post.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../screen/post_detail.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PostCard extends StatefulWidget {
   final Post? data;
@@ -119,12 +120,9 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
   @override
   void initState() {
     customController.addListener(() async {
-      print("============================================");
-      print(customController.value);
       setState(() {
         isHide = customController.value;
       });
-      print("============================================");
     });
     super.initState();
   }
