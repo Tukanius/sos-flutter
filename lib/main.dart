@@ -174,6 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return MaterialPageRoute(builder: (context) {
                     return const UserDetailPage();
                   });
+
                 case MyCreatePostPage.routeName:
                   return MaterialPageRoute(builder: (context) {
                     return const MyCreatePostPage();
