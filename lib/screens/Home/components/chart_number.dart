@@ -22,6 +22,7 @@ class ChartNumberCard extends StatefulWidget {
 
 class _ChartNumberCardState extends State<ChartNumberCard>
     with AfterLayoutMixin {
+  int? tabIndex;
   @override
   void afterFirstLayout(BuildContext context) {}
 
@@ -58,6 +59,9 @@ class _ChartNumberCardState extends State<ChartNumberCard>
     return InkWell(
       onTap: () {
         click();
+        setState(() {
+          tabIndex = widget.tabController.index;
+        });
         widget.onChangeTap(widget.tabController.index);
         widget.scrollController.animateTo(0.0,
             duration: const Duration(milliseconds: 500), curve: Curves.ease);
@@ -69,6 +73,11 @@ class _ChartNumberCardState extends State<ChartNumberCard>
             height: 50,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(17),
+              border: Border.all(
+                color: widget.tabController.index == tabIndex
+                    ? black
+                    : Colors.transparent,
+              ),
               color: color(),
             ),
             child: Center(

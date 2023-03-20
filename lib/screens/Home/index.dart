@@ -11,6 +11,8 @@ import 'package:lottie/lottie.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/login/login_page.dart';
+import 'package:sos/screens/newsfeed/newsfeed.dart';
+import 'package:sos/screens/newsfeed/newsfeed_post_card.dart';
 import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/screens/profile/screens/components/page_change_controller.dart';
 import 'package:sos/screens/search/search_page.dart';
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 5, vsync: this);
     super.initState();
   }
 
@@ -299,7 +301,7 @@ class _HomePageState extends State<HomePage>
           backgroundColor: primaryColor,
           appBar: const CustomAppBar(),
           body: DefaultTabController(
-            length: 4,
+            length: 5,
             child: NestedScrollView(
               controller: scrollController,
               headerSliverBuilder:
@@ -346,403 +348,450 @@ class _HomePageState extends State<HomePage>
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 15),
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: sectorData == null
-                                        ? SkeletonAvatar(
-                                            style: SkeletonAvatarStyle(
-                                              height: 50,
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          )
-                                        : SizedBox(
-                                            height: 50,
-                                            child: FormBuilderDropdown(
-                                              hint: const Text(
-                                                "Салбар нэгж",
-                                                style: TextStyle(fontSize: 10),
-                                              ),
-                                              allowClear: true,
-                                              icon: Container(
-                                                decoration: BoxDecoration(
-                                                  color: white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                child: const Icon(
-                                                  Icons.arrow_drop_down,
-                                                  color: black,
-                                                ),
-                                              ),
-                                              name: 'type',
-                                              onChanged: (value) async {
-                                                await Provider.of<
-                                                            SectorProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .clear();
-                                                await Provider.of<
-                                                            SectorProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .sectorGet(value);
-
-                                                if (value != null) {
-                                                  setState(() {
-                                                    sectorId = value.toString();
-                                                  });
-                                                } else {
-                                                  setState(() {
-                                                    sectorId = null;
-                                                  });
-                                                }
-
-                                                onChangeTap(
-                                                    tabController.index);
-
-                                                pageChangeController
-                                                    .changeVariable(
-                                                        sectorId.toString());
-                                              },
-                                              decoration: InputDecoration(
-                                                filled: true,
-                                                fillColor:
-                                                    const Color(0xFFEBEDF1),
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 12,
-                                                        horizontal: 10),
-                                                border: OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                      color: white, width: 0),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                      color: white, width: 0),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                              ),
-                                              items: sectorData!.rows!
-                                                  .map(
-                                                    (item) => DropdownMenuItem(
-                                                        value: item.id,
-                                                        child: Row(
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 30,
-                                                              width: 30,
-                                                              child: Image.network(
-                                                                  HttpRequest
-                                                                          .s3host +
-                                                                      item.avatar
-                                                                          .toString()),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Expanded(
-                                                              child: SizedBox(
-                                                                child: Text(
-                                                                  '${item.fullName}',
-                                                                  maxLines: 1,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        )),
-                                                  )
-                                                  .toList(),
-                                            ),
-                                          ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  switchTab(),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              SizedBox(
-                                height: 90,
-                                child: PageView(
-                                  controller: controller,
-                                  onPageChanged: (index) {
-                                    setState(() {
-                                      currentIndex = index;
-                                    });
-                                  },
+                        tabController.index != 4
+                            ? Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: white,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Column(
                                   children: [
-                                    response.isNotEmpty
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: response
-                                                .map((Sector e) =>
-                                                    ChartNumberCard(
-                                                      tabController:
-                                                          tabController,
-                                                      onChangeTap: onChangeTap,
-                                                      scrollController:
-                                                          scrollController,
-                                                      dashboard: e,
-                                                    ))
-                                                .toList(),
-                                          )
-                                        : Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  SkeletonAvatar(
-                                                    style: SkeletonAvatarStyle(
-                                                      width: 50,
-                                                      height: 50,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  SkeletonAvatar(
-                                                    style: SkeletonAvatarStyle(
-                                                      width: 50,
-                                                      height: 8,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                children: [
-                                                  SkeletonAvatar(
-                                                    style: SkeletonAvatarStyle(
-                                                      width: 50,
-                                                      height: 50,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  SkeletonAvatar(
-                                                    style: SkeletonAvatarStyle(
-                                                      width: 50,
-                                                      height: 8,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                children: [
-                                                  SkeletonAvatar(
-                                                    style: SkeletonAvatarStyle(
-                                                      width: 50,
-                                                      height: 50,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  SkeletonAvatar(
-                                                    style: SkeletonAvatarStyle(
-                                                      width: 50,
-                                                      height: 8,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                children: [
-                                                  SkeletonAvatar(
-                                                    style: SkeletonAvatarStyle(
-                                                      width: 50,
-                                                      height: 50,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  SkeletonAvatar(
-                                                    style: SkeletonAvatarStyle(
-                                                      width: 50,
-                                                      height: 8,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        response.isNotEmpty
-                                            ? Expanded(
-                                                child: PieChart(
-                                                  dataMap: chartData(response),
-                                                  animationDuration:
-                                                      const Duration(
-                                                          milliseconds: 800),
-                                                  chartLegendSpacing: 32,
-                                                  chartRadius: 55,
-                                                  colorList: colorList,
-                                                  initialAngleInDegree: 0,
-                                                  chartType: ChartType.ring,
-                                                  ringStrokeWidth: 30,
-                                                  legendOptions:
-                                                      const LegendOptions(
-                                                    showLegendsInRow: false,
-                                                    legendPosition:
-                                                        LegendPosition.left,
-                                                    showLegends: true,
-                                                    legendShape:
-                                                        BoxShape.circle,
-                                                    legendTextStyle:
-                                                        TextStyle(fontSize: 10),
+                                        Expanded(
+                                          child: sectorData == null
+                                              ? SkeletonAvatar(
+                                                  style: SkeletonAvatarStyle(
+                                                    height: 50,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
                                                   ),
-                                                  chartValuesOptions:
-                                                      const ChartValuesOptions(
-                                                    showChartValueBackground:
-                                                        false,
-                                                    showChartValues: true,
-                                                    showChartValuesInPercentage:
-                                                        false,
-                                                    showChartValuesOutside:
-                                                        false,
-                                                    chartValueStyle:
-                                                        TextStyle(fontSize: 10),
-                                                    decimalPlaces: 0,
+                                                )
+                                              : SizedBox(
+                                                  height: 50,
+                                                  child: FormBuilderDropdown(
+                                                    hint: const Text(
+                                                      "Салбар нэгж",
+                                                      style: TextStyle(
+                                                          fontSize: 10),
+                                                    ),
+                                                    allowClear: true,
+                                                    icon: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.arrow_drop_down,
+                                                        color: black,
+                                                      ),
+                                                    ),
+                                                    name: 'type',
+                                                    onChanged: (value) async {
+                                                      await Provider.of<
+                                                                  SectorProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .clear();
+                                                      await Provider.of<
+                                                                  SectorProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .sectorGet(value);
+
+                                                      if (value != null) {
+                                                        setState(() {
+                                                          sectorId =
+                                                              value.toString();
+                                                        });
+                                                      } else {
+                                                        setState(() {
+                                                          sectorId = null;
+                                                        });
+                                                      }
+
+                                                      onChangeTap(
+                                                          tabController.index);
+
+                                                      pageChangeController
+                                                          .changeVariable(
+                                                              sectorId
+                                                                  .toString());
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      filled: true,
+                                                      fillColor: const Color(
+                                                          0xFFEBEDF1),
+                                                      contentPadding:
+                                                          const EdgeInsets
+                                                                  .symmetric(
+                                                              vertical: 12,
+                                                              horizontal: 10),
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color: white,
+                                                                width: 0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color: white,
+                                                                width: 0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                    ),
+                                                    items: sectorData!.rows!
+                                                        .map(
+                                                          (item) =>
+                                                              DropdownMenuItem(
+                                                                  value:
+                                                                      item.id,
+                                                                  child: Row(
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        height:
+                                                                            30,
+                                                                        width:
+                                                                            30,
+                                                                        child: Image.network(HttpRequest.s3host +
+                                                                            item.avatar.toString()),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        width:
+                                                                            10,
+                                                                      ),
+                                                                      Expanded(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          child:
+                                                                              Text(
+                                                                            '${item.fullName}',
+                                                                            maxLines:
+                                                                                1,
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            style:
+                                                                                const TextStyle(
+                                                                              fontSize: 10,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  )),
+                                                        )
+                                                        .toList(),
                                                   ),
                                                 ),
-                                              )
-                                            : Expanded(
-                                                child: Row(
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        switchTab(),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 20),
+                                    SizedBox(
+                                      height: 90,
+                                      child: PageView(
+                                        controller: controller,
+                                        onPageChanged: (index) {
+                                          setState(() {
+                                            currentIndex = index;
+                                          });
+                                        },
+                                        children: [
+                                          response.isNotEmpty
+                                              ? Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: response
+                                                      .map((Sector e) =>
+                                                          ChartNumberCard(
+                                                            tabController:
+                                                                tabController,
+                                                            onChangeTap:
+                                                                onChangeTap,
+                                                            scrollController:
+                                                                scrollController,
+                                                            dashboard: e,
+                                                          ))
+                                                      .toList(),
+                                                )
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
                                                   children: [
                                                     Column(
+                                                      children: [
+                                                        SkeletonAvatar(
+                                                          style:
+                                                              SkeletonAvatarStyle(
+                                                            width: 50,
+                                                            height: 50,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SkeletonAvatar(
+                                                          style:
+                                                              SkeletonAvatarStyle(
+                                                            width: 50,
+                                                            height: 8,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        SkeletonAvatar(
+                                                          style:
+                                                              SkeletonAvatarStyle(
+                                                            width: 50,
+                                                            height: 50,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SkeletonAvatar(
+                                                          style:
+                                                              SkeletonAvatarStyle(
+                                                            width: 50,
+                                                            height: 8,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        SkeletonAvatar(
+                                                          style:
+                                                              SkeletonAvatarStyle(
+                                                            width: 50,
+                                                            height: 50,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SkeletonAvatar(
+                                                          style:
+                                                              SkeletonAvatarStyle(
+                                                            width: 50,
+                                                            height: 8,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        SkeletonAvatar(
+                                                          style:
+                                                              SkeletonAvatarStyle(
+                                                            width: 50,
+                                                            height: 50,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        SkeletonAvatar(
+                                                          style:
+                                                              SkeletonAvatarStyle(
+                                                            width: 50,
+                                                            height: 8,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                          Row(
+                                            children: [
+                                              response.isNotEmpty
+                                                  ? Expanded(
+                                                      child: PieChart(
+                                                        dataMap:
+                                                            chartData(response),
+                                                        animationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    800),
+                                                        chartLegendSpacing: 32,
+                                                        chartRadius: 55,
+                                                        colorList: colorList,
+                                                        initialAngleInDegree: 0,
+                                                        chartType:
+                                                            ChartType.ring,
+                                                        ringStrokeWidth: 30,
+                                                        legendOptions:
+                                                            const LegendOptions(
+                                                          showLegendsInRow:
+                                                              false,
+                                                          legendPosition:
+                                                              LegendPosition
+                                                                  .left,
+                                                          showLegends: true,
+                                                          legendShape:
+                                                              BoxShape.circle,
+                                                          legendTextStyle:
+                                                              TextStyle(
+                                                                  fontSize: 10),
+                                                        ),
+                                                        chartValuesOptions:
+                                                            const ChartValuesOptions(
+                                                          showChartValueBackground:
+                                                              false,
+                                                          showChartValues: true,
+                                                          showChartValuesInPercentage:
+                                                              false,
+                                                          showChartValuesOutside:
+                                                              false,
+                                                          chartValueStyle:
+                                                              TextStyle(
+                                                                  fontSize: 10),
+                                                          decimalPlaces: 0,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Expanded(
+                                                      child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Center(
-                                                            child:
-                                                                SkeletonParagraph(
-                                                              style: SkeletonParagraphStyle(
-                                                                  lines: 3,
-                                                                  spacing: 15,
-                                                                  lineStyle: SkeletonLineStyle(
-                                                                      randomLength:
-                                                                          false,
-                                                                      height:
-                                                                          10,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              1),
-                                                                      width:
-                                                                          90)),
-                                                            ),
-                                                          ),
-                                                        ]),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
+                                                          Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Center(
+                                                                  child:
+                                                                      SkeletonParagraph(
+                                                                    style: SkeletonParagraphStyle(
+                                                                        lines:
+                                                                            3,
+                                                                        spacing:
+                                                                            15,
+                                                                        lineStyle: SkeletonLineStyle(
+                                                                            randomLength:
+                                                                                false,
+                                                                            height:
+                                                                                10,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(1),
+                                                                            width: 90)),
+                                                                  ),
+                                                                ),
+                                                              ]),
                                                           const SizedBox(
-                                                            height: 7,
+                                                            width: 10,
                                                           ),
-                                                          Center(
-                                                            child:
-                                                                SkeletonParagraph(
-                                                              style: SkeletonParagraphStyle(
-                                                                  lines: 1,
-                                                                  spacing: 15,
-                                                                  lineStyle: SkeletonLineStyle(
-                                                                      randomLength:
-                                                                          false,
-                                                                      height:
-                                                                          10,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              1),
-                                                                      width:
-                                                                          90)),
+                                                          Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                const SizedBox(
+                                                                  height: 7,
+                                                                ),
+                                                                Center(
+                                                                  child:
+                                                                      SkeletonParagraph(
+                                                                    style: SkeletonParagraphStyle(
+                                                                        lines:
+                                                                            1,
+                                                                        spacing:
+                                                                            15,
+                                                                        lineStyle: SkeletonLineStyle(
+                                                                            randomLength:
+                                                                                false,
+                                                                            height:
+                                                                                10,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(1),
+                                                                            width: 90)),
+                                                                  ),
+                                                                ),
+                                                              ]),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          SkeletonAvatar(
+                                                            style:
+                                                                SkeletonAvatarStyle(
+                                                              width: 80,
+                                                              height: 80,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          1000),
                                                             ),
                                                           ),
-                                                        ]),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    SkeletonAvatar(
-                                                      style:
-                                                          SkeletonAvatarStyle(
-                                                        width: 80,
-                                                        height: 80,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(1000),
+                                                        ],
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                      ],
-                                    )
+                                                    )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              )
+                            : SizedBox(),
                       ],
                     ),
                   ),
@@ -769,6 +818,7 @@ class _HomePageState extends State<HomePage>
                     filter: filter,
                     pageChangeController: pageChangeController,
                   ),
+                  NewsFeedPostCard(),
                 ],
               ),
             ),
@@ -811,16 +861,17 @@ class _HomePageState extends State<HomePage>
                           padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: tabController.index != 0
-                                    ? primaryBorderColor
-                                    : black,
+                                color: tabController.index != 4
+                                    ? black
+                                    : primaryColor,
                                 width: 1),
                             borderRadius: BorderRadius.circular(80),
                           ),
-                          child: SvgPicture.asset(
-                            "assets/tab/1.svg",
-                            width: 37,
-                            height: 37,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image(
+                              image: AssetImage('assets/icon/appstore.png'),
+                            ),
                           ),
                         ),
                       ),
@@ -828,7 +879,7 @@ class _HomePageState extends State<HomePage>
                       InkWell(
                         borderRadius: BorderRadius.circular(80),
                         onTap: () {
-                          tabController.index = 1;
+                          tabController.index = 4;
                           onChangeTap(tabController.index);
                           scrollController.animateTo(0.0,
                               duration: const Duration(milliseconds: 500),
@@ -840,80 +891,25 @@ class _HomePageState extends State<HomePage>
                           padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: tabController.index != 1
+                                color: tabController.index != 4
                                     ? primaryBorderColor
                                     : black,
                                 width: 1),
                             borderRadius: BorderRadius.circular(80),
                           ),
-                          child: SvgPicture.asset(
-                            "assets/tab/2.svg",
-                            width: 37,
-                            height: 37,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 18),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(80),
-                        onTap: () {
-                          tabController.index = 2;
-                          onChangeTap(tabController.index);
-                          scrollController.animateTo(0.0,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.ease);
-                        },
-                        child: Container(
-                          width: 37,
-                          height: 37,
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: tabController.index != 2
-                                    ? primaryBorderColor
-                                    : black,
-                                width: 1),
-                            borderRadius: BorderRadius.circular(80),
-                          ),
-                          child: SvgPicture.asset(
-                            "assets/tab/3.svg",
-                            width: 37,
-                            height: 37,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 18),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(80),
-                        onTap: () {
-                          tabController.index = 3;
-                          onChangeTap(tabController.index);
-                          scrollController.animateTo(0.0,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.ease);
-                        },
-                        child: Container(
-                          width: 37,
-                          height: 37,
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: tabController.index != 3
-                                    ? primaryBorderColor
-                                    : black,
-                                width: 1),
-                            borderRadius: BorderRadius.circular(80),
-                          ),
-                          child: SvgPicture.asset(
-                            "assets/tab/5.svg",
-                            width: 37,
-                            height: 37,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image(
+                              image: AssetImage(
+                                'assets/icon/darkhan.jpg',
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(width: 18),
+                  const SizedBox(width: 130),
                   if (user.id != null)
                     Container(
                       decoration: BoxDecoration(

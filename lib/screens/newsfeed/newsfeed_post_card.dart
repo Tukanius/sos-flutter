@@ -6,6 +6,7 @@ import 'package:sos/models/post.dart';
 import 'package:sos/models/result.dart';
 import 'package:sos/models/user.dart';
 import 'package:sos/provider/user_provider.dart';
+import 'package:sos/screens/comment/comment_page.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/screens/profile/screens/components/page_change_controller.dart';
 import 'package:sos/screens/search/search_page.dart';
@@ -311,14 +312,24 @@ class _NewsFeedPostCardState extends State<NewsFeedPostCard>
                                       // border: Border.all(width: 0.3, color: grey),
                                       ),
                                   height: 55,
-                                  child: Center(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(18),
-                                      ),
-                                      child: Icon(
-                                        Icons.comment_outlined,
-                                        color: Colors.grey.shade600,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => CommentPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Center(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(18),
+                                        ),
+                                        child: Icon(
+                                          Icons.comment_outlined,
+                                          color: Colors.grey.shade600,
+                                        ),
                                       ),
                                     ),
                                   ),
