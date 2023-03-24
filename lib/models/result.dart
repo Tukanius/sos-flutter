@@ -7,6 +7,7 @@ class Filter {
   String? sector;
   String? sectorUser;
   bool? isAssigned;
+  bool? isNotice;
 
   Filter({
     this.query,
@@ -15,6 +16,7 @@ class Filter {
     this.sector,
     this.sectorUser,
     this.isAssigned,
+    this.isNotice,
   });
 }
 

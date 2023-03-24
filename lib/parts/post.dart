@@ -36,6 +36,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   String? imageThumb;
   Post? location;
   double? lat;
+  String? url;
   double? lng;
   bool? isLocated;
 
@@ -77,6 +78,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   if (json['sectorUser'] != null) sectorUser = json['sectorUser'];
   if (json['refuse'] != null) refuse = json['refuse'];
   if (json['isRefused'] != null) isRefused = json['isRefused'];
+  if (json['url'] != null) url = json['url'];
   if (json['reportType'] != null) reportType = json['reportType'];
   if (json['imageThumb'] != null) imageThumb = json['imageThumb'];
   if (json["lat"] != null) lat = double.parse('${json["lat"]}');
@@ -100,6 +102,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     text: text,
     image: image,
     postStatus: postStatus,
+    url: url,
     postStatusDate: postStatusDate,
     createdAt: createdAt,
     updatedAt: updatedAt,
@@ -144,6 +147,7 @@ Map<String, dynamic> _$PostToJson(Post instance) {
   if (instance.id != null) json['_id'] = instance.id;
   if (instance.user != null) json['user'] = instance.user;
   if (instance.text != null) json['text'] = instance.text;
+  if (instance.url != null) json['url'] = instance.url;
   if (instance.image != null) json['image'] = instance.image;
   if (instance.postStatus != null) json['postStatus'] = instance.postStatus;
   if (instance.postStatusDate != null) {

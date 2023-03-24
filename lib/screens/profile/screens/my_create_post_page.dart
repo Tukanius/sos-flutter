@@ -33,7 +33,7 @@ class _MyCreatePostPageState extends State<MyCreatePostPage>
 
   @override
   void initState() {
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 5, vsync: this);
     super.initState();
   }
 
@@ -63,7 +63,7 @@ class _MyCreatePostPageState extends State<MyCreatePostPage>
         ),
       ),
       body: DefaultTabController(
-        length: 4,
+        length: 5,
         child: NestedScrollView(
           controller: scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

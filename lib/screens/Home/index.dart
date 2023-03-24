@@ -11,8 +11,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sos/screens/Home/components/chart_number.dart';
 import 'package:sos/screens/create_post/create_post_page.dart';
 import 'package:sos/screens/login/login_page.dart';
-import 'package:sos/screens/newsfeed/newsfeed.dart';
-import 'package:sos/screens/newsfeed/newsfeed_post_card.dart';
+import 'package:sos/screens/newsfeed/news_feed.dart';
 import 'package:sos/screens/profile/profile_page.dart';
 import 'package:sos/screens/profile/screens/components/page_change_controller.dart';
 import 'package:sos/screens/search/search_page.dart';
@@ -26,9 +25,6 @@ import '../../models/user.dart';
 import 'package:after_layout/after_layout.dart';
 import '../../provider/user_provider.dart';
 import 'package:sos/screens/profile/screens/components/page1.dart';
-import '../../../components/header/index.dart';
-import '../../../models/result.dart';
-import '../../../models/sector.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -56,6 +52,7 @@ class _HomePageState extends State<HomePage>
   late TabController tabController;
   bool? isLoading = true;
   Filter filter = Filter(postStatus: "NEW");
+  Filter newsfeedFilter = Filter(isNotice: true);
   Sector data = Sector();
   String? avatar;
   General? general = General();
@@ -818,7 +815,10 @@ class _HomePageState extends State<HomePage>
                     filter: filter,
                     pageChangeController: pageChangeController,
                   ),
-                  NewsFeedPostCard(),
+                  NewsFeedList(
+                    filter: newsfeedFilter,
+                    // pageChangeController: pageChangeController,
+                  ),
                 ],
               ),
             ),

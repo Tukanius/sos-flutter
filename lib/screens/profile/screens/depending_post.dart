@@ -26,7 +26,7 @@ class _DependingPostPageState extends State<DependingPostPage>
 
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
     super.initState();
   }
 
@@ -61,7 +61,7 @@ class _DependingPostPageState extends State<DependingPostPage>
         ),
       ),
       body: DefaultTabController(
-        length: 3,
+        length: 4,
         child: NestedScrollView(
           controller: scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

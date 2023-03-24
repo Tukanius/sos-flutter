@@ -26,11 +26,13 @@ class Post {
   String? id;
   User? user = User();
   String? text;
+  String? url;
   String? image;
   String? postStatus;
   String? postStatusDate;
   String? createdAt;
   String? updatedAt;
+  String? title;
   String? createdBy;
   String? updatedBy;
   Sector? sector = Sector();
@@ -93,6 +95,7 @@ class Post {
     this.solved,
     this.count,
     this.rows,
+    this.title,
     this.likeCount,
     this.seenCount,
     this.shareCount,
@@ -107,6 +110,7 @@ class Post {
     this.createdAt,
     this.updatedAt,
     this.createdBy,
+    this.url,
     this.updatedBy,
     this.sector,
     this.liked,

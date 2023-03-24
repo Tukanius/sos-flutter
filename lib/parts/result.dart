@@ -42,6 +42,7 @@ Map<String, dynamic> _$ResultArgumentToJson(ResultArguments? instance) {
     params['filter']['query'] = instance.filter!.query;
     params['filter']['sectorUser'] = instance.filter!.sectorUser;
     params['filter']['isAssigned'] = instance.filter!.isAssigned;
+    params['filter']['isNotice'] = instance.filter!.isNotice;
 
     if (instance.offset!.page! > 0) {
       params['offset']['page'] = instance.offset!.page;
