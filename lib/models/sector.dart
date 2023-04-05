@@ -15,6 +15,7 @@ class Sector {
   String? firstName;
   String? id;
   String? avatar;
+  String? code;
   String? fullName;
   String? lastName;
   String? phone;
@@ -26,6 +27,7 @@ class Sector {
   bool? isActive;
   Sector? all;
   int? countPending;
+  String? key;
   int? countSolved;
   Sector? posted;
   Sector? stats;
@@ -67,6 +69,8 @@ class Sector {
     this.firstName,
     this.lastName,
     this.posts,
+    this.code,
+    this.key,
   });
 
   static $fromJson(Map<String, dynamic> json) => _$SectorFromJson(json);

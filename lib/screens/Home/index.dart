@@ -817,7 +817,6 @@ class _HomePageState extends State<HomePage>
                   ),
                   NewsFeedList(
                     filter: newsfeedFilter,
-                    // pageChangeController: pageChangeController,
                   ),
                 ],
               ),

@@ -29,4 +29,6 @@ class General {
   factory General.fromJson(Map<String, dynamic> json) =>
       _$GeneralFromJson(json);
   Map<String, dynamic> toJson() => _$GeneralToJson(this);
+
+  void removeWhere(bool Function(dynamic item) param0) {}
 }

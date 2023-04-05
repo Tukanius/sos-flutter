@@ -15,6 +15,12 @@ class SectorProvider extends ChangeNotifier {
   sector() async {
     sectorData = await DashboardApi().sector();
     response = sectorData.response!;
+    response.removeWhere(
+      (element) => element.key == "ALL",
+    );
+    response.removeWhere(
+      (element) => element.key == "REVIEW",
+    );
     notifyListeners();
   }
 

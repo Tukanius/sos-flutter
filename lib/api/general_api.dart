@@ -18,6 +18,7 @@ class GeneralApi extends HttpRequest {
       'file': await MultipartFile.fromFile(file.path, filename: fileName),
     });
     var res = await post('/general/upload/image', data: formData);
+
     return General.fromJson(res).url;
   }
 
