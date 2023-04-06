@@ -96,13 +96,15 @@ class _NewsFeedPostCardState extends State<NewsFeedPostCard> {
                     ),
                     Row(
                       children: [
-                        Text(
-                          widget.data.getPostDate(),
-                          style: const TextStyle(
-                            color: grey,
-                            fontSize: 10,
-                          ),
-                        ),
+                        widget.data.postStatusDate != null
+                            ? Text(
+                                widget.data.getPostDate(),
+                                style: const TextStyle(
+                                  color: grey,
+                                  fontSize: 10,
+                                ),
+                              )
+                            : Container(),
                         const SizedBox(
                           width: 5,
                         ),

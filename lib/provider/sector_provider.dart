@@ -28,6 +28,12 @@ class SectorProvider extends ChangeNotifier {
     if (id != null) {
       var data = await DashboardApi().getSector(id);
       response = data.response!;
+      response.removeWhere(
+        (element) => element.key == "ALL",
+      );
+      response.removeWhere(
+        (element) => element.key == "REVIEW",
+      );
     } else {
       await sector();
     }

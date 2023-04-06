@@ -293,6 +293,9 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
           Post save = Post.fromJson(fbKey.currentState!.value);
           save.postStatus = "FAILED";
           await PostApi().addResult(data.id, save);
+          print(fbKey.currentState!.value);
+          print(save.toJson());
+          print(save.postStatus);
           await Provider.of<SectorProvider>(context, listen: false).sector();
           Navigator.of(context).restorablePopAndPushNamed(HomePage.routeName);
           setState(() {
