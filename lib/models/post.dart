@@ -37,6 +37,7 @@ class Post {
   String? updatedBy;
   Sector? sector = Sector();
   bool? liked;
+  String? body;
   String? reply;
   String? result;
   String? resultImage;
@@ -109,6 +110,7 @@ class Post {
     this.postStatusDate,
     this.createdAt,
     this.updatedAt,
+    this.body,
     this.createdBy,
     this.url,
     this.updatedBy,

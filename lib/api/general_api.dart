@@ -1,4 +1,6 @@
 import 'package:sos/models/about.dart';
+import 'package:sos/models/post.dart';
+import 'package:sos/models/result.dart';
 
 import '../models/general.dart';
 import '../utils/http_request.dart';
@@ -10,6 +12,11 @@ class GeneralApi extends HttpRequest {
   Future<General> init(bool handler) async {
     var res = await get('/general/init', handler: handler);
     return General.fromJson(res as Map<String, dynamic>);
+  }
+
+  Future<Result> list(ResultArguments resultArguments) async {
+    var res = await get('/faq', data: resultArguments.toJson());
+    return Result.fromJson(res, Post.$fromJson);
   }
 
   Future<String?> upload(XFile file) async {

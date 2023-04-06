@@ -5,6 +5,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Splash/index.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:sos/screens/profile/screens/faq_page.dart';
+import 'package:sos/screens/profile/screens/policy_page.dart';
 import 'package:sos/utils/http_handler.dart';
 import '../../utils/firebase/index.dart';
 import '../../widgets/form_textfield.dart';
@@ -489,6 +491,100 @@ class _ProfilePageState extends State<ProfilePage> with AfterLayoutMixin {
                     ),
                   ),
                 ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(FaqPage.routeName);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  height: 45,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            SvgPicture.asset(
+                              "assets/icon/faq.svg",
+                              // ignore: deprecated_member_use
+                              color: orange,
+                              width: 23,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Expanded(
+                              child: Text(
+                                "Түгээмэл асуултууд",
+                                style: TextStyle(color: dark),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(PolicyPage.routeName);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  height: 45,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            SvgPicture.asset(
+                              "assets/icon/lock-alt.svg",
+                              // ignore: deprecated_member_use
+                              color: orange,
+                              width: 23,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Expanded(
+                              child: Text(
+                                "Нууцлалын бодлого",
+                                style: TextStyle(color: dark),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
               CustomButton(
                 width: MediaQuery.of(context).size.width,
                 customWidget: Row(
