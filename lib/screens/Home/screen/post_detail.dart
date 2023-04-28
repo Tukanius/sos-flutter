@@ -237,6 +237,31 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                       const SizedBox(
                         height: 5,
                       ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(width: 0.5),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                    'assets/icon/darkhan.png',
+                                  ),
+                                  height: 50,
+                                ),
+                                Text(
+                                  'Захирагчийн ажлын алба',
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       if (data.postStatus == "PENDING" &&
                           user.sector != null &&
                           data.sector!.id == user.sector!.id)
