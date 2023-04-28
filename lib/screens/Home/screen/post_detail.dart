@@ -1155,7 +1155,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                         TextStyle(fontWeight: FontWeight.bold, color: orange),
                   ),
                   Text(
-                    data.getPostDate(),
+                    data.getPostStatusDate(),
                     style: const TextStyle(
                       color: greyDark,
                       fontSize: 12,
@@ -1208,7 +1208,7 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                             fontWeight: FontWeight.bold, color: greyDark),
                       ),
                 Text(
-                  data.getPostDate(),
+                  data.getReplyDate(),
                   style: const TextStyle(
                     color: greyDark,
                     fontSize: 12,

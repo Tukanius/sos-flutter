@@ -11,6 +11,7 @@ import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 class NewsFeedPostCard extends StatefulWidget {
   final Post data;
@@ -25,6 +26,24 @@ class NewsFeedPostCard extends StatefulWidget {
 }
 
 class _NewsFeedPostCardState extends State<NewsFeedPostCard> {
+  String convertToAgo(String dateTime) {
+    DateTime input =
+        DateFormat('yyyy-MM-DDTHH:mm:ss.SSSSSSZ').parse(dateTime, true);
+    Duration diff = DateTime.now().difference(input);
+
+    if (diff.inDays >= 1) {
+      return '${diff.inDays} өдрийн өмнө';
+    } else if (diff.inHours >= 1) {
+      return '${diff.inHours} цагийн өмнө';
+    } else if (diff.inMinutes >= 1) {
+      return '${diff.inMinutes} минутын өмнө';
+    } else if (diff.inSeconds >= 1) {
+      return '${diff.inSeconds} секундын өмнө';
+    } else {
+      return 'cаяхан';
+    }
+  }
+
   bool? likeLoading = false;
   Post share = Post();
   User user = User();
@@ -82,39 +101,51 @@ class _NewsFeedPostCardState extends State<NewsFeedPostCard> {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * 0.6,
-                      child: Text(
-                        'Захирагчийн ажлын алба',
-                        style: TextStyle(
-                          color: dark,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Захирагчийн ажлын алба',
+                            style: TextStyle(
+                              color: dark,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            convertToAgo(widget.data.createdAt.toString()),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: black.withOpacity(0.7),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Row(
-                      children: [
-                        widget.data.postStatusDate != null
-                            ? Text(
-                                widget.data.getPostDate(),
-                                style: const TextStyle(
-                                  color: grey,
-                                  fontSize: 10,
-                                ),
-                              )
-                            : Container(),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        // Icon(
-                        //   Icons.public,
-                        //   size: 12,
-                        //   color: black,
-                        // )
-                      ],
-                    )
+                    // Row(
+                    //   children: [
+                    //     widget.data.postStatusDate != null
+                    //         ? Text(
+                    //             widget.data.getPostDate(),
+                    //             style: const TextStyle(
+                    //               color: grey,
+                    //               fontSize: 10,
+                    //             ),
+                    //           )
+                    //         : Container(),
+                    //     const SizedBox(
+                    //       width: 5,
+                    //     ),
+                    //     // Icon(
+                    //     //   Icons.public,
+                    //     //   size: 12,
+                    //     //   color: black,
+                    //     // )
+                    //   ],
+                    // )
                   ],
                 ),
               ],

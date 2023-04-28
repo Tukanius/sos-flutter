@@ -18,15 +18,15 @@ class NewsFeedList extends StatefulWidget {
   final String? type;
   final bool? loading;
   final PageChangeController? pageChangeController;
-  const NewsFeedList(
-      {Key? key,
-      this.name,
-      this.filter,
-      this.height,
-      this.type,
-      this.loading,
-      this.pageChangeController})
-      : super(key: key);
+  const NewsFeedList({
+    Key? key,
+    this.name,
+    this.filter,
+    this.height,
+    this.type,
+    this.loading,
+    this.pageChangeController,
+  }) : super(key: key);
 
   @override
   State<NewsFeedList> createState() => _NewsFeedListState();

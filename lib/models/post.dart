@@ -67,6 +67,14 @@ class Post {
 
   String getPostDate() {
     return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+            .parseUTC(createdAt!)
+            .toLocal()
+            .toIso8601String())
+        .format("yyyy-MM-dd HH:mm");
+  }
+
+  String getPostStatusDate() {
+    return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
             .parseUTC(postStatusDate!)
             .toLocal()
             .toIso8601String())

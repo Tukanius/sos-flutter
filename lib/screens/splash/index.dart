@@ -50,8 +50,24 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage('assets/icon/darkhan.png'),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Захирагчийн ажлын алба',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -457,41 +457,41 @@ class _HomePageState extends State<HomePage>
                                                         .map(
                                                           (item) =>
                                                               DropdownMenuItem(
-                                                                  value:
-                                                                      item.id,
-                                                                  child: Row(
-                                                                    children: [
+                                                            value: item.id,
+                                                            child: Row(
+                                                              children: [
+                                                                SizedBox(
+                                                                  height: 30,
+                                                                  width: 30,
+                                                                  child: Image.network(HttpRequest
+                                                                          .s3host +
+                                                                      item.avatar
+                                                                          .toString()),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Expanded(
+                                                                  child:
                                                                       SizedBox(
-                                                                        height:
-                                                                            30,
-                                                                        width:
-                                                                            30,
-                                                                        child: Image.network(HttpRequest.s3host +
-                                                                            item.avatar.toString()),
-                                                                      ),
-                                                                      const SizedBox(
-                                                                        width:
+                                                                    child: Text(
+                                                                      '${item.fullName}',
+                                                                      maxLines:
+                                                                          1,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontSize:
                                                                             10,
                                                                       ),
-                                                                      Expanded(
-                                                                        child:
-                                                                            SizedBox(
-                                                                          child:
-                                                                              Text(
-                                                                            '${item.fullName}',
-                                                                            maxLines:
-                                                                                1,
-                                                                            overflow:
-                                                                                TextOverflow.ellipsis,
-                                                                            style:
-                                                                                const TextStyle(
-                                                                              fontSize: 10,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  )),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
                                                         )
                                                         .toList(),
                                                   ),

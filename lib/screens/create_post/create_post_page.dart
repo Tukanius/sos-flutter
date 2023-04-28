@@ -73,71 +73,72 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
   mapDialog(ctx) async {
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Stack(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 500,
-                      child: GoogleMap(
-                        mapType: MapType.hybrid,
-                        initialCameraPosition: isMap == false
-                            ? _kGooglePlex
-                            : CameraPosition(
-                                target: LatLng(lat, lng),
-                                zoom: 14.4746,
-                              ),
-                        myLocationEnabled: true,
-                        onCameraMove: (cameraPosition) => setState(() {
-                          lat = cameraPosition.target.latitude;
-                          lng = cameraPosition.target.longitude;
-                        }),
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
-                        },
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 500,
+                    child: GoogleMap(
+                      mapType: MapType.hybrid,
+                      initialCameraPosition: isMap == false
+                          ? _kGooglePlex
+                          : CameraPosition(
+                              target: LatLng(lat, lng),
+                              zoom: 14.4746,
+                            ),
+                      myLocationEnabled: true,
+                      onCameraMove: (cameraPosition) => setState(() {
+                        lat = cameraPosition.target.latitude;
+                        lng = cameraPosition.target.longitude;
+                      }),
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller.complete(controller);
+                      },
+                    ),
+                  ),
+                  Positioned.fill(
+                    bottom: 20,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Lottie.asset(
+                        'assets/pin.json',
+                        height: 50,
                       ),
                     ),
-                    Positioned.fill(
-                      bottom: 20,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Lottie.asset(
-                          'assets/pin.json',
-                          height: 50,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                CustomButton(
-                  color: orange,
-                  labelText: "Байршил илгээх",
-                  textColor: white,
-                  onClick: () {
-                    setState(() {
-                      hasLocation = true;
-                      isMap = true;
-                      isLocationError = false;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  width: MediaQuery.of(context).size.width,
-                )
-              ],
-            ),
-          );
-        });
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              CustomButton(
+                color: orange,
+                labelText: "Байршил илгээх",
+                textColor: white,
+                onClick: () {
+                  setState(() {
+                    hasLocation = true;
+                    isMap = true;
+                    isLocationError = false;
+                  });
+                  Navigator.of(context).pop();
+                },
+                width: MediaQuery.of(context).size.width,
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
   show(ctx) async {
@@ -261,9 +262,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
         elevation: 0.0,
         automaticallyImplyLeading: false,
         title: const Text(
-          "Эрсдэл мэдэгдэх",
+          "Захирагчийн ажлын алба",
           style: TextStyle(fontSize: 16, color: dark),
         ),
+        centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {
