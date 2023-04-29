@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:sos/provider/sector_provider.dart';
@@ -41,9 +43,13 @@ class _SplashPageState extends State<SplashPage>
         await Provider.of<SectorProvider>(context, listen: false).sector();
         await Provider.of<GeneralProvider>(context, listen: false).init(false);
         await Provider.of<UserProvider>(context, listen: false).me(false);
-        Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+        Timer(Duration(seconds: 3), () {
+          Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+        });
       } catch (e) {
-        Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+        Timer(Duration(seconds: 3), () {
+          Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+        });
       }
     }
   }

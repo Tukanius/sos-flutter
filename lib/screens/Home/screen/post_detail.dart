@@ -1128,13 +1128,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     "Эрсдэл",
                     style: TextStyle(fontWeight: FontWeight.bold, color: red),
                   ),
-                  Text(
-                    data.getPostDate(),
-                    style: const TextStyle(
-                      color: greyDark,
-                      fontSize: 12,
-                    ),
-                  ),
+                  data.createdAt != null
+                      ? Text(
+                          data.getPostDate(),
+                          style: const TextStyle(
+                            color: greyDark,
+                            fontSize: 12,
+                          ),
+                        )
+                      : SizedBox(),
                 ],
               ),
               const SizedBox(
@@ -1179,13 +1181,15 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
                     style:
                         TextStyle(fontWeight: FontWeight.bold, color: orange),
                   ),
-                  Text(
-                    data.getPostStatusDate(),
-                    style: const TextStyle(
-                      color: greyDark,
-                      fontSize: 12,
-                    ),
-                  ),
+                  data.postStatusDate != null
+                      ? Text(
+                          data.getPostStatusDate(),
+                          style: const TextStyle(
+                            color: greyDark,
+                            fontSize: 12,
+                          ),
+                        )
+                      : SizedBox()
                 ],
               ),
               const SizedBox(
@@ -1204,57 +1208,60 @@ class _PostDetailPageState extends State<PostDetailPage> with AfterLayoutMixin {
 
   resultCard() {
     return Container(
-        margin: const EdgeInsets.only(
-          right: 15,
-          left: 15,
-          top: 10,
-          bottom: 25,
-        ),
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: color(), width: 1),
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                data.postStatus == "SOLVED"
-                    ? const Text(
-                        "Шийдэл",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: green),
-                      )
-                    : const Text(
-                        "Буцаалт",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: greyDark),
+      margin: const EdgeInsets.only(
+        right: 15,
+        left: 15,
+        top: 10,
+        bottom: 25,
+      ),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: color(), width: 1),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              data.postStatus == "SOLVED"
+                  ? const Text(
+                      "Шийдэл",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, color: green),
+                    )
+                  : const Text(
+                      "Буцаалт",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: greyDark),
+                    ),
+              data.repliedDate != null
+                  ? Text(
+                      data.getReplyDate(),
+                      style: const TextStyle(
+                        color: greyDark,
+                        fontSize: 12,
                       ),
-                Text(
-                  data.getReplyDate(),
-                  style: const TextStyle(
-                    color: greyDark,
-                    fontSize: 12,
-                  ),
+                    )
+                  : SizedBox(),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  data.result.toString(),
+                  style: const TextStyle(fontSize: 12),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    data.result.toString(),
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ));
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
