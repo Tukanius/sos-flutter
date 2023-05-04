@@ -20,16 +20,15 @@ class ForgotPage extends StatefulWidget {
 }
 
 class _ForgotPageState extends State<ForgotPage> {
-  User user = User();
   bool? isLoading = false;
+  GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
 
   forgot() async {
     setState(() {
       isLoading = true;
     });
-    final form = user.fbKey.currentState!;
-    if (form.saveAndValidate()) {
-      user = User.fromJson(form.value);
+    if (fbKey.currentState!.saveAndValidate()) {
+      User user = User.fromJson(fbKey.currentState!.value);
       try {
         var res = await Provider.of<UserProvider>(context, listen: false)
             .forgot(user);
@@ -85,7 +84,7 @@ class _ForgotPageState extends State<ForgotPage> {
                 height: 30,
               ),
               FormBuilder(
-                key: user.fbKey,
+                key: fbKey,
                 child: FormTextField(
                   name: "phone",
                   inputType: TextInputType.phone,

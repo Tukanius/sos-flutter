@@ -25,7 +25,7 @@ class AuthApi extends HttpRequest {
   }
 
   Future<User> forgot(User user) async {
-    var res = await post('/auth/forgot', data: user);
+    var res = await post('/auth/forgot', data: user.toJson());
     return User.fromJson(res);
   }
 
