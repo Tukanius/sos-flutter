@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../api/auth_api.dart';
-import '../main.dart';
-import '../models/user.dart';
-import '../screens/Splash/index.dart';
-import '../services/navigation.dart';
-
 class SocialLogin extends StatefulWidget {
   final String type;
   const SocialLogin({Key? key, required this.type}) : super(key: key);

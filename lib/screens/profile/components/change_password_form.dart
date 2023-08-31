@@ -34,7 +34,6 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
 
   onPasswordChanged(String password) {
     final numericRegex = RegExp(r'[0-9]');
-    final characterRegex = RegExp(r'(?=.*?[!@#\$&*~])');
     final upTextRegex = RegExp(r'(?=.*[A-Z])');
 
     setState(() {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sos/services/dialog.dart';
-import 'package:another_flushbar/flushbar.dart';
 
 class NotificationDialog {
   final BuildContext? context;
@@ -8,28 +7,5 @@ class NotificationDialog {
 
   NotificationDialog({this.context, this.dialogService});
 
-  void show(ListTile listTile, {int? duration}) {
-    Flushbar(
-      duration: Duration(milliseconds: duration ?? 3000),
-      flushbarPosition: FlushbarPosition.TOP,
-      backgroundColor: Colors.white,
-      // borderColor: Colors.grey,
-      borderRadius: BorderRadius.circular(2.0),
-      onTap: (flushbar) {
-        flushbar.dismiss();
-      },
-      boxShadows: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 0.5,
-          blurRadius: 2,
-          offset: const Offset(0, 0.2), // changes position of shadow
-        ),
-      ],
-      messageText: listTile,
-      padding: const EdgeInsets.all(0.0),
-      margin: const EdgeInsets.all(0.0),
-      animationDuration: const Duration(milliseconds: 500),
-    ).show(context!);
-  }
+  void show(ListTile listTile, {int? duration}) {}
 }

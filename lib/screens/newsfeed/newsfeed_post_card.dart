@@ -7,7 +7,6 @@ import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:expandable_text/expandable_text.dart';
-import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -50,13 +49,7 @@ class _NewsFeedPostCardState extends State<NewsFeedPostCard> {
   bool? isLike = false;
 
   onPressShare() async {
-    print("==============================");
-    print(widget.data.toJson());
-    print("==============================");
     share = await SuitApi().sharePost(widget.data.id.toString());
-    print("res--------------------------");
-    print(share.url);
-    print("res--------------------------");
     await FlutterShare.share(
         title: widget.data.title != null && widget.data.title != ""
             ? '${widget.data.title}'
@@ -125,27 +118,6 @@ class _NewsFeedPostCardState extends State<NewsFeedPostCard> {
                     SizedBox(
                       height: 5,
                     ),
-                    // Row(
-                    //   children: [
-                    //     widget.data.postStatusDate != null
-                    //         ? Text(
-                    //             widget.data.getPostDate(),
-                    //             style: const TextStyle(
-                    //               color: grey,
-                    //               fontSize: 10,
-                    //             ),
-                    //           )
-                    //         : Container(),
-                    //     const SizedBox(
-                    //       width: 5,
-                    //     ),
-                    //     // Icon(
-                    //     //   Icons.public,
-                    //     //   size: 12,
-                    //     //   color: black,
-                    //     // )
-                    //   ],
-                    // )
                   ],
                 ),
               ],

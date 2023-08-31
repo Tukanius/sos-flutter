@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:simple_moment/simple_moment.dart';
-
+import 'package:moment_dart/moment_dart.dart';
 import '../utils/http_request.dart';
 part '../parts/notification.dart';
 

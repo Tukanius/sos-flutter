@@ -3,7 +3,6 @@ import 'package:sos/models/user.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/login/login_page.dart';
 import 'package:sos/widgets/colors.dart';
-import 'package:sos/widgets/form_textfield.dart';
 import 'package:like_button/like_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';

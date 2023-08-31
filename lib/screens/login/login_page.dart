@@ -17,7 +17,6 @@ import 'package:after_layout/after_layout.dart';
 import 'package:provider/provider.dart';
 import '../forgot/forgot_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = "/loginpage";

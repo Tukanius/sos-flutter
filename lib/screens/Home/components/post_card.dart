@@ -24,7 +24,6 @@ import '../../profile/screens/my_create_post_page.dart';
 import '../screen/edit_post.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../screen/post_detail.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class PostCard extends StatefulWidget {
   final Post? data;
@@ -356,10 +355,9 @@ class _PostCardState extends State<PostCard> with AfterLayoutMixin {
                       '${type(widget.data)}',
                     ),
                     subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Эрсдэл',
+                          'Эрсдэл - ',
                           style: TextStyle(
                               color: Colors.black.withOpacity(0.8),
                               fontSize: 12),

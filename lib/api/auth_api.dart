@@ -30,7 +30,7 @@ class AuthApi extends HttpRequest {
   }
 
   Future<User> otpSocial(User user) async {
-    var res = await post('/otp/social', data: user);
+    var res = await post('/otp/social', data: user.toJson());
     return User.fromJson(res);
   }
 

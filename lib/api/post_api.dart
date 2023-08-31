@@ -31,7 +31,7 @@ class PostApi extends HttpRequest {
   }
 
   reportPost(String id, Post data) async {
-    await post('/post/$id/report', data: data, handler: true);
+    await post('/post/$id/report', data: data.toJson(), handler: true);
   }
 
   addResult(String? id, Post data) async {
@@ -43,11 +43,11 @@ class PostApi extends HttpRequest {
   }
 
   editPost(String? id, Post data) async {
-    await put('/post/$id', data: data);
+    await put('/post/$id', data: data.toJson());
   }
 
   assignPost(String? id, Post data) async {
-    await put('/post/$id/assign', data: data);
+    await put('/post/$id/assign', data: data.toJson());
   }
 
   Future<Result> mapList(ResultArguments resultArguments) async {

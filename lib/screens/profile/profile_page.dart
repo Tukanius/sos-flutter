@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sos/api/user_api.dart';
 import 'package:sos/models/user.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sos/provider/user_provider.dart';
 import 'package:sos/screens/Splash/index.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sos/screens/profile/screens/faq_page.dart';
 import 'package:sos/screens/profile/screens/policy_page.dart';
-import 'package:sos/utils/http_handler.dart';
-import '../../utils/firebase/index.dart';
 import '../../widgets/form_textfield.dart';
 import 'package:sos/screens/profile/screens/change_password.dart';
 import 'package:sos/screens/profile/screens/depending_post.dart';

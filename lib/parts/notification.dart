@@ -81,7 +81,7 @@ Notify _$NotifyFromJson(Map<String, dynamic> json) {
     status: status,
     image: image,
     notificationStatusDate: notificationStatusDate,
-    notificationStatus: notifyStatusDate,
+    notificationStatus: notificationStatus,
     navigationId: navigationId,
     isNavigation: isNavigation,
   );

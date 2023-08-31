@@ -3,7 +3,6 @@ import 'package:sos/components/not_found_page.dart';
 import 'package:sos/screens/comment/comment_card.dart';
 import 'package:sos/widgets/colors.dart';
 import 'package:sos/widgets/form_textfield.dart';
-import 'package:sos/provider/sector_provider.dart';
 import 'package:sos/models/sector.dart';
 
 class CommentPage extends StatefulWidget {

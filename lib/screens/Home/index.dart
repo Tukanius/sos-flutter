@@ -373,12 +373,12 @@ class _HomePageState extends State<HomePage>
                                               : SizedBox(
                                                   height: 50,
                                                   child: FormBuilderDropdown(
-                                                    hint: const Text(
-                                                      "Салбар нэгж",
-                                                      style: TextStyle(
-                                                          fontSize: 10),
-                                                    ),
-                                                    allowClear: true,
+                                                    // hint: const Text(
+                                                    //   "Салбар нэгж",
+                                                    //   style: TextStyle(
+                                                    //       fontSize: 10),
+                                                    // ),
+                                                    // allowClear: true,
                                                     icon: Container(
                                                       decoration: BoxDecoration(
                                                         color: white,

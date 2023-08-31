@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:sos/models/sector.dart';
-import 'package:simple_moment/simple_moment.dart';
 import 'package:sos/models/user.dart';
-
+import 'package:moment_dart/moment_dart.dart';
 import '../utils/http_request.dart';
 part '../parts/post.dart';
 
 class Post {
   final GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
-
   Post? stats;
   int? statsNew;
   int? pending;
@@ -66,35 +64,39 @@ class Post {
   }
 
   String getPostDate() {
-    return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+    Moment.setGlobalLocalization(MomentLocalizations.byLocale("mn_MN")!);
+    return Moment.parse(DateFormat("yyyy-MM-dd")
             .parseUTC(createdAt!)
             .toLocal()
             .toIso8601String())
-        .format("yyyy-MM-dd HH:mm");
+        .format();
   }
 
   String getPostStatusDate() {
-    return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+    Moment.setGlobalLocalization(MomentLocalizations.byLocale("mn_MN")!);
+    return Moment.parse(DateFormat("yyyy-MM-dd")
             .parseUTC(postStatusDate!)
             .toLocal()
             .toIso8601String())
-        .format("yyyy-MM-dd HH:mm");
+        .format();
   }
 
   String getReplyDate() {
-    return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+    Moment.setGlobalLocalization(MomentLocalizations.byLocale("mn_MN")!);
+    return Moment.parse(DateFormat("yyyy-MM-dd")
             .parseUTC(repliedDate!)
             .toLocal()
             .toIso8601String())
-        .format("yyyy-MM-dd HH:mm");
+        .format();
   }
 
   String getResultDate() {
-    return Moment.parse(DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+    Moment.setGlobalLocalization(MomentLocalizations.byLocale("mn_MN")!);
+    return Moment.parse(DateFormat("yyyy-MM-dd")
             .parseUTC(resultDate!)
             .toLocal()
             .toIso8601String())
-        .format("yyyy-MM-dd HH:mm");
+        .format();
   }
 
   Post({
